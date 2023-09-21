@@ -1,17 +1,135 @@
+@mixin button{
+  all:unset;
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  gap: 0.80rem;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  padding: 0.4rem 1.80rem;
+
+  font-size: var(--font-size-s);
+  font-weight:var(--font-weight-bold);
+  line-height: var(--line-height-m);
+  text-align: center;
+  text-decoration: none;
+
+  background: transparent;
+  border: none;
+  border-radius: 0.25rem;
+  outline: 1px solid transparent;
+
+  transition: 0.2s;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-info-700);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
 .primary {
-  background-color: red;
+  @include button;
+  color: var(--color-light-100);
+  background: var(--color-accent-500);
+  box-shadow: 0 4px 18px 0 rgb(140 97 255 / 35%);
+
+  &:hover{
+    background-color: var(--color-accent-300);
+  }
+
+  &:active{
+    background-color: var(--color-accent-700);
+  }
+
+  &:focus-visible{
+    background: var(--color-accent-500)
+  }
+
+  &:disabled{
+    color: var(--color-light-900);
+    background: var(--color-accent-900);
+  }
 }
 
 .secondary {
-  background-color: green;
+  @include button;
+  color: var(--color-light-100);
+  background: var(--color-dark-300);
+  box-shadow: 0 4px 4px 0 rgb(77 86 96 / 25%);
+
+  &:hover {
+    background: var(--color-dark-100);
+  }
+
+  &:active {
+    background: var(--color-dark-500);
+  }
+
+  &:focus-visible {
+    background: var(--color-dark-300);
+  }
+
+  &:disabled {
+    color: var(--color-light-900);
+    background: var(--color-dark-300);
+  }
 }
 
 .tertiary {
-  background-color: blue;
+  @include button;
+  color: var(--color-light-100);
+  background: var(--color-accent-500);
+  border: 1px solid var(--color-accent-500);
+
+  &:hover {
+    background: var(--color-dark-500);
+    border: 1px solid var(--color-accent-700);
+  }
+
+  &:active {
+    background: var(--color-accent-900);
+    border: 1px solid var(--color-accent-700);
+  }
+
+  &:focus-visible {
+    background: transparent;
+    outline: 0.125rem solid var(--color-info-700);
+  }
+
+  &:disabled {
+    color: var(--color-accent-900);
+    background-color: transparent;
+    border: 1px solid var(--color-accent-900);
+  }
 }
 
 .link {
-  background-color: yellow;
+  @include button;
+  color: var(--color-accent-500);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-accent-300);
+  }
+
+  &:active {
+    color: var(--color-accent-700);
+  }
+
+  &:focus-visible {
+    color: var(--color-accent-500);
+    border-radius: 2rem;
+    outline: 0.125rem solid var(--color-info-700);
+  }
+
+  &:disabled {
+    color: var(--color-accent-900);
+  }
+
 }
 
 .fullWidth {

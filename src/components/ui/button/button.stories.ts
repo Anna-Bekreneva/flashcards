@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>
 export const Primary: Story = {
   args: {
     variant: 'primary',
-    children: 'Primary Button',
+    children: 'Button primary ',
     disabled: false,
   },
 }
@@ -28,21 +28,23 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: {
     variant: 'secondary',
-    children: 'Secondary Button',
+    children: 'Button secondary ',
     disabled: false,
   },
 }
 export const Tertiary: Story = {
   args: {
     variant: 'tertiary',
-    children: 'Tertiary Button',
+    children: 'Tertiary',
     disabled: false,
   },
 }
 export const Link: Story = {
   args: {
+    as: 'a',
+    href: 'https://www.yahoo.com/',
     variant: 'link',
-    children: 'Tertiary Button',
+    children: 'Link Button',
     disabled: false,
   },
 }
@@ -53,12 +55,5 @@ export const FullWidth: Story = {
     children: 'Full Width Button',
     disabled: false,
     fullWidth: true,
-  },
-}
-export const AsLink: Story = {
-  args: {
-    variant: 'primary',
-    children: 'Link that looks like a button',
-    as: 'a',
   },
 }
