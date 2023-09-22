@@ -1,0 +1,15 @@
+.card {
+  width: 420px;
+  padding: 33px 36px 20px;
+}
+
+.dark {
+  background-color: var(--color-dark-500);
+  border: var(--color-dark-300) solid 1px;
+}
+
+.light {
+  color: var(--color-dark-900);
+  background-color: var(--color-light-100);
+  border: var(--color-dark-100) solid 1px;
+}
