@@ -1,36 +1,44 @@
-import { ComponentPropsWithoutRef, ElementType, useState } from 'react'
+import { FC, useState } from 'react'
 
-import { Checkbox } from '@radix-ui/themes'
+import * as Checkbox from '@radix-ui/react-checkbox'
+import { CheckboxProps, CheckedState } from '@radix-ui/react-checkbox'
 
 import s from './checkbox.module.scss'
 
-export type CheckboxCustomProps = {
-  id: string
+export type CheckboxCustomProps = Omit<CheckboxProps, 'onCheckedChange'> & {
   label?: string
-  disabled: boolean
-  checked: boolean
-  callback: (checked: boolean) => void
-} & ComponentPropsWithoutRef<ElementType>
-export const CheckboxCustom = (
-  props: CheckboxCustomProps &
-    Omit<ComponentPropsWithoutRef<ElementType>, keyof CheckboxCustomProps>
-) => {
-  const { id, label, disabled, checked, callback, ...rest } = props
+  value: string
+  onCheckedChange: (value: string) => void
+}
 
-  const [isChecked, setIsChecked] = useState(checked)
-  const changeHandler = (e: boolean) => setIsChecked(e)
+export const CheckboxCustom: FC<CheckboxCustomProps> = props => {
+  const [checked, setChecked] = useState(props.defaultChecked)
+  const rootClassName = `${s.checkbox} ${checked ? s.checked : ''}`
+
+  const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''}`
+
+  const onCheckedChange = (e: CheckedState) => {
+    setChecked(!!e)
+    props.onCheckedChange && props.onCheckedChange(props.value)
+  }
 
   return (
-    <div className={`${s.wrapper} ${disabled ? s.disabled : ''}`}>
-      {label && <label htmlFor={id}>{label}</label>}
-      <Checkbox
-        className={s.checkbox}
-        id={id}
-        checked={isChecked}
-        disabled={disabled}
-        onCheckedChange={changeHandler}
-        {...rest}
-      />
+    <div className={wrapperClassName}>
+      {props.label && (
+        <label className={s.label} htmlFor={props.id}>
+          {props.label}
+        </label>
+      )}
+      <Checkbox.Root
+        className={rootClassName}
+        id={props.id}
+        checked={checked}
+        {...props}
+        value={props.value}
+        onCheckedChange={onCheckedChange}
+      >
+        <Checkbox.Indicator />
+      </Checkbox.Root>
     </div>
   )
 }

@@ -1,114 +1,72 @@
+@import '../../../styles/mixins';
+
 .wrapper {
   display: inline-flex;
   flex-direction: row-reverse;
-  gap: 11px;
   align-items: center;
   justify-content: start;
+}
 
-  padding: 6px 9px 6px 6px;
-
-  label {
-    cursor: pointer;
-    transition: color 0.3s;
-  }
+.label {
+  cursor: pointer;
+  padding-left: 12px;
 }
 
 .checkbox {
-  box-sizing: border-box;
+  @include flex-all-center;
 
-  button {
-    cursor: pointer;
+  position: relative;
 
-    position: relative;
+  width: 18px;
+  height: 18px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  border: 3px solid var(--color-light-900);
+  border-radius: 4px;
+
+  transition: border-color 0.3s;
+
+  span {
+    @include bg;
+
+    position: absolute;
+    top: -3px;
+    left: -3px;
 
     width: 18px;
     height: 18px;
-    padding: 0;
 
-    color: var(--color-dark-900);
+    opacity: 0;
+    background-image: url('../../../assets/images/icons/checkbox.svg');
 
-    background-color: transparent;
-    border: 3px solid var(--color-light-900);
-    border-radius: 4px;
+    transition: opacity 0.3s;
+  }
+}
 
-    transition:
-      border-color 0.3s,
-      color 0.3s;
+.checked {
+  border-color: transparent;
 
-    &::before {
-      content: '';
-
-      position: absolute;
-      z-index: -1;
-      top: -12px;
-      left: -12px;
-
-      width: 36px;
-      height: 36px;
-
-      background-color: transparent;
-      border-radius: 50%;
-
-      transition: background-color 0.3s;
-    }
-
-    &:hover {
-      &::before {
-        background-color: var(--color-dark-500);
-      }
-    }
-
-    &:focus,
-    &:active {
-      &::before {
-        background-color: var(--color-dark-100);
-      }
-    }
-
-    span {
-      top: -3px;
-      left: -3px;
-
-      flex-shrink: 0;
-
-      width: inherit;
-      height: inherit;
-
-      background-color: var(--color-light-100);
-      border-radius: inherit;
-
-      transition: background-color 0.3s;
-    }
+  span {
+    opacity: 1;
   }
 }
 
 .disabled {
-  .checkbox {
-    button {
-      cursor: unset;
-      color: var(--color-light-700);
-      border: 3px solid var(--color-dark-100);
-
-      &:focus,
-      &:hover,
-      &:active {
-        &::before {
-          background-color: transparent;
-        }
-      }
-
-      span {
-        background-color: var(--color-dark-100);
-      }
-    }
+  .label {
+    cursor: default;
+    color: var(--color-dark-100);
   }
 
-  label {
-    cursor: unset;
-    color: var(--color-dark-100);
+  .checkbox {
+    cursor: inherit;
+    color: var(--color-light-700);
+    border: 3px solid var(--color-dark-100);
+  }
+
+  &:focus,
+  &:hover,
+  &:active {
+    &::before {
+      background-color: transparent;
+    }
   }
 }

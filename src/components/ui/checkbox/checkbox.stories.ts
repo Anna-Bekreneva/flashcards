@@ -7,26 +7,39 @@ const meta = {
   component: CheckboxCustom,
   tags: ['autodocs'],
   argTypes: {
-    id: { control: 'text', defaultValue: 'id-1' },
-    label: { control: 'text', defaultValue: 'checkbox' },
-    checked: { type: 'boolean' },
+    disabled: { type: 'boolean' },
   },
 } satisfies Meta<typeof CheckboxCustom>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
+const onCheckedChange = (value: string) => console.log(value)
+
 export const CheckboxDefault: Story = {
   args: {
     id: 'checkbox-1',
-    disabled: false,
+    value: 'checkbox-1',
+    label: 'checkbox-1',
+    onCheckedChange,
   },
 }
 
 export const CheckboxDefaultWithText: Story = {
   args: {
-    label: 'checkbox-2',
     id: 'checkbox-2',
-    disabled: false,
+    value: 'checkbox-2',
+    onCheckedChange,
+    label: undefined,
+  },
+}
+
+export const CheckboxDisabled: Story = {
+  args: {
+    label: 'checkbox-3',
+    id: 'checkbox-3',
+    value: 'checkbox-2',
+    disabled: true,
+    onCheckedChange,
   },
 }
