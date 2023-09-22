@@ -29,6 +29,14 @@ a:visited {
   color: inherit;
 }
 
+button {
+  appearance: none;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
 h1,
 h2,
 h3,
