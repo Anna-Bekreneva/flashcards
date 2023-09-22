@@ -19,7 +19,7 @@ export const CheckboxCustom: FC<CheckboxCustomProps> = props => {
 
   const onCheckedChange = (e: CheckedState) => {
     setChecked(!!e)
-    props.onCheckedChange && props.onCheckedChange(props.value)
+    props.onCheckedChange(props.value)
   }
 
   return (
