@@ -1,55 +1,25 @@
-@mixin button{
-  all:unset;
-  cursor: pointer;
-  user-select: none;
-  display: inline-flex;
-  gap: 13px;
-  align-items: center;
-  justify-content: center;
+@import '../../../styles/mixins';
 
-  box-sizing: border-box;
-  padding: 6.5px 29px;
-
-  font-size: var(--font-size-s);
-  font-weight:var(--font-weight-bold);
-  line-height: var(--line-height-m);
-  text-align: center;
-  text-decoration: none;
-
-  background-color: transparent;
-  border: none;
-  border-radius: 4px;
-  outline: 1px solid transparent;
-
-  transition:all 0.2s ease-in-out;
-
-  &:focus-visible {
-    outline: 2px solid var(--color-info-700);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-  }
-}
 .primary {
   @include button;
+
   color: var(--color-light-100);
   background-color: var(--color-accent-500);
   box-shadow: 0 4px 18px 0 rgb(140 97 255 / 35%);
 
-  &:hover{
+  &:hover {
     background-color: var(--color-accent-300);
   }
 
-  &:active{
+  &:active {
     background-color: var(--color-accent-700);
   }
 
-  &:focus-visible{
-    background: var(--color-accent-500)
+  &:focus-visible {
+    background: var(--color-accent-500);
   }
 
-  &:disabled{
+  &:disabled {
     color: var(--color-light-900);
     background: var(--color-accent-900);
   }
@@ -57,6 +27,7 @@
 
 .secondary {
   @include button;
+
   color: var(--color-light-100);
   background-color: var(--color-dark-300);
   box-shadow: 0 4px 4px 0 rgb(77 86 96 / 25%);
@@ -81,6 +52,7 @@
 
 .tertiary {
   @include button;
+
   color: var(--color-light-100);
   background-color: var(--color-accent-500);
   border: 1px solid var(--color-accent-500);
@@ -109,6 +81,7 @@
 
 .link {
   @include button;
+
   color: var(--color-accent-500);
   text-decoration: none;
 
@@ -129,7 +102,6 @@
   &:disabled {
     color: var(--color-accent-900);
   }
-
 }
 
 .fullWidth {
