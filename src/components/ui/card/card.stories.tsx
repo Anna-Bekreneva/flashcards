@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { Card } from './'
 
+import { Button } from '@/components/ui/button'
+
 const meta = {
   title: 'Components/Card',
   component: Card,
@@ -25,7 +27,7 @@ export const Dark: Story = {
         <p>Test dark card with jsx children</p>
         <input />
         <div>
-          <button>Test</button>
+          <Button>Test</Button>
         </div>
       </div>
     ),
