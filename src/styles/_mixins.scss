@@ -1,0 +1,28 @@
+@mixin interactive-bg {
+  content: '';
+
+  position: absolute;
+  z-index: -1;
+  top: -12px;
+  left: -12px;
+
+  width: 36px;
+  height: 36px;
+
+  background-color: transparent;
+  border-radius: 50%;
+
+  transition: background-color 0.3s;
+}
+
+@mixin flex-all-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin bg($size: contain) {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: $size;
+}
