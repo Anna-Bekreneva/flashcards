@@ -30,6 +30,7 @@ export const SelectCustom: FC<SelectCustomProps> = ({ items, callback, disabled 
   return (
     <div className={s.wrapper}>
       <Select.Root
+        open={true}
         value={label}
         onValueChange={onValueChangeHandler}
         onOpenChange={() => setIsOpen(!isOpen)}
