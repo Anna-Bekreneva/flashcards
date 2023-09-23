@@ -15,7 +15,7 @@ export function App() {
     <div>
       Hello
       <div style={{ margin: '100px' }}>
-        <SelectCustom items={items} callback={callback} disabled={true} />
+        <SelectCustom items={items} callback={callback} disabled={false} />
       </div>
     </div>
   )

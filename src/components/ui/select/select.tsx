@@ -28,14 +28,14 @@ export const SelectCustom: FC<SelectCustomProps> = ({ items, callback, disabled 
   const arrowImg = <img src={isOpen ? vectorUp : vectorDown} />
 
   return (
-    <div className={`${s.wrapper} ${disabled ? s.disabled : ''}`}>
+    <div className={s.wrapper}>
       <Select.Root
         value={label}
         onValueChange={onValueChangeHandler}
         onOpenChange={() => setIsOpen(!isOpen)}
         disabled={disabled}
       >
-        <Select.Trigger className={s.selectTrigger}>
+        <Select.Trigger className={`${s.selectTrigger} ${disabled ? s.disabled : ''}`}>
           <Select.Value aria-label={label}>{label}</Select.Value>
           <Select.Icon className={s.selectIcon}>{arrowImg}</Select.Icon>
         </Select.Trigger>
