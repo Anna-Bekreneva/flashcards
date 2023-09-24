@@ -1,0 +1,111 @@
+@import '../../../styles/mixins';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+}
+
+.name {
+  cursor: pointer;
+  display: inline-block;
+  padding-left: 12px;
+}
+
+.radio {
+  @include flex-all-center;
+
+  cursor: pointer;
+
+  position: relative;
+
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid var(--color-accent-500);
+  border-radius: 50%;
+
+  transition: border-color 0.3s;
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 8px;
+    height: 8px;
+
+    opacity: 0;
+    background-color: var(--color-accent-500);
+    border-radius: 50%;
+
+    transition:
+      opacity 0.3s,
+      background-color 0.3s;
+  }
+
+  &::before {
+    @include interactive-bg;
+  }
+
+  &:focus {
+    &::before {
+      background-color: var(--color-dark-700);
+    }
+  }
+
+  &:hover {
+    &::before {
+      background-color: var(--color-dark-500);
+    }
+  }
+
+  &:active {
+    &::before {
+      background-color: var(--color-accent-900);
+    }
+  }
+}
+
+.active {
+  &::after {
+    opacity: 1;
+  }
+}
+
+.disabled {
+  .name,
+  .radio {
+    cursor: default;
+  }
+
+  .name {
+    color: var(--color-light-900);
+  }
+
+  .radio {
+    border-color: var(--color-accent-900);
+
+    &::after {
+      background-color: var(--color-accent-900);
+    }
+
+    &:focus,
+    &:hover,
+    &:active {
+      &::before {
+        background-color: transparent;
+      }
+    }
+  }
+}
