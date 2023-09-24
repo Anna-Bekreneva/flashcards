@@ -39,7 +39,7 @@ export const RadioGroupDefault: Story = {
   args: {
     items,
     defaultValue: '3',
-    root: { name: 'test radioGroup' },
+    root: { name: 'test radioGroup', disabled: false },
     callback,
   },
 }
