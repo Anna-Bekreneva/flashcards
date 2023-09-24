@@ -26,6 +26,17 @@
   }
 }
 
+.selectIcon {
+  width: 10px;
+  height: 10px;
+
+  font-size: 0;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
 .arrowUp {
   background-image: url('../../../assets/images/icons/iconUp.svg');
 }
@@ -58,13 +69,14 @@
 }
 
 .selectContent {
-  width: 210px;
+  width: var(--radix-select-trigger-width);
 }
 
 .disabled {
   opacity: 0.5;
 
   &:hover {
+    cursor: initial;
     background-color: var(--color-dark-900);
   }
 }

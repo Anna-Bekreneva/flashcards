@@ -3,9 +3,6 @@ import { FC, useState } from 'react'
 import * as Select from '@radix-ui/react-select'
 import { SelectProps } from '@radix-ui/react-select'
 
-import iconDown from '../../../assets/images/icons/iconDown.svg'
-import iconUp from '../../../assets/images/icons/iconUp.svg'
-
 import s from './select.module.scss'
 
 type OptionType = { label: string; value: string; disabled?: boolean }
@@ -26,8 +23,6 @@ export const SelectCustom: FC<SelectCustomProps> = ({ items, callback, disabled 
     }
   }
 
-  const arrowImg = <img src={isOpen ? iconUp : iconDown} />
-
   const selectItems = items.map((el, index) => {
     return (
       <Select.Item value={el.label} key={index} className={s.selectItem}>
@@ -39,7 +34,6 @@ export const SelectCustom: FC<SelectCustomProps> = ({ items, callback, disabled 
   return (
     <div className={s.wrapper}>
       <Select.Root
-        // open={true}
         value={label}
         onValueChange={onValueChangeHandler}
         onOpenChange={() => setIsOpen(!isOpen)}
@@ -47,9 +41,9 @@ export const SelectCustom: FC<SelectCustomProps> = ({ items, callback, disabled 
       >
         <Select.Trigger className={`${s.selectTrigger} ${disabled ? s.disabled : ''}`}>
           <Select.Value aria-label={label}>{label}</Select.Value>
-          <Select.Icon className={isOpen ? s.arrowUp : s.arrowDown} asChild={true} />
+          <Select.Icon className={`${s.selectIcon} ${isOpen ? s.arrowUp : s.arrowDown}`} />
         </Select.Trigger>
-        <Select.Portal className={s.selectPortal}>
+        <Select.Portal>
           <Select.Content position="popper" align={'center'} className={s.selectContent}>
             <Select.Viewport className={s.selectViewport}>{selectItems}</Select.Viewport>
           </Select.Content>
