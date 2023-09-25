@@ -13,7 +13,6 @@ type SelectCustomProps = SelectProps & {
 }
 
 export const SelectCustom: FC<SelectCustomProps> = ({ items, callback, disabled }) => {
-  // const countries = { france: '🇫🇷', 'united-kingdom': '🇬🇧', spain: '🇪🇸' }
   const [label, setLabel] = useState(items[0].label)
   const [isOpen, setIsOpen] = useState(false)
   const onValueChangeHandler = (value: string) => {
