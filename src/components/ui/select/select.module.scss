@@ -1,0 +1,82 @@
+.wrapper {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-m);
+}
+
+.selectTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  max-width: 210px;
+  padding: 6px 12px;
+
+  border: 1px solid var(--color-dark-300);
+  border-radius: 2px;
+
+  &:hover {
+    background-color: var(--color-dark-100);
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-info-700);
+  }
+}
+
+.selectIcon {
+  width: 10px;
+  height: 10px;
+
+  font-size: 0;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.arrowUp {
+  background-image: url('../../../assets/images/icons/iconUp.svg');
+}
+
+.arrowDown {
+  background-image: url('../../../assets/images/icons/iconDown.svg');
+}
+
+.selectItem {
+  cursor: pointer;
+  padding: 3px 12px;
+
+  &:first-child {
+    padding-top: 6px;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 6px;
+  }
+}
+
+.selectItem[data-highlighted] {
+  background-color: var(--color-accent-500);
+  outline: 0;
+  transition: background-color 0.3s;
+}
+
+.selectViewport {
+  border: 1px solid var(--color-dark-300);
+}
+
+.selectContent {
+  width: var(--radix-select-trigger-width);
+}
+
+.disabled {
+  opacity: 0.5;
+
+  &:hover {
+    cursor: initial;
+    background-color: var(--color-dark-900);
+  }
+}
