@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { TextField } from '.'
@@ -19,34 +21,47 @@ type Story = StoryObj<typeof meta>
 
 export const Text = {
   render: () => {
+    const [value, setValue] = useState('')
+
     return (
-      <TextField value={'value'} placeholder="placeholder" label={'input'} errorMsg={'error'} />
+      <TextField
+        value={value}
+        placeholder="placeholder"
+        label={'input'}
+        errorMsg={'error'}
+        onChange={e => setValue(e.currentTarget.value)}
+      />
     )
   },
 }
 export const Password = {
   render: () => {
+    const [value, setValue] = useState('')
+
     return (
       <TextField
         type="password"
-        value={'value'}
+        value={value}
         placeholder="placeholder"
         label={'password text'}
         errorMsg={'error'}
+        onChange={e => setValue(e.currentTarget.value)}
       />
     )
   },
 }
 export const Search = {
   render: () => {
+    const [value, setValue] = useState('')
+
     return (
       <TextField
         type="search"
-        value=""
+        value={value}
         placeholder="placeholder"
         label={'password text'}
         errorMsg={'error'}
-        leftSideIcon={<search />}
+        onChange={e => setValue(e.currentTarget.value)}
       />
     )
   },

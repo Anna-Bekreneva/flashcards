@@ -1,6 +1,40 @@
-.main{
-
+.mainContainer {
+  width: 100%;
 }
-.textFieldWrapper{
 
+.textFieldWrapper {
+    position: relative;
+}
+
+.textField {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 6px 12px;
+
+      font-size: var(--font-size-m);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--line-height-m);
+      color: var(--color-dark-100);
+
+      background-color: transparent;
+      border: 1px solid var(--color-dark-100);
+      outline: none;
+
+      &::placeholder {
+        color: var(--color-dark-100);
+      }
+
+      &:focus-visible {
+        border-color: var(--color-info-700);
+        outline: 1px solid var(--color-info-700);
+      }
+
+      &:hover {
+        background: var(--color-dark-700);
+      }
+
+      &.error {
+        color: var(--color-danger-300);
+        border-color: var(--color-danger-300);
+      }
 }

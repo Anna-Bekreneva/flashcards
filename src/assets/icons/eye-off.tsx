@@ -12,4 +12,4 @@ const SvgComponent = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
-export const Memo = memo(SvgComponent)
+export const EyeOff = memo(SvgComponent)

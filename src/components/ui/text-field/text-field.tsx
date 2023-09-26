@@ -1,7 +1,10 @@
-import { ComponentPropsWithoutRef, forwardRef, ReactNode } from 'react'
+import { ChangeEvent, ComponentProps, ComponentPropsWithoutRef, forwardRef, useState } from 'react'
 
 import s from './text-field.module.scss'
 
+import { EyeOff } from '@/assets/icons/eye-off'
+import { EyeOn } from '@/assets/icons/eye-on'
+import { Search } from '@/assets/icons/search'
 import { Typography } from '@/components/ui/typography'
 
 export type TextFieldOwnProps = {
@@ -9,11 +12,8 @@ export type TextFieldOwnProps = {
   label?: string
   className?: string
   errorMsg?: string
-  leftSideIcon?: ReactNode
-  rightSideIcon?: ReactNode
-  onClearField?: () => void
-  onLeftSideIconClickHandler?: () => void
-  onRightSideIconClickHandler?: () => void
+  search?: boolean
+  onValueChange?: (value: string) => void
 } & ComponentPropsWithoutRef<'input'>
 
 type TextFieldProps = TextFieldOwnProps &
@@ -22,46 +22,61 @@ type TextFieldProps = TextFieldOwnProps &
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, ref) => {
   const {
     type,
-    value,
     label,
     errorMsg,
     placeholder,
     disabled,
     className,
-    leftSideIcon,
-    rightSideIcon,
+    onValueChange,
+    onChange,
+    search,
     ...restProps
   } = props
+  const [showPassword, setShowPassword] = useState(false)
+  const isShowPasswordButton = type === 'password'
+
+  const finalType = getFinalType(type, showPassword)
+
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    onChange?.(e)
+    onValueChange?.(e.target.value)
+  }
 
   return (
-    <div className={s.main}>
-      {
-        <Typography as={'label'} variant={'body2'}>
+    <div className={s.mainContainer}>
+      {label && (
+        <Typography as={'label'} variant={'body2'} className={s.label}>
           {label}
         </Typography>
-      }
+      )}
       <div className={s.textFieldWrapper}>
-        <input ref={ref} value={value} placeholder={placeholder} disabled={disabled} />
-        <Icon icon={leftSideIcon} className={''} />
+        {search && <Search />}
+        <input
+          className={s.textField}
+          ref={ref}
+          type={finalType}
+          placeholder={placeholder}
+          disabled={disabled}
+          onChange={handleChange}
+          {...restProps}
+        />
+        {isShowPasswordButton && (
+          <button type="button" onClick={() => setShowPassword(value => !value)}>
+            {showPassword ? <EyeOff /> : <EyeOn />}
+          </button>
+        )}
       </div>
+      <Typography variant="error" className={s.errorMsg}>
+        {errorMsg}
+      </Typography>
     </div>
   )
 })
 
-type IconProps = {
-  icon: ReactNode
-  className: string
-  onClick?: () => void
-}
-
-const Icon = ({ icon, className, onClick }: IconProps) => {
-  if (!icon) {
-    return null
+function getFinalType(type: ComponentProps<'input'>['type'], showPassword: boolean) {
+  if (type === 'password' && showPassword) {
+    return 'text'
   }
 
-  return (
-    <div className={className} onClick={onClick}>
-      {icon}
-    </div>
-  )
+  return type
 }
