@@ -12,7 +12,6 @@ export type TextFieldOwnProps = {
   label?: string
   className?: string
   errorMsg?: string
-  search?: boolean
   onValueChange?: (value: string) => void
 } & ComponentPropsWithoutRef<'input'>
 
@@ -29,11 +28,11 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
     className,
     onValueChange,
     onChange,
-    search,
     ...restProps
   } = props
   const [showPassword, setShowPassword] = useState(false)
-  const isShowPasswordButton = type === 'password'
+  const isPassword = type === 'password'
+  const isSearch = type === 'search'
 
   const finalType = getFinalType(type, showPassword)
 
@@ -50,17 +49,17 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
         </Typography>
       )}
       <div className={s.textFieldWrapper}>
-        {search && <Search />}
+        {isSearch && <Search className={s.searchIcon} />}
         <input
           className={s.textField}
           ref={ref}
-          type={finalType}
+          type={isPassword ? finalType : 'text'}
           placeholder={placeholder}
           disabled={disabled}
           onChange={handleChange}
           {...restProps}
         />
-        {isShowPasswordButton && (
+        {isPassword && (
           <button type="button" onClick={() => setShowPassword(value => !value)}>
             {showPassword ? <EyeOff /> : <EyeOn />}
           </button>
