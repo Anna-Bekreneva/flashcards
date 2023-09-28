@@ -21,19 +21,23 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Dark: Story = () => {
-  return (
-    <Card as={'article'} style={{ padding: '20px' }}>
-      <Typography as={'p'} label={'This is a dark card'} style={{ color: 'white' }}></Typography>
-      <Button>Test</Button>
-    </Card>
-  )
+export const Dark: Story = {
+  args: {
+    as: 'article',
+    style: { padding: '20px' },
+    children: (
+      <>
+        <Typography as={'p'}>This is a dark card</Typography>
+        <Button>Test</Button>
+      </>
+    ),
+  },
 }
 
-export const Light: Story = () => {
-  return (
-    <Card variant={'light'} style={{ padding: '20px' }}>
-      <Typography as={'h3'} label={'This is a light card'}></Typography>
-    </Card>
-  )
+export const Light: Story = {
+  args: {
+    variant: 'light',
+    style: { padding: '20px' },
+    children: <Typography as={'h3'}>This is a light card</Typography>,
+  },
 }
