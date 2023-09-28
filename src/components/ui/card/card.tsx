@@ -13,7 +13,7 @@ const CardPolymorph = <T extends ElementType = 'div'>(
 ) => {
   const { variant = 'dark', as: Tag = 'div', ...rest } = props
 
-  // @ts-ignore expected TS2322
+  // @ts-expect-error TS2322
   return <Tag className={`${s.card} ${s[variant]}`} ref={ref} {...rest}></Tag>
 }
 
