@@ -26,16 +26,8 @@ export const DropDownMenu = forwardRef<HTMLDivElement, DropDownMenuPropsType>(
           <span className={s.icon}>{el.icon}</span>
           <span className={s.itemValues}>
             {el.value}
-            <br />
             {el.extraValue && <span className={s.extraValue}>{el.extraValue}</span>}
           </span>
-          <DropdownMenu.Separator
-            className={
-              index === items.length - 1
-                ? `${s.DropdownMenuSeparator} ${s.notDisplayed}`
-                : s.DropdownMenuSeparator
-            }
-          />
         </DropdownMenu.Item>
       )
     })

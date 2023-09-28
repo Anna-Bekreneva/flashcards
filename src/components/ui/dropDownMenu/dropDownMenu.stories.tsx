@@ -39,8 +39,8 @@ const meta = {
   argTypes: {
     items,
     onItemSelect,
-    triggerIMG: userPhoto,
-    alignType: 'start',
+    // triggerIMG: userPhoto,
+    // alignType: 'start',
   },
 } satisfies Meta<typeof DropDownMenu>
 

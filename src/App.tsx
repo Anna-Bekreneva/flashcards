@@ -7,7 +7,7 @@ import { DropDownMenu, ItemType } from '@/components/ui/dropDownMenu'
 
 const items: ItemType[] = [
   {
-    icon: <img src={userPhoto} />,
+    icon: <img src={userPhoto} style={{ width: '36px', height: '36px', borderRadius: '50%' }} />,
     extraValue: 'www@bbfghfdhfjgfjgfhjhgvv',
     value: 'Ivan',
   },
