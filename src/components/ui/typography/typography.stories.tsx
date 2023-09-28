@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Typography } from './'
+import { Typography } from './typography.tsx'
+
+import { TypographyVariant } from '@/common/types/types.ts'
 
 const meta = {
   title: 'Components/Typography',
@@ -24,10 +26,6 @@ const meta = {
       ],
       control: { type: 'radio' },
     },
-    label: {
-      control: 'text',
-      description: 'Overwritten description',
-    },
   },
 } satisfies Meta<typeof Typography>
 
@@ -36,84 +34,84 @@ type Story = StoryObj<typeof meta>
 
 export const Large: Story = {
   args: {
-    variant: 'large',
-    label: 'large title',
+    variant: TypographyVariant.large,
+    children: 'large title',
     as: 'h1',
   },
 }
 
 export const H1: Story = {
   args: {
-    variant: 'h1',
-    label: 'h1 title',
+    variant: TypographyVariant.h1,
+    children: 'h1 title',
     as: 'h1',
   },
 }
 
 export const H2: Story = {
   args: {
-    variant: 'h2',
-    label: 'h2 title',
+    variant: TypographyVariant.h2,
+    children: 'h2 title',
     as: 'h2',
   },
 }
 
 export const H3: Story = {
   args: {
-    variant: 'h3',
-    label: 'h3 title',
+    variant: TypographyVariant.h3,
+    children: 'h3 title',
     as: 'h3',
   },
 }
 
 export const Body1: Story = {
   args: {
-    variant: 'body1',
-    label: 'body1 text',
-  },
-}
-
-export const Subtitle1: Story = {
-  args: {
-    variant: 'subtitle1',
-    label: 'subtitle1 title',
-    as: 'h3',
+    variant: TypographyVariant.body1,
+    children: 'body1 text',
   },
 }
 
 export const Body2: Story = {
   args: {
-    variant: 'body2',
-    label: 'body2 text',
+    variant: TypographyVariant.body2,
+    children: 'body2 text',
+  },
+}
+
+export const Subtitle1: Story = {
+  args: {
+    variant: TypographyVariant.subtitle1,
+    children: 'subtitle2 title',
+    as: 'h3',
   },
 }
 
 export const Subtitle2: Story = {
   args: {
-    variant: 'subtitle2',
-    label: 'subtitle2 title',
+    variant: TypographyVariant.subtitle2,
+    children: 'subtitle2 title',
     as: 'h3',
   },
 }
 
 export const Caption: Story = {
   args: {
-    variant: 'caption',
-    label: 'caption text',
+    variant: TypographyVariant.caption,
+    children: 'caption text',
   },
 }
 
 export const Overline: Story = {
   args: {
-    variant: 'overline',
-    label: 'overline text',
+    variant: TypographyVariant.overline,
+    children: 'overline text',
   },
 }
 
 export const Link1: Story = {
   args: {
-    variant: 'link1',
-    label: 'link1 text',
+    variant: TypographyVariant.link1,
+    children: 'link1 text',
     as: 'a',
     href: 'https://www.google.com',
     target: '_blank',
@@ -122,8 +120,8 @@ export const Link1: Story = {
 
 export const Link2: Story = {
   args: {
-    variant: 'link2',
-    label: 'link2 text',
+    variant: TypographyVariant.link2,
+    children: 'link2 text',
     as: 'a',
     href: 'https://www.google.com',
     target: '_blank',
