@@ -7,16 +7,16 @@
   background-color: var(--color-accent-500);
   box-shadow: 0 4px 18px 0 rgb(140 97 255 / 35%);
 
+  &:focus {
+    background-color: var(--color-accent-500);
+  }
+
   &:hover {
     background-color: var(--color-accent-300);
   }
 
   &:active {
     background-color: var(--color-accent-700);
-  }
-
-  &:focus {
-    background-color: var(--color-accent-500);
   }
 
   &:disabled {

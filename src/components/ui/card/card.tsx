@@ -11,10 +11,10 @@ const CardPolymorph = <T extends ElementType = 'div'>(
   props: CardProps<T> & Omit<ComponentPropsWithoutRef<T>, keyof CardProps<T>>,
   ref: ElementRef<T>
 ) => {
-  const { variant = 'dark', as: Tag = 'div', ...rest } = props
+  const { variant = 'dark', as: Tag = 'div', className, ...rest } = props
 
   // @ts-expect-error TS2322
-  return <Tag className={`${s.card} ${s[variant]}`} ref={ref} {...rest}></Tag>
+  return <Tag className={`${s.card} ${s[variant]} ${className}`} ref={ref} {...rest}></Tag>
 }
 
 export const Card = forwardRef(CardPolymorph) as <T extends ElementType = 'div'>(
