@@ -1,44 +1,55 @@
 .mainContainer {
-  width: 100%;
+  display: block;
 }
 
 .textFieldWrapper {
-    position: relative;
-}
-.searchIcon{
-  width:20px;
-  height:20px
-}
+  position: relative;
+  width: 100%;
 
-.textField {
-      box-sizing: border-box;
-      width: 100%;
-      padding: 6px 12px;
+  .searchIcon{
+    position: absolute;
+    top: 30%;
+    left: 10px;
+  }
+  .textField {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px 12px;
 
-      font-size: var(--font-size-m);
-      font-weight: var(--font-weight-regular);
-      line-height: var(--line-height-m);
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-m);
+    color: var(--color-dark-100);
+
+    background-color: transparent;
+    border: 1px solid var(--color-dark-100);
+    outline: none;
+
+    &::placeholder {
       color: var(--color-dark-100);
+    }
 
-      background-color: transparent;
-      border: 1px solid var(--color-dark-100);
-      outline: none;
+    &:focus {
+      border-color: var(--color-info-700);
+      outline: 1px solid var(--color-info-700);
+    }
 
-      &::placeholder {
-        color: var(--color-dark-100);
-      }
+    &:hover {
+      background: var(--color-dark-700);
+    }
+  }
+  .button{
+    cursor: pointer;
+    position: absolute;
+    top: 30%;
+    right: 12px;
+  }
 
-      &:focus-visible {
-        border-color: var(--color-info-700);
-        outline: 1px solid var(--color-info-700);
-      }
-
-      &:hover {
-        background: var(--color-dark-700);
-      }
-
-      &.error {
-        color: var(--color-danger-300);
-        border-color: var(--color-danger-300);
-      }
+  .errorMsg {
+    line-height: var(--line-height-m);
+    color: var(--color-danger-300);
+  }
 }
+
+
+

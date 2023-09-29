@@ -60,7 +60,11 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
           {...restProps}
         />
         {isPassword && (
-          <button type="button" onClick={() => setShowPassword(value => !value)}>
+          <button
+            type="button"
+            className={s.button}
+            onClick={() => setShowPassword(value => !value)}
+          >
             {showPassword ? <EyeOff /> : <EyeOn />}
           </button>
         )}
@@ -68,6 +72,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
       <Typography variant="error" className={s.errorMsg}>
         {errorMsg}
       </Typography>
+      Q
     </div>
   )
 })

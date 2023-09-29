@@ -26,9 +26,8 @@ export const Text = {
     return (
       <TextField
         value={value}
-        placeholder="placeholder"
+        placeholder="input"
         label={'input'}
-        errorMsg={'error'}
         onChange={e => setValue(e.currentTarget.value)}
       />
     )
@@ -42,9 +41,8 @@ export const Password = {
       <TextField
         type="password"
         value={value}
-        placeholder="placeholder"
+        placeholder="input"
         label={'password text'}
-        errorMsg={'error'}
         onChange={e => setValue(e.currentTarget.value)}
       />
     )
@@ -58,9 +56,8 @@ export const Search = {
       <TextField
         type="search"
         value={value}
-        placeholder="placeholder"
-        label={'password text'}
-        errorMsg={'error'}
+        placeholder=""
+        label={'input search'}
         onChange={e => setValue(e.currentTarget.value)}
       />
     )
@@ -68,7 +65,7 @@ export const Search = {
 }
 export const TextWithError: Story = {
   args: {
-    placeholder: 'Placeholder',
+    placeholder: 'Error',
     label: 'Error text field',
     errorMsg: 'Some error occurred',
   },
