@@ -1,4 +1,4 @@
-import userPhoto from '../src/assets/images/userPhoto.jpg'
+import userPhoto from '../src/assets/images/userPhoto.png'
 
 import { EditIcon } from '@/assets/iconsComponents/edit.tsx'
 import { SignOutIcon } from '@/assets/iconsComponents/signOut.tsx'
@@ -7,7 +7,7 @@ import { DropDownMenu, ItemType } from '@/components/ui/dropDownMenu'
 
 const items: ItemType[] = [
   {
-    icon: <img src={userPhoto} style={{ width: '36px', height: '36px', borderRadius: '50%' }} />,
+    icon: <img src={userPhoto} />,
     extraValue: 'www@bbfghfdhfjgfjgfhjhgvv',
     value: 'Ivan',
   },
@@ -37,7 +37,7 @@ export function App() {
         <DropDownMenu
           items={items}
           onItemSelect={onItemSelect}
-          alignType={'start'}
+          alignType={'end'}
           triggerIMG={userPhoto}
         />
       </div>

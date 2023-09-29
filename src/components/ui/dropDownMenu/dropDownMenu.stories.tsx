@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import userPhoto from '../../../assets/images/userPhoto.jpg'
+import userPhoto from '../../../assets/images/userPhoto.png'
 
 import { DropDownMenu, ItemType } from './'
 

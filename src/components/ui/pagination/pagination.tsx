@@ -1,1 +1,3 @@
-export const Pagination = () => {}
+export const Pagination = () => {
+  return <div></div>
+}
