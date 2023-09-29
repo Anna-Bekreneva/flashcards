@@ -22,8 +22,10 @@ const TypographyPolymorph = <T extends ElementType = 'p'>(
 ): ReactNode => {
   const { variant = TypographyVariant.body1, className, as: Tag = 'p', ...rest } = props
 
-  // @ts-expect-error TS2322
-  return <Tag className={`${s[String(variant)]} ${s.typography}`} ref={ref} {...rest}></Tag>
+  return (
+    // @ts-expect-error TS2322
+    <Tag className={`${s[String(variant)]} ${s.typography} ${className}`} ref={ref} {...rest}></Tag>
+  )
 }
 
 export const Typography = forwardRef(TypographyPolymorph) as <T extends ElementType = 'p'>(
