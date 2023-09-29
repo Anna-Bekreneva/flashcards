@@ -29,6 +29,14 @@
       color: var(--color-dark-100);
     }
 
+    &:disabled {
+      border-color: var(--color-dark-300);
+
+      &::placeholder {
+        color: var(--color-dark-300);
+      }
+    }
+
     &:focus {
       border-color: var(--color-info-700);
       outline: 1px solid var(--color-info-700);

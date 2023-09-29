@@ -72,7 +72,6 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>((props, re
       <Typography variant="error" className={s.errorMsg}>
         {errorMsg}
       </Typography>
-      Q
     </div>
   )
 })
