@@ -22,8 +22,6 @@ export const TabSwitcher = forwardRef<ElementRef<typeof Tabs.Root>, Props>(
     const tabsList = items.map(item => {
       const isActive = item.value === value
 
-      console.log(ref)
-
       return (
         <Tabs.Trigger key={item.value} value={item.value} disabled={item.disabled} asChild>
           <Button
