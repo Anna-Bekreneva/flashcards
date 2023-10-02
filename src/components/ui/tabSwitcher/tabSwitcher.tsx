@@ -17,7 +17,6 @@ type ItemType = {
   disabled?: boolean
 }
 
-// type TabSwitcherPropsType = Props
 export const TabSwitcher: FC<Props> = ({ items, value, onValueChange, ...props }) => {
   const tabsList = items.map(item => {
     const isActive = item.value === value
@@ -25,8 +24,8 @@ export const TabSwitcher: FC<Props> = ({ items, value, onValueChange, ...props }
     return (
       <Tabs.Trigger key={item.value} value={item.value} disabled={item.disabled} asChild>
         <Button
-          className={`${isActive ? s.active + ' ' + s.button : s.button}`}
-          variant={'primary'}
+          className={s.button}
+          variant={isActive ? 'primary' : 'tertiary'}
           disabled={item.disabled}
         >
           {item.title}
