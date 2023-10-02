@@ -1,65 +1,52 @@
-import { FC, ReactNode, useState } from 'react'
+import { FC } from 'react'
 
 import * as Tabs from '@radix-ui/react-tabs'
+import { TabsProps } from '@radix-ui/react-tabs'
 
 import s from './tabSwitcher.module.scss'
 
 import { Button } from '@/components/ui/button'
 
 type Props = {
-  defaultValue: string
-  callback: (value: string) => void
   items: ItemType[]
-}
+} & TabsProps
 
 type ItemType = {
   value: string
-  triggerText: string
-  content: ReactNode
+  title: string
   disabled?: boolean
 }
-export const TabSwitcher: FC<Props> = ({ defaultValue, callback, items }) => {
-  const [activeTab, setActiveTab] = useState(defaultValue)
 
-  const changeActiveTabHandler = (value: string) => {
-    setActiveTab(value)
-    callback(value)
-  }
-
+// type TabSwitcherPropsType = Props
+export const TabSwitcher: FC<Props> = ({ items, value, onValueChange, ...props }) => {
   const tabsList = items.map(item => {
-    const isActive = item.value === activeTab
+    const isActive = item.value === value
 
     return (
-      <Tabs.Trigger key={item.value} value={item.value} disabled={item.disabled}>
+      <Tabs.Trigger key={item.value} value={item.value} disabled={item.disabled} asChild>
         <Button
           className={`${isActive ? s.active + ' ' + s.button : s.button}`}
-          variant={isActive ? 'primary' : 'tertiary'}
+          variant={'primary'}
           disabled={item.disabled}
         >
-          {' '}
-          {item.triggerText}{' '}
+          {item.title}
         </Button>
       </Tabs.Trigger>
-    )
-  })
-
-  const tabsContent = items.map(item => {
-    return (
-      <Tabs.Content className={s.content} key={item.value} value={item.value}>
-        {item.content}
-      </Tabs.Content>
     )
   })
 
   return (
     <Tabs.Root
       className={s.root}
-      defaultValue={defaultValue}
-      value={activeTab}
-      onValueChange={changeActiveTabHandler}
+      onValueChange={value => {
+        onValueChange?.(value)
+      }}
+      value={value}
+      {...props}
     >
-      <Tabs.List className={s.list}>{tabsList}</Tabs.List>
-      {tabsContent}
+      <Tabs.List className={s.list} loop={true}>
+        {tabsList}
+      </Tabs.List>
     </Tabs.Root>
   )
 }
