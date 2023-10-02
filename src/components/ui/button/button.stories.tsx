@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react'
 
 import { Button } from './'
 
-import { Logout } from '@/assets/icons'
+import { Logout } from '@/assets/iconsComponents'
 import { ButtonVariant } from '@/common/types/types.ts'
 
 const meta = {
