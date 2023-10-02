@@ -1,37 +1,46 @@
+import { useState } from 'react'
+
+import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { TabSwitcher } from '@/components/ui/tabSwitcher/tabSwitcher.tsx'
-
+const items = [
+  {
+    value: 'tab-1',
+    title: 'tab-1',
+  },
+  {
+    value: 'tab-2',
+    title: 'tab-2',
+    disabled: true,
+  },
+  {
+    value: 'tab-3',
+    title: 'tab-3',
+  },
+]
 const meta = {
   title: 'Components/TabSwitcher',
   component: TabSwitcher,
   tags: ['autodocs'],
-  argTypes: {},
+  argTypes: {
+    items: {
+      defaultValue: items,
+      description: '{value: string, title: string, disabled?: boolean}',
+    },
+    onValueChange: { description: '(value: string) => void ' },
+  },
 } satisfies Meta<typeof TabSwitcher>
 
 export default meta
 type Story = StoryObj<typeof meta>
+export const TabSwitcherDefault = () => {
+  const [value, setValue] = useState('tab-1')
+  const changeValue = action(value)
+  const callback = (value: string) => {
+    setValue(value)
+    changeValue()
+  }
 
-const items = [
-  {
-    value: 'tab-1',
-    triggerText: 'tab-1',
-    content: <div>text 1</div>,
-  },
-  {
-    value: 'tab-2',
-    triggerText: 'tab-2',
-    content: <div>text 2</div>,
-    disabled: true,
-  },
-]
-
-const callback = (value: string) => console.log(value)
-
-export const TabSwitcherDefault: Story = {
-  args: {
-    items,
-    callback,
-    defaultValue: 'tab-1',
-  },
+  return <TabSwitcher items={items} onValueChange={callback} value={value} />
 }
