@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { ElementRef, forwardRef } from 'react'
 
 import * as Tabs from '@radix-ui/react-tabs'
 import { TabsProps } from '@radix-ui/react-tabs'
@@ -17,35 +17,40 @@ type ItemType = {
   disabled?: boolean
 }
 
-export const TabSwitcher: FC<Props> = ({ items, value, onValueChange, ...props }) => {
-  const tabsList = items.map(item => {
-    const isActive = item.value === value
+export const TabSwitcher = forwardRef<ElementRef<typeof Tabs.Root>, Props>(
+  ({ items, value, onValueChange, ...props }, ref?) => {
+    const tabsList = items.map(item => {
+      const isActive = item.value === value
+
+      console.log(ref)
+
+      return (
+        <Tabs.Trigger key={item.value} value={item.value} disabled={item.disabled} asChild>
+          <Button
+            className={s.button}
+            variant={isActive ? 'primary' : 'tertiary'}
+            disabled={item.disabled}
+          >
+            {item.title}
+          </Button>
+        </Tabs.Trigger>
+      )
+    })
 
     return (
-      <Tabs.Trigger key={item.value} value={item.value} disabled={item.disabled} asChild>
-        <Button
-          className={s.button}
-          variant={isActive ? 'primary' : 'tertiary'}
-          disabled={item.disabled}
-        >
-          {item.title}
-        </Button>
-      </Tabs.Trigger>
+      <Tabs.Root
+        className={s.root}
+        onValueChange={value => {
+          onValueChange?.(value)
+        }}
+        value={value}
+        ref={ref}
+        {...props}
+      >
+        <Tabs.List className={s.list} loop={true}>
+          {tabsList}
+        </Tabs.List>
+      </Tabs.Root>
     )
-  })
-
-  return (
-    <Tabs.Root
-      className={s.root}
-      onValueChange={value => {
-        onValueChange?.(value)
-      }}
-      value={value}
-      {...props}
-    >
-      <Tabs.List className={s.list} loop={true}>
-        {tabsList}
-      </Tabs.List>
-    </Tabs.Root>
-  )
-}
+  }
+)
