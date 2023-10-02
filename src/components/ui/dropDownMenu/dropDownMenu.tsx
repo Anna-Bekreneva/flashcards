@@ -39,7 +39,7 @@ export const DropDownMenu = forwardRef<HTMLDivElement, DropDownMenuPropsType>(
     return (
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          {<img src={triggerIMG} className={s.triggerIMG} />}
+          {<img src={triggerIMG} className={s.triggerIMG} alt={'icon'} />}
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content
