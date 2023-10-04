@@ -36,10 +36,9 @@ export default meta
 type Story = StoryObj<typeof meta>
 export const TabSwitcherDefault = () => {
   const [value, setValue] = useState('tab-1')
-  const changeValue = action(value)
   const callback = (value: string) => {
     setValue(value)
-    changeValue()
+    action(value)()
   }
 
   return <TabSwitcher items={items} onValueChange={callback} value={value} />
