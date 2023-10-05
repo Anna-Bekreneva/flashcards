@@ -3,11 +3,11 @@ import { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { CheckboxCustom } from './'
+import { Checkbox } from './'
 
 const meta = {
   title: 'Components/Checkbox',
-  component: CheckboxCustom,
+  component: Checkbox,
   tags: ['autodocs'],
   argTypes: {
     disabled: { type: 'boolean' },
@@ -16,7 +16,7 @@ const meta = {
     value: { type: 'string' },
     onCheckedChange: { description: '(checked: boolean) => void' },
   },
-} satisfies Meta<typeof CheckboxCustom>
+} satisfies Meta<typeof Checkbox>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -28,12 +28,6 @@ export const CheckboxDefault: Story = {
       action(`${checked}`)()
     }
 
-    return (
-      <CheckboxCustom
-        {...args}
-        checked={checked}
-        onCheckedChange={onCheckedChange}
-      ></CheckboxCustom>
-    )
+    return <Checkbox {...args} checked={checked} onCheckedChange={onCheckedChange}></Checkbox>
   },
 }

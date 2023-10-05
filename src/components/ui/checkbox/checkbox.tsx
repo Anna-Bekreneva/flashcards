@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 
-import * as Checkbox from '@radix-ui/react-checkbox'
+import * as RadixCheckbox from '@radix-ui/react-checkbox'
 import { CheckboxProps } from '@radix-ui/react-checkbox'
 
 import s from './checkbox.module.scss'
@@ -8,11 +8,11 @@ import s from './checkbox.module.scss'
 import { TypographyVariant } from '@/common/types/types.ts'
 import { Typography } from '@/components/ui/typography'
 
-export type CheckboxCustomProps = {
+export type Props = {
   label?: string
 } & CheckboxProps
 
-export const CheckboxCustom = forwardRef<HTMLDivElement, CheckboxCustomProps>(
+export const Checkbox = forwardRef<HTMLDivElement, Props>(
   ({ label, id, onCheckedChange, ...props }, ref?) => {
     const rootClassName = `${s.checkbox} ${props.checked ? s.checked : ''}`
     const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''}`
@@ -29,14 +29,14 @@ export const CheckboxCustom = forwardRef<HTMLDivElement, CheckboxCustomProps>(
             {label}
           </Typography>
         )}
-        <Checkbox.Root
+        <RadixCheckbox.Root
           className={rootClassName}
           id={id}
           onCheckedChange={(checked: boolean) => onCheckedChange?.(checked)}
           {...props}
         >
-          <Checkbox.Indicator className={s.indicator} aria-hidden />
-        </Checkbox.Root>
+          <RadixCheckbox.Indicator className={s.indicator} aria-hidden />
+        </RadixCheckbox.Root>
       </div>
     )
   }
