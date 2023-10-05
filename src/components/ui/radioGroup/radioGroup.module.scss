@@ -19,7 +19,7 @@
 }
 
 .radio {
-  @include flex-all-center;
+  @include flex;
 
   cursor: pointer;
 
