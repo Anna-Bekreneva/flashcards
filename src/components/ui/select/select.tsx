@@ -5,7 +5,7 @@ import { SelectProps } from '@radix-ui/react-select'
 
 import s from './select.module.scss'
 
-type OptionType = { label: string; value: string; disabled?: boolean }
+export type OptionType = { label: string; value: string; disabled?: boolean }
 
 type SelectCustomProps = SelectProps & {
   items: OptionType[]

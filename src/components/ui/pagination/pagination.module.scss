@@ -1,0 +1,44 @@
+.paginator {
+  display: flex;
+  align-items: baseline;
+}
+
+.item {
+  width: 24px;
+  height: 24px;
+  margin: 0 4px;
+}
+
+.btn {
+  &:hover {
+    background-color: var(--color-dark-500);
+    transition: background-color 0.3s;
+  }
+}
+
+.dots {
+  padding: 0 7px;
+}
+
+.disabledArrow {
+  opacity: 0.3;
+}
+
+.currentPage {
+  color: black;
+  background-color: white;
+  border-radius: 2px;
+
+  &:hover {
+    background-color: white;
+  }
+}
+
+.selectArea {
+  display: flex;
+  padding: 0 20px;
+}
+
+.select {
+  padding: 0 10px;
+}
