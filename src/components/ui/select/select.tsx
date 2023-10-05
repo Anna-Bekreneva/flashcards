@@ -1,53 +1,56 @@
-import { FC, useState } from 'react'
+import { forwardRef } from 'react'
 
-import * as Select from '@radix-ui/react-select'
+import * as RadixSelect from '@radix-ui/react-select'
 import { SelectProps } from '@radix-ui/react-select'
 
 import s from './select.module.scss'
 
+import { TypographyVariant } from '@/common/types/types.ts'
+import { Typography } from '@/components/ui/typography'
+
 type OptionType = { label: string; value: string; disabled?: boolean }
 
-type SelectCustomProps = SelectProps & {
+type Props = SelectProps & {
+  label?: string
+  id?: string
   items: OptionType[]
-  callback?: (value: string) => void
 }
 
-export const SelectCustom: FC<SelectCustomProps> = ({ items, callback, disabled }) => {
-  const [label, setLabel] = useState(items[0].label)
-  const [isOpen, setIsOpen] = useState(false)
-  const onValueChangeHandler = (value: string) => {
-    setLabel(value)
-    if (callback) {
-      callback(value)
-    }
-  }
+export const Select = forwardRef<HTMLDivElement, Props>(
+  ({ label, items, id, value, ...props }, ref?) => {
+    const selectItems = items.map((el, index) => {
+      return (
+        <RadixSelect.Item value={el.value} key={index} className={s.item}>
+          <RadixSelect.ItemText>{el.label}</RadixSelect.ItemText>
+        </RadixSelect.Item>
+      )
+    })
 
-  const selectItems = items.map((el, index) => {
+    const currentItem = items.find(item => item.value === value)
+
     return (
-      <Select.Item value={el.label} key={index} className={s.selectItem}>
-        <Select.ItemText>{el.value}</Select.ItemText>
-      </Select.Item>
+      <div className={`${s.wrapper} ${props.disabled && s.disabled}`} ref={ref}>
+        {label && (
+          <Typography
+            className={s.label}
+            variant={TypographyVariant.body2}
+            as={'label'}
+            htmlFor={id}
+          >
+            {label}
+          </Typography>
+        )}{' '}
+        <RadixSelect.Root value={value} {...props}>
+          <RadixSelect.Trigger className={s.trigger} id={id}>
+            {currentItem?.label}
+          </RadixSelect.Trigger>{' '}
+          {/*<RadixSelect.Portal>*/}
+          <RadixSelect.Content position="popper" className={s.content}>
+            <RadixSelect.Viewport className={s.viewport}>{selectItems}</RadixSelect.Viewport>
+          </RadixSelect.Content>{' '}
+          {/*</RadixSelect.Portal>*/}
+        </RadixSelect.Root>
+      </div>
     )
-  })
-
-  return (
-    <div className={s.wrapper}>
-      <Select.Root
-        value={label}
-        onValueChange={onValueChangeHandler}
-        onOpenChange={() => setIsOpen(!isOpen)}
-        disabled={disabled}
-      >
-        <Select.Trigger className={`${s.selectTrigger} ${disabled ? s.disabled : ''}`}>
-          <Select.Value aria-label={label}>{label}</Select.Value>
-          <Select.Icon className={`${s.selectIcon} ${isOpen ? s.arrowUp : s.arrowDown}`} />
-        </Select.Trigger>
-        <Select.Portal>
-          <Select.Content position="popper" align={'center'} className={s.selectContent}>
-            <Select.Viewport className={s.selectViewport}>{selectItems}</Select.Viewport>
-          </Select.Content>
-        </Select.Portal>
-      </Select.Root>
-    </div>
-  )
-}
+  }
+)
