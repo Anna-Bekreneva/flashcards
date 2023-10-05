@@ -3,14 +3,14 @@ import { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { RadioGroupCustom } from '@/components/ui/radioGroup/radioGroup.tsx'
+import { RadioGroup } from '@/components/ui/radioGroup/radioGroup.tsx'
 
 const meta = {
   title: 'Components/RadioGroup',
-  component: RadioGroupCustom,
+  component: RadioGroup,
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<typeof RadioGroupCustom>
+} satisfies Meta<typeof RadioGroup>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -30,13 +30,7 @@ export const RadioGroupDefault: Story = {
     }
 
     return (
-      <RadioGroupCustom
-        {...args}
-        name={'2'}
-        items={items}
-        value={value}
-        onValueChange={onValueChange}
-      />
+      <RadioGroup {...args} name={'2'} items={items} value={value} onValueChange={onValueChange} />
     )
   },
 }

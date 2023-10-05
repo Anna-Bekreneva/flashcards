@@ -1,6 +1,6 @@
 import { ElementRef, forwardRef } from 'react'
 
-import * as RadioGroup from '@radix-ui/react-radio-group'
+import * as RadixRadioGroup from '@radix-ui/react-radio-group'
 import { RadioGroupProps } from '@radix-ui/react-radio-group'
 
 import s from './radioGroup.module.scss'
@@ -18,14 +18,14 @@ type RadioButtonType = {
   label: string
 }
 
-export const RadioGroupCustom = forwardRef<ElementRef<typeof RadioGroup.Root>, Props>(
+export const RadioGroup = forwardRef<ElementRef<typeof RadixRadioGroup.Root>, Props>(
   ({ items, ...props }, ref?) => {
     const radioItems =
       items.length &&
       items.map((item, index) => {
         return (
           <label className={`${s.inner} ${item.disabled ? s.disabled : ''}`} key={index}>
-            <RadioGroup.Item
+            <RadixRadioGroup.Item
               className={`${s.radio} ${props.value === item.value ? s.active : ''} `}
               value={item.value}
               disabled={item.disabled}
@@ -38,9 +38,9 @@ export const RadioGroupCustom = forwardRef<ElementRef<typeof RadioGroup.Root>, P
       })
 
     return (
-      <RadioGroup.Root className={s.root} ref={ref} {...props}>
+      <RadixRadioGroup.Root className={s.root} ref={ref} {...props}>
         {radioItems}
-      </RadioGroup.Root>
+      </RadixRadioGroup.Root>
     )
   }
 )
