@@ -7,16 +7,16 @@
   background-color: var(--color-accent-500);
   box-shadow: 0 4px 18px 0 rgb(140 97 255 / 35%);
 
+  &:focus {
+    background-color: var(--color-accent-500);
+  }
+
   &:hover {
     background-color: var(--color-accent-300);
   }
 
   &:active {
     background-color: var(--color-accent-700);
-  }
-
-  &:focus-visible {
-    background: var(--color-accent-500);
   }
 
   &:disabled {
@@ -32,16 +32,16 @@
   background-color: var(--color-dark-300);
   box-shadow: 0 4px 4px 0 rgb(77 86 96 / 25%);
 
+  &:focus {
+    background-color: var(--color-dark-300);
+  }
+
   &:hover {
     background-color: var(--color-dark-100);
   }
 
   &:active {
     background-color: var(--color-dark-500);
-  }
-
-  &:focus-visible {
-    background-color: var(--color-dark-300);
   }
 
   &:disabled {
@@ -54,8 +54,11 @@
   @include button;
 
   color: var(--color-light-100);
-  background-color: var(--color-accent-500);
   border: 1px solid var(--color-accent-500);
+
+  &:focus {
+    background-color: transparent;
+  }
 
   &:hover {
     background-color: var(--color-dark-500);
@@ -65,11 +68,6 @@
   &:active {
     background-color: var(--color-accent-900);
     border: 1px solid var(--color-accent-700);
-  }
-
-  &:focus-visible {
-    background-color: transparent;
-    outline: 2px solid var(--color-info-700);
   }
 
   &:disabled {
@@ -82,8 +80,14 @@
 .link {
   @include button;
 
+  padding: 6px 12px;
   color: var(--color-accent-500);
   text-decoration: none;
+
+  &:focus {
+    color: var(--color-accent-500);
+    border-radius: 32px;
+  }
 
   &:hover {
     color: var(--color-accent-300);
@@ -91,12 +95,6 @@
 
   &:active {
     color: var(--color-accent-700);
-  }
-
-  &:focus-visible {
-    color: var(--color-accent-500);
-    border-radius: 32px;
-    outline: 2px solid var(--color-info-700);
   }
 
   &:disabled {

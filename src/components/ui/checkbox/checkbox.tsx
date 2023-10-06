@@ -1,44 +1,43 @@
-import { FC, useState } from 'react'
+import { forwardRef } from 'react'
 
 import * as Checkbox from '@radix-ui/react-checkbox'
-import { CheckboxProps, CheckedState } from '@radix-ui/react-checkbox'
+import { CheckboxProps } from '@radix-ui/react-checkbox'
 
 import s from './checkbox.module.scss'
 
-export type CheckboxCustomProps = Omit<CheckboxProps, 'onCheckedChange'> & {
+import { TypographyVariant } from '@/common/types/types.ts'
+import { Typography } from '@/components/ui/typography'
+
+export type CheckboxCustomProps = {
   label?: string
-  value: string
-  onCheckedChange: (value: string) => void
-}
+} & CheckboxProps
 
-export const CheckboxCustom: FC<CheckboxCustomProps> = props => {
-  const [checked, setChecked] = useState(props.defaultChecked)
-  const rootClassName = `${s.checkbox} ${checked ? s.checked : ''}`
+export const CheckboxCustom = forwardRef<HTMLDivElement, CheckboxCustomProps>(
+  ({ label, id, onCheckedChange, ...props }, ref?) => {
+    const rootClassName = `${s.checkbox} ${props.checked ? s.checked : ''}`
+    const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''}`
 
-  const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''}`
-
-  const onCheckedChange = (e: CheckedState) => {
-    setChecked(!!e)
-    props.onCheckedChange(props.value)
+    return (
+      <div className={wrapperClassName} ref={ref}>
+        {label && (
+          <Typography
+            className={s.label}
+            as={'label'}
+            htmlFor={id}
+            variant={TypographyVariant.body2}
+          >
+            {label}
+          </Typography>
+        )}
+        <Checkbox.Root
+          className={rootClassName}
+          id={id}
+          onCheckedChange={(checked: boolean) => onCheckedChange?.(checked)}
+          {...props}
+        >
+          <Checkbox.Indicator className={s.indicator} aria-hidden />
+        </Checkbox.Root>
+      </div>
+    )
   }
-
-  return (
-    <div className={wrapperClassName}>
-      {props.label && (
-        <label className={s.label} htmlFor={props.id}>
-          {props.label}
-        </label>
-      )}
-      <Checkbox.Root
-        className={rootClassName}
-        id={props.id}
-        checked={checked}
-        {...props}
-        value={props.value}
-        onCheckedChange={onCheckedChange}
-      >
-        <Checkbox.Indicator />
-      </Checkbox.Root>
-    </div>
-  )
-}
+)

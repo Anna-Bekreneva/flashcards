@@ -24,28 +24,28 @@
   border-radius: 4px;
 
   transition: border-color 0.3s;
+}
 
-  span {
-    @include bg;
+.indicator {
+  @include bg;
 
-    position: absolute;
-    top: -3px;
-    left: -3px;
+  position: absolute;
+  top: -3px;
+  left: -3px;
 
-    width: 18px;
-    height: 18px;
+  width: 18px;
+  height: 18px;
 
-    opacity: 0;
-    background-image: url('../../../assets/images/icons/checkbox.svg');
+  opacity: 0;
+  background-image: url('../../../assets/images/icons/checkbox.svg');
 
-    transition: opacity 0.3s;
-  }
+  transition: opacity 0.3s;
 }
 
 .checked {
   border-color: transparent;
 
-  span {
+  .indicator {
     opacity: 1;
   }
 }
@@ -59,14 +59,10 @@
   .checkbox {
     cursor: inherit;
     color: var(--color-light-700);
-    border: 3px solid var(--color-dark-100);
+    background-color: var(--color-light-700);
   }
 
-  &:focus,
-  &:hover,
-  &:active {
-    &::before {
-      background-color: transparent;
-    }
+  .indicator {
+    filter: invert(42%) sepia(0%) saturate(4752%) hue-rotate(22deg) brightness(88%) contrast(91%);
   }
 }

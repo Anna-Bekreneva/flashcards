@@ -1,34 +1,36 @@
-import { ComponentPropsWithoutRef, ElementType } from 'react'
+import {
+  ComponentPropsWithoutRef,
+  ElementRef,
+  ElementType,
+  ForwardedRef,
+  forwardRef,
+  ReactNode,
+} from 'react'
 
 import s from './typography.module.scss'
 
+import { TypographyVariant } from '@/common/types/types.ts'
+
 export type TypographyProps<T extends ElementType = 'p'> = {
-  variant?:
-    | 'large'
-    | 'h1'
-    | 'h2'
-    | 'h3'
-    | 'body1'
-    | 'subtitle1'
-    | 'body2'
-    | 'subtitle2'
-    | 'caption'
-    | 'overline'
-    | 'link1'
-    | 'link2'
-    | 'error'
-  label?: string
+  variant?: keyof typeof TypographyVariant
   as?: T
 } & ComponentPropsWithoutRef<T>
 
-export const Typography = <T extends ElementType = 'p'>(
-  props: TypographyProps<T> & Omit<ComponentPropsWithoutRef<T>, keyof TypographyProps<T>>
-) => {
-  const { variant = 'body1', className, as: Component = 'p', ...rest } = props
+const TypographyPolymorph = <T extends ElementType = 'p'>(
+  props: TypographyProps<T> & Omit<ComponentPropsWithoutRef<T>, keyof TypographyProps<T>>,
+  ref: ElementRef<T>
+): ReactNode => {
+  const { variant = TypographyVariant.body1, className, as: Tag = 'p', ...rest } = props
 
   return (
-    <Component className={`${s[variant]} ${s.typography}`} {...rest}>
-      {props.label}
-    </Component>
+    // @ts-expect-error TS2322
+    <Tag className={`${s[String(variant)]} ${s.typography} ${className}`} ref={ref} {...rest}></Tag>
   )
 }
+
+export const Typography = forwardRef(TypographyPolymorph) as <T extends ElementType = 'p'>(
+  props: TypographyProps<T> &
+    Omit<ComponentPropsWithoutRef<T>, keyof TypographyProps<T>> & {
+      ref?: ForwardedRef<ElementRef<T>>
+    }
+) => ReturnType<typeof TypographyPolymorph>

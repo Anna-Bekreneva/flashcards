@@ -1,20 +1,41 @@
-import { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
+import { ComponentPropsWithoutRef, ElementRef, ElementType, ForwardedRef, forwardRef } from 'react'
 
 import s from './button.module.scss'
 
+import { ButtonVariant } from '@/common/types/types.ts'
+
 export type ButtonProps<T extends ElementType> = {
   as?: T
-  children: ReactNode
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'link'
+  variant?: keyof typeof ButtonVariant
   fullWidth?: boolean
-  className?: string
+  disabled?: boolean
 } & ComponentPropsWithoutRef<T>
-export const Button = <T extends ElementType = 'button'>(
-  props: ButtonProps<T> & Omit<ComponentPropsWithoutRef<T>, keyof ButtonProps<T>>
+const ButtonPolymorph = <T extends ElementType = 'button'>(
+  props: ButtonProps<T> & Omit<ComponentPropsWithoutRef<T>, keyof ButtonProps<T>>,
+  ref: ElementRef<T>
 ) => {
-  const { variant = 'primary', fullWidth, className, as: Component = 'button', ...rest } = props
+  const {
+    variant = ButtonVariant.primary,
+    fullWidth,
+    className,
+    as: Tag = 'button',
+    ...rest
+  } = props
 
   return (
-    <Component className={`${s[variant]} ${fullWidth ? s.fullWidth : ''} ${className}`} {...rest} />
+    // @ts-expect-error TS2322
+    <Tag
+      className={`${s[variant]} ${fullWidth ? s.fullWidth : ''} ${className}`}
+      disabled={props.disabled}
+      ref={ref}
+      {...rest}
+    />
   )
 }
+
+export const Button = forwardRef(ButtonPolymorph) as <T extends ElementType = 'button'>(
+  props: ButtonProps<T> &
+    Omit<ComponentPropsWithoutRef<T>, keyof ButtonProps<T>> & {
+      ref?: ForwardedRef<ElementRef<T>>
+    }
+) => ReturnType<typeof ButtonPolymorph>
