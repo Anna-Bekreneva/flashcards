@@ -14,6 +14,7 @@ type Props = SelectProps & {
   label?: string
   id?: string
   items: OptionType[]
+  className?: string
 }
 
 export const Select = forwardRef<HTMLDivElement, Props>(
@@ -27,9 +28,12 @@ export const Select = forwardRef<HTMLDivElement, Props>(
     })
 
     const currentItem = items.find(item => item.value === value)
+    const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''}${
+      props.className && props.className
+    }`
 
     return (
-      <div className={`${s.wrapper} ${props.disabled && s.disabled}`} ref={ref}>
+      <div className={wrapperClassName} ref={ref}>
         {label && (
           <Typography
             className={s.label}
@@ -39,15 +43,15 @@ export const Select = forwardRef<HTMLDivElement, Props>(
           >
             {label}
           </Typography>
-        )}{' '}
+        )}
         <RadixSelect.Root value={value} {...props}>
-          <RadixSelect.Trigger className={s.trigger} id={id}>
+          <RadixSelect.Trigger className={s.trigger} id={id} aria-label={currentItem?.label}>
             {currentItem?.label}
-          </RadixSelect.Trigger>{' '}
+          </RadixSelect.Trigger>
           {/*<RadixSelect.Portal>*/}
           <RadixSelect.Content position="popper" className={s.content}>
             <RadixSelect.Viewport className={s.viewport}>{selectItems}</RadixSelect.Viewport>
-          </RadixSelect.Content>{' '}
+          </RadixSelect.Content>
           {/*</RadixSelect.Portal>*/}
         </RadixSelect.Root>
       </div>
