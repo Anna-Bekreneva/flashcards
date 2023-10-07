@@ -10,12 +10,15 @@ import { Typography } from '@/components/ui/typography'
 
 export type Props = {
   label?: string
+  className?: string
 } & CheckboxProps
 
 export const Checkbox = forwardRef<HTMLDivElement, Props>(
-  ({ label, id, onCheckedChange, ...props }, ref?) => {
+  ({ label, className, id, onCheckedChange, ...props }, ref?) => {
     const rootClassName = `${s.checkbox} ${props.checked ? s.checked : ''}`
-    const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''}`
+    const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''}${
+      className ? className : ''
+    }`
 
     return (
       <div className={wrapperClassName} ref={ref}>
