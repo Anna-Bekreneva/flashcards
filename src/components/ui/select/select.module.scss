@@ -38,12 +38,12 @@
     transition: transform 0.3s;
   }
 
-  &:hover {
-    background-color: var(--color-dark-100);
-  }
-
   &:focus {
     outline: 2px solid var(--color-info-700);
+  }
+
+  &:hover {
+    background-color: var(--color-dark-100);
   }
 
   &[data-state='open'] {
@@ -97,6 +97,13 @@
     &:hover {
       color: inherit;
       background-color: transparent;
+    }
+  }
+
+  .trigger {
+    &::before {
+      filter: invert(76%) sepia(0%) saturate(1493%) hue-rotate(142deg) brightness(107%)
+        contrast(83%);
     }
   }
 }
