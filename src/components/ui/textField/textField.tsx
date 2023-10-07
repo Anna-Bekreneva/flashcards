@@ -22,13 +22,14 @@ export const TextField = forwardRef<HTMLDivElement, TextFieldProps>((props, ref?
   const isPassword = type === 'password'
   const isSearch = type === 'search'
 
-  const wrapperClassName = `${isSearch && s.searchWrapper} ${errorMessage && s.errorWrapper} ${
-    props.disabled && s.disabledWrapper
-  } ${s.wrapper}`
+  const wrapperClassName = `${isSearch ? s.searchWrapper : ''} ${
+    errorMessage ? s.errorWrapper : ''
+  } ${props.disabled ? s.disabledWrapper : ''} ${s.wrapper}`
+  const inputClassName = `${isSearch ? s.searchField : ''} ${s.field}`
   const finalType = getFinalType(type, showPassword)
 
   return (
-    <>
+    <div className={props.className}>
       {label && (
         <Typography className={s.label} as={'label'} variant={TypographyVariant.body2} htmlFor={id}>
           {label}
@@ -36,13 +37,13 @@ export const TextField = forwardRef<HTMLDivElement, TextFieldProps>((props, ref?
       )}
       <div className={wrapperClassName} ref={ref}>
         <input
-          className={`${isSearch && s.searchField} ${s.field} `}
+          className={inputClassName}
           id={id}
           type={isPassword ? finalType : type}
           disabled={disabled}
           onChange={e => onValueChange?.(e.target.value)}
           {...restProps}
-        />{' '}
+        />
         {isPassword && (
           <button
             type="button"
@@ -58,14 +59,9 @@ export const TextField = forwardRef<HTMLDivElement, TextFieldProps>((props, ref?
           {errorMessage}
         </Typography>
       )}
-    </>
+    </div>
   )
 })
 
-function getFinalType(type: ComponentProps<'input'>['type'], showPassword: boolean) {
-  if (type === 'password' && showPassword) {
-    return 'text'
-  }
-
-  return type
-}
+const getFinalType = (type: ComponentProps<'input'>['type'], showPassword: boolean) =>
+  type === 'password' && showPassword ? 'text' : type
