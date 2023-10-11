@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
+import { Typography } from '../typography'
+
 import { Card } from './'
 
 import { Button } from '@/components/ui/button'
@@ -21,15 +23,13 @@ type Story = StoryObj<typeof meta>
 
 export const Dark: Story = {
   args: {
-    variant: 'dark',
+    as: 'article',
+    style: { padding: '20px' },
     children: (
-      <div>
-        <p>Test dark card with jsx children</p>
-        <input />
-        <div>
-          <Button>Test</Button>
-        </div>
-      </div>
+      <>
+        <Typography as={'p'}>This is a dark card</Typography>
+        <Button>Test</Button>
+      </>
     ),
   },
 }
@@ -37,6 +37,7 @@ export const Dark: Story = {
 export const Light: Story = {
   args: {
     variant: 'light',
-    children: 'Test card with light theme and text children',
+    style: { padding: '20px' },
+    children: <Typography as={'h3'}>This is a light card</Typography>,
   },
 }
