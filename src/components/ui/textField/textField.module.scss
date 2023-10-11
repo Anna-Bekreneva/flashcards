@@ -82,6 +82,16 @@
   &:hover {
     background-color: var(--color-dark-700);
   }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
 }
 
 .searchField {
