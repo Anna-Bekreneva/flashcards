@@ -67,3 +67,10 @@ body {
 
   background-color: var(--color-dark-900);
 }
+
+.container {
+  max-width: 1026px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 10px;
+}

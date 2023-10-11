@@ -1,12 +1,16 @@
 .header {
+  padding: 12px 0;
+  background-color: var(--color-dark-700);
+}
+
+.wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
 
-  height: 60px;
-  padding: 24px;
-
-  background-color: var(--color-dark-700);
+.logo {
+  transform: translateY(10%);
 }
 
 .interactElements {
