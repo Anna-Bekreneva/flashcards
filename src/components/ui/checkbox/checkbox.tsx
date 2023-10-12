@@ -16,7 +16,7 @@ export type Props = {
 export const Checkbox = forwardRef<HTMLDivElement, Props>(
   ({ label, className, id, onCheckedChange, ...props }, ref?) => {
     const rootClassName = `${s.checkbox} ${props.checked ? s.checked : ''}`
-    const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''}${
+    const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''} ${
       className ? className : ''
     }`
 
