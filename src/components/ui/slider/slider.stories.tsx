@@ -30,7 +30,7 @@ export const SliderDefault: Story = {
       setValue(values)
     }
 
-    return <Slider {...args} value={value} onValueChange={onValueChange} disabled={true} />
+    return <Slider {...args} value={value} onValueChange={onValueChange} />
   }
 }
 

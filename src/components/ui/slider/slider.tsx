@@ -7,12 +7,10 @@ import {TextField} from "@/components/ui/textField";
 import {SliderProps} from "@radix-ui/react-slider";
 
 type Props = {
-    min: number
-    max: number
-    step: number
-    value: [number, number]
+    value: [number, number],
+    className?: string
 } & SliderProps
-export const Slider = forwardRef<HTMLDivElement, Props>(({min, max, step, value, ...props}, ref?) => {
+export const Slider = forwardRef<HTMLDivElement, Props>(({min = 0, max = 100, step = 1, value, className, ...props}, ref?) => {
     const stringMinvalue = String(min)
     const stringMaxValue = String(max)
     const maxValueForMinInput = max - step
@@ -50,7 +48,7 @@ export const Slider = forwardRef<HTMLDivElement, Props>(({min, max, step, value,
         }
     }
 
-    const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''}`
+    const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''} ${className ? className : ''}`
 
     return (
         <div className={wrapperClassName} ref={ref}>
