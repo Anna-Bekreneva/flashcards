@@ -50,8 +50,10 @@ export const Slider = forwardRef<HTMLDivElement, Props>(({min, max, step, value,
         }
     }
 
+    const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''}`
+
     return (
-        <div className={s.wrapper} ref={ref}>
+        <div className={wrapperClassName} ref={ref}>
             <TextField className={s.field}
                        min={stringMinvalue}
                        max={maxValueForMinInput}
@@ -60,6 +62,7 @@ export const Slider = forwardRef<HTMLDivElement, Props>(({min, max, step, value,
                        onValueChange={changeMinValueHandler}
                        onBlur={onBlurMinValueHandler}
                        type="number"
+                       disabled={props.disabled}
             />
             <RadixSlider.Root
                 className={s.root}
@@ -83,6 +86,7 @@ export const Slider = forwardRef<HTMLDivElement, Props>(({min, max, step, value,
                        onValueChange={changeMaxValueHandler}
                        onBlur={onBlurMaxValueHandler}
                        type="number"
+                       disabled={props.disabled}
             />
         </div>
     )
