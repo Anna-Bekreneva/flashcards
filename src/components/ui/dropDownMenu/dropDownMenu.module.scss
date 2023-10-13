@@ -1,12 +1,4 @@
-.triggerIMG,
-.icon img {
-  display: block;
-  width: 36px;
-  height: 36px;
-  object-fit: cover;
-}
-
-.contentMenu {
+.content {
   cursor: pointer;
 
   position: relative;
@@ -51,23 +43,14 @@
 
 .center {
   &::before {
-    left: 47%;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
   }
 }
 
 .item {
   position: relative;
-
-  display: flex;
-  align-items: normal;
-
   padding: 12px 0;
-
-  font-family: var(--font-family-primary);
-  font-size: var(--font-size-s);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-s);
-  color: var(--color-light-100);
 
   &::before {
     content: '';
@@ -99,16 +82,6 @@
   outline: 0;
 }
 
-.itemValues {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-
-  padding-left: 8px;
-
-  vertical-align: super;
-}
-
-.extraValue {
-  color: var(--color-dark-100);
+.item[data-disabled] {
+  opacity: 0.5;
 }
