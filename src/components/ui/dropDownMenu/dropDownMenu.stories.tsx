@@ -14,13 +14,19 @@ const meta = {
   title: 'Components/DropDownMenu',
   component: DropDownMenu,
   tags: ['autodocs'],
-  argTypes: {},
+  argTypes: {
+    align: {
+      options: ['center', 'start', 'end'],
+      control: { type: 'radio' },
+    },
+  },
 } satisfies Meta<typeof DropDownMenu>
 
 export default meta
 type Story = StoryObj<typeof meta>
 export const DropDownMenuDefault: Story = {
   args: {
+    align: 'center',
     trigger: (
       <img
         style={{ borderRadius: '50%', width: '36px', height: '36px', objectFit: 'cover' }}
