@@ -1,21 +1,22 @@
+import { useState } from 'react'
+
+import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { Slider } from '@/components/ui/slider/slider.tsx'
-import {action} from "@storybook/addon-actions";
-import {useState} from "react";
 
 const meta = {
   title: 'Components/Slider',
   component: Slider,
   tags: ['autodocs'],
   argTypes: {
-    name: {type: 'string'},
-    step: {type: 'number'},
-    min: {type: 'number'},
-    max: {type: 'number'},
-    disabled: {type: 'boolean'},
-    onValueChange: {description: '(values: [number, number]) => void'}
-  }
+    name: { type: 'string' },
+    step: { type: 'number' },
+    min: { type: 'number' },
+    max: { type: 'number' },
+    disabled: { type: 'boolean' },
+    onValueChange: { description: '(values: [number, number]) => void' },
+  },
 } satisfies Meta<typeof Slider>
 
 export default meta
@@ -31,6 +32,5 @@ export const SliderDefault: Story = {
     }
 
     return <Slider {...args} value={value} onValueChange={onValueChange} />
-  }
+  },
 }
-
