@@ -58,13 +58,13 @@
 }
 
 .field {
-  outline: 0;
   width: 100%;
   padding: 7px 12px;
 
   background-color: transparent;
   border: 1px solid var(--color-dark-100);
   border-radius: 2px;
+  outline: 0;
 
   transition:
     background-color 0.3s,
@@ -75,6 +75,18 @@
     color: var(--color-dark-100);
   }
 
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin: 0;
+    appearance: none;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin: 0;
+    appearance: none;
+  }
+
   &:focus {
     border-color: var(--color-info-700);
   }
@@ -83,15 +95,9 @@
     background-color: var(--color-dark-700);
   }
 
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      margin: 0;
-      -webkit-appearance: none;
-    }
-
-    &[type='number'] {
-      -moz-appearance: textfield;
-    }
+  &[type='number'] {
+    appearance: textfield;
+  }
 }
 
 .searchField {
