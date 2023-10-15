@@ -1,45 +1,22 @@
-import { ElementRef, forwardRef } from 'react'
+import { ElementRef, forwardRef, ReactNode } from 'react'
 
 import * as RadixRadioGroup from '@radix-ui/react-radio-group'
 import { RadioGroupProps } from '@radix-ui/react-radio-group'
 
 import s from './radioGroup.module.scss'
 
-import { TypographyVariant } from '@/common/types/types.ts'
-import { Typography } from '@/components/ui/typography'
-
-type Props = {
-  items: RadioButtonType[]
-} & RadioGroupProps
-
-type RadioButtonType = {
-  value: string
-  disabled?: boolean
-  label: string
+type Props = RadioGroupProps & {
+  className?: string
+  children: ReactNode
 }
 
 export const RadioGroup = forwardRef<ElementRef<typeof RadixRadioGroup.Root>, Props>(
-  ({ items, ...props }, ref?) => {
-    const radioItems =
-      items.length &&
-      items.map((item, index) => {
-        return (
-          <label className={`${s.inner} ${item.disabled ? s.disabled : ''}`} key={index}>
-            <RadixRadioGroup.Item
-              className={`${s.radio} ${props.value === item.value ? s.active : ''} `}
-              value={item.value}
-              disabled={item.disabled}
-            />
-            <Typography className={s.name} as={'span'} variant={TypographyVariant.body2}>
-              {item.label}
-            </Typography>
-          </label>
-        )
-      })
+  ({ children, className, ...props }, ref?) => {
+    const rootClassName = `${s.root} ${className ? className : ''}`
 
     return (
-      <RadixRadioGroup.Root className={s.root} ref={ref} {...props}>
-        {radioItems}
+      <RadixRadioGroup.Root className={rootClassName} ref={ref} {...props}>
+        {children}
       </RadixRadioGroup.Root>
     )
   }
