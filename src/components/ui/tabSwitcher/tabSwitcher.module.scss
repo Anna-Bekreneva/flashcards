@@ -1,0 +1,33 @@
+.root {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 5px;
+  padding: 100px;
+}
+
+.list,
+.content {
+  align-self: flex-start;
+}
+
+.list {
+  border-radius: 0;
+
+  .button {
+    border-radius: 0;
+
+    &:first-child {
+      border-radius: 2px 0 0 2px;
+    }
+
+    &:last-child {
+      border-radius: 0 2px 2px 0;
+    }
+
+    &:disabled {
+      color: var(--color-dark-300);
+      background-color: var(--color-dark-700);
+      border-color: var(--color-dark-300);
+    }
+  }
+}

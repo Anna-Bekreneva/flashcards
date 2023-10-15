@@ -1,8 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 
 import { Button } from './'
 
-import { Logout } from '@/assets/icons'
+import { Logout } from '@/assets/iconsComponents'
+import { ButtonVariant } from '@/common/types/types.ts'
 
 const meta = {
   title: 'Components/Button',
@@ -10,9 +11,11 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     variant: {
-      options: ['primary', 'secondary', 'tertiary', 'link'],
+      options: ButtonVariant,
       control: { type: 'radio' },
     },
+    fullWidth: { type: 'boolean' },
+    disabled: { type: 'boolean' },
   },
 } satisfies Meta<typeof Button>
 
@@ -21,65 +24,58 @@ type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {
-    variant: 'primary',
+    variant: ButtonVariant.primary,
     children: 'Button primary ',
-    disabled: false,
   },
 }
 export const Secondary: Story = {
   args: {
-    variant: 'secondary',
+    variant: ButtonVariant.secondary,
     children: 'Button secondary ',
-    disabled: false,
   },
 }
 export const Tertiary: Story = {
   args: {
-    variant: 'tertiary',
+    variant: ButtonVariant.tertiary,
     children: 'Tertiary',
-    disabled: false,
   },
 }
 export const Link: Story = {
   args: {
     as: 'a',
     href: 'https://www.yahoo.com/',
-    variant: 'link',
+    variant: ButtonVariant.link,
     children: 'Link Button',
-    disabled: false,
   },
 }
 
 export const FullWidth: Story = {
   args: {
-    variant: 'primary',
+    variant: ButtonVariant.primary,
     children: 'Full Width Button',
-    disabled: false,
     fullWidth: true,
   },
 }
 export const PrimaryWithIcon: Story = {
   args: {
-    variant: 'primary',
+    variant: ButtonVariant.primary,
     children: (
       <>
         <Logout />
         Primary Button
       </>
     ),
-    disabled: false,
   },
 }
 
 export const SecondaryWithIcon: Story = {
   args: {
-    variant: 'secondary',
+    variant: ButtonVariant.secondary,
     children: (
       <>
         <Logout />
         Secondary Button
       </>
     ),
-    disabled: false,
   },
 }

@@ -15,10 +15,11 @@
   transition: background-color 0.3s;
 }
 
-@mixin flex-all-center {
+@mixin flex($align-items: center, $justify-content: center, $flex-direction: row) {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: $align-items;
+  justify-content: $justify-content;
+  flex-direction: $flex-direction;
 }
 
 @mixin bg($size: contain) {
@@ -46,11 +47,28 @@
 
   transition: all 0.2s ease-in-out;
 
-  &:focus-visible {
+  &:focus {
     outline: 2px solid var(--color-info-700);
   }
 
   &:disabled {
     cursor: not-allowed;
   }
+}
+
+@mixin sr-only {
+  position: absolute;
+
+  overflow: hidden;
+
+  width: 1px;
+  height: 1px;
+  margin: 1px;
+  padding: 0;
+
+  white-space: nowrap;
+
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  border: 0;
 }

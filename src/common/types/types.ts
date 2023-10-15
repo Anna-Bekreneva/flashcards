@@ -12,3 +12,10 @@ export const TypographyVariant = {
   link1: 'link1',
   link2: 'link2',
 } as const
+
+export const ButtonVariant = {
+  primary: 'primary',
+  secondary: 'secondary',
+  tertiary: 'tertiary',
+  link: 'link',
+} as const

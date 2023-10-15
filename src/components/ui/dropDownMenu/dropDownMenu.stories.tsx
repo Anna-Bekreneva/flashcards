@@ -1,16 +1,41 @@
-import userPhoto from '../src/assets/images/userPhoto.png'
+import { Meta, StoryObj } from '@storybook/react'
+
+import userPhoto from '../../../assets/images/userPhoto.png'
+
+import { DropDownMenu } from './'
 
 import { EditIcon } from '@/assets/iconsComponents/edit.tsx'
 import { SignOutIcon } from '@/assets/iconsComponents/signOut.tsx'
 import { TypographyVariant } from '@/common/types/types.ts'
-import { DropDownMenu } from '@/components/ui/dropDownMenu'
 import { DropDownItem } from '@/components/ui/dropDownMenu/dropDownItem.tsx'
 import { Typography } from '@/components/ui/typography'
 
-export function App() {
-  return (
-    <div style={{ margin: '230px' }}>
-      <DropDownMenu trigger={'Test'}>
+const meta = {
+  title: 'Components/DropDownMenu',
+  component: DropDownMenu,
+  tags: ['autodocs'],
+  argTypes: {
+    align: {
+      options: ['center', 'start', 'end'],
+      control: { type: 'radio' },
+    },
+  },
+} satisfies Meta<typeof DropDownMenu>
+
+export default meta
+type Story = StoryObj<typeof meta>
+export const DropDownMenuDefault: Story = {
+  args: {
+    align: 'center',
+    trigger: (
+      <img
+        style={{ borderRadius: '50%', width: '36px', height: '36px', objectFit: 'cover' }}
+        src={userPhoto}
+        alt={'ava'}
+      />
+    ),
+    children: (
+      <>
         <DropDownItem>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <img
@@ -52,7 +77,7 @@ export function App() {
             <SignOutIcon /> Sign Out
           </Typography>
         </DropDownItem>
-      </DropDownMenu>
-    </div>
-  )
+      </>
+    ),
+  },
 }

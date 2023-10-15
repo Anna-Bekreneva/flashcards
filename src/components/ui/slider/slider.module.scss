@@ -1,0 +1,66 @@
+@import '../../../styles/_mixins.scss';
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.disabled {
+  .thumb {
+    cursor: default;
+    opacity: 0.7;
+  }
+}
+
+.field {
+  width: 36px;
+  height: 36px;
+
+  input {
+    font-size: 16px;
+    width: 36px;
+    height: 36px;
+    padding: 2px;
+    text-align: center;
+  }
+}
+
+.root {
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  touch-action: none;
+  width: 200px;
+  height: 20px;
+}
+
+.track {
+  background-color: var(--color-accent-900);
+  position: relative;
+  flex-grow: 1;
+  border-radius: 10px;
+  height: 5px;
+}
+
+.range {
+  position: absolute;
+  background-color: var(--color-accent-500);
+  border-radius: inherit;
+  height: 100%;
+}
+
+.thumb {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-light-100);
+  border: 4px solid var(--color-accent-500);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.thumb:focus {
+  outline: none;
+}

@@ -19,7 +19,7 @@
 }
 
 .radio {
-  @include flex-all-center;
+  @include flex;
 
   cursor: pointer;
 
@@ -58,6 +58,12 @@
     @include interactive-bg;
   }
 
+  &[data-state='checked'] {
+    &::after {
+      opacity: 1;
+    }
+  }
+
   &:focus {
     &::before {
       background-color: var(--color-dark-700);
@@ -74,12 +80,6 @@
     &::before {
       background-color: var(--color-accent-900);
     }
-  }
-}
-
-.active {
-  &::after {
-    opacity: 1;
   }
 }
 
