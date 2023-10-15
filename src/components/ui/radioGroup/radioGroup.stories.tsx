@@ -4,6 +4,7 @@ import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { RadioGroup } from '@/components/ui/radioGroup/radioGroup.tsx'
+import { RadioItem } from '@/components/ui/radioGroup/radioItem.tsx'
 
 const meta = {
   title: 'Components/RadioGroup',
@@ -15,14 +16,8 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const items = [
-  { value: 'radio-1', label: 'radio-1' },
-  { value: 'radio-2', label: 'radio-2', disabled: true },
-  { value: 'radio-3', label: 'radio-3' },
-]
-
 export const RadioGroupDefault: Story = {
-  render: args => {
+  render: () => {
     const [value, setValue] = useState('radio-1')
     const onValueChange = (value: string) => {
       setValue(value)
@@ -30,7 +25,11 @@ export const RadioGroupDefault: Story = {
     }
 
     return (
-      <RadioGroup {...args} name={'2'} items={items} value={value} onValueChange={onValueChange} />
+      <RadioGroup value={value} onValueChange={onValueChange} name={'RadioGroupForStory'}>
+        <RadioItem label={'radio 1'} value={'radio-1'}></RadioItem>
+        <RadioItem label={'radio 2'} value={'radio-2'}></RadioItem>
+        <RadioItem label={'radio 3'} value={'radio-3'}></RadioItem>
+      </RadioGroup>
     )
   },
 }
