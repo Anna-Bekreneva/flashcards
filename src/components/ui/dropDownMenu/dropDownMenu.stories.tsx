@@ -44,7 +44,7 @@ export const DropDownMenuDefault: Story = {
               alt={'ava'}
             />
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography style={{}} variant={TypographyVariant.subtitle2} as={'span'}>
+              <Typography variant={TypographyVariant.subtitle2} as={'span'}>
                 Ivan
               </Typography>
               <Typography
