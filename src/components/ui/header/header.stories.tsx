@@ -6,20 +6,17 @@ const meta = {
   title: 'Components/Header',
   component: Header,
   tags: ['autodocs'],
+  argTypes: {
+    userName: { type: 'string' },
+    userEmail: { type: 'string' },
+  },
 } satisfies Meta<typeof Header>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const HeaderWithDropDownMenu: Story = {
-  args: {
-    isLoggedIn: true,
-    userName: 'UserName',
-  },
-}
-
-export const HeaderWithButton: Story = {
-  args: {
-    isLoggedIn: false,
+  render: args => {
+    return <Header {...args}></Header>
   },
 }
