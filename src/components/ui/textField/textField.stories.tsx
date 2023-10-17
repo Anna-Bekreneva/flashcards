@@ -25,7 +25,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Text = {
+export const Text: Story = {
   render: args => {
     const [value, setValue] = useState('')
     const changeHandler = (value: string) => {
