@@ -1,4 +1,4 @@
-import userPhoto from '../src/assets/images/userPhoto.png'
+import user from '../src/assets/images/user.png'
 
 import { EditIcon } from '@/assets/iconsComponents/edit.tsx'
 import { SignOutIcon } from '@/assets/iconsComponents/signOut.tsx'
@@ -15,7 +15,7 @@ export function App() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <img
               style={{ borderRadius: '50%', width: '36px', height: '36px', objectFit: 'cover' }}
-              src={userPhoto}
+              src={user}
               alt={'ava'}
             />
             <div style={{ display: 'flex', flexDirection: 'column' }}>
