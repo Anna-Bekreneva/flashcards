@@ -1,24 +1,52 @@
+@import '../../../styles/mixins';
+
 .header {
   padding: 12px 0;
   background-color: var(--color-dark-700);
 }
 
 .wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex(center, space-between)
 }
 
 .logo {
-  transform: translateY(10%);
+  width: 156px;
+  height: 36px;
+
+  .img {
+    object-fit: contain;
+  }
 }
 
-.interactElements {
+.userInfo {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.userName {
-  text-decoration: underline dashed 1px;
+.name {
+  border-bottom: 1px dashed var(--color-light-100);
+}
+
+.ava {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.dropdownInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.email {
+  color: var(--color-dark-100);
+}
+
+.dropdownItem {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 12px;
 }
