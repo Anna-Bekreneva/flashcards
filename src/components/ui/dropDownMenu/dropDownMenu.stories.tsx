@@ -2,56 +2,82 @@ import { Meta, StoryObj } from '@storybook/react'
 
 import userPhoto from '../../../assets/images/userPhoto.png'
 
-import { DropDownMenu, ItemType } from './'
+import { DropDownMenu } from './'
 
 import { EditIcon } from '@/assets/iconsComponents/edit.tsx'
 import { SignOutIcon } from '@/assets/iconsComponents/signOut.tsx'
-import { StartIcon } from '@/assets/iconsComponents/start.tsx'
-
-const items: ItemType[] = [
-  {
-    icon: <img src={userPhoto} style={{ width: '36px', height: '36px', borderRadius: '50%' }} />,
-    extraValue: 'www@bbfghfdhfjgfjgfhjhgvv',
-    value: 'Ivan',
-  },
-  {
-    icon: <EditIcon />,
-    value: 'edit',
-  },
-  {
-    icon: <StartIcon />,
-    value: 'learn',
-  },
-  {
-    icon: <SignOutIcon />,
-    value: 'sign out',
-  },
-]
-
-const onItemSelect = (e: Event) => {
-  console.log(e)
-}
+import { TypographyVariant } from '@/common/types/types.ts'
+import { DropDownItem } from '@/components/ui/dropDownMenu/dropDownItem.tsx'
+import { Typography } from '@/components/ui/typography'
 
 const meta = {
   title: 'Components/DropDownMenu',
   component: DropDownMenu,
   tags: ['autodocs'],
   argTypes: {
-    items,
-    onItemSelect,
-    // triggerIMG: userPhoto,
-    // alignType: 'start',
+    align: {
+      options: ['center', 'start', 'end'],
+      control: { type: 'radio' },
+    },
   },
 } satisfies Meta<typeof DropDownMenu>
 
 export default meta
 type Story = StoryObj<typeof meta>
-
 export const DropDownMenuDefault: Story = {
   args: {
-    items,
-    onItemSelect,
-    triggerIMG: userPhoto,
-    alignType: 'start',
+    align: 'center',
+    trigger: (
+      <img
+        style={{ borderRadius: '50%', width: '36px', height: '36px', objectFit: 'cover' }}
+        src={userPhoto}
+        alt={'ava'}
+      />
+    ),
+    children: (
+      <>
+        <DropDownItem>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <img
+              style={{ borderRadius: '50%', width: '36px', height: '36px', objectFit: 'cover' }}
+              src={userPhoto}
+              alt={'ava'}
+            />
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography variant={TypographyVariant.subtitle2} as={'span'}>
+                Ivan
+              </Typography>
+              <Typography
+                style={{ color: '#808080' }}
+                variant={TypographyVariant.caption}
+                as={'span'}
+              >
+                j&johnson@gmail.com
+              </Typography>
+            </div>
+          </div>
+        </DropDownItem>
+        <DropDownItem>
+          <Typography
+            as={'button'}
+            type={'button'}
+            variant={TypographyVariant.caption}
+            style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+          >
+            <EditIcon /> My Profile
+          </Typography>
+        </DropDownItem>
+        <DropDownItem>
+          <Typography
+            as={'button'}
+            type={'button'}
+            variant={TypographyVariant.caption}
+            style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+          >
+            <SignOutIcon /> Sign Out
+          </Typography>
+        </DropDownItem>
+      </>
+    ),
   },
 }

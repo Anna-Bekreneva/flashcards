@@ -1,53 +1,70 @@
+@import '../../../styles/mixins';
+
 .wrapper {
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-m);
+  width: 100%;
 }
 
-.selectTrigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.label {
+  cursor: pointer;
+  display: block;
+}
+
+.trigger {
+  position: relative;
 
   width: 100%;
-  max-width: 210px;
-  padding: 6px 12px;
+  padding: 6px 48px 6px 12px;
+
+  text-align: left;
 
   border: 1px solid var(--color-dark-300);
   border-radius: 2px;
 
-  &:hover {
-    background-color: var(--color-dark-100);
+  &::before {
+    @include bg;
+
+    content: '';
+
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+
+    width: 16px;
+    height: 16px;
+
+    background-image: url('../../../assets/images/icons/iconDown.svg');
+
+    transition: transform 0.3s;
   }
 
   &:focus {
     outline: 2px solid var(--color-info-700);
   }
+
+  &:hover {
+    background-color: var(--color-dark-100);
+  }
+
+  &[data-state='open'] {
+    &::before {
+      transform: rotate(180deg) translateY(50%);
+    }
+  }
 }
 
-.selectIcon {
-  width: 10px;
-  height: 10px;
-
-  font-size: 0;
-
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-}
-
-.arrowUp {
-  background-image: url('../../../assets/images/icons/iconUp.svg');
-}
-
-.arrowDown {
-  background-image: url('../../../assets/images/icons/iconDown.svg');
-}
-
-.selectItem {
+.item {
   cursor: pointer;
   padding: 3px 12px;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+
+  &[data-highlighted] {
+    color: var(--color-accent-300);
+    background-color: var(--color-accent-900);
+    outline: 0;
+  }
 
   &:first-child {
     padding-top: 6px;
@@ -58,25 +75,35 @@
   }
 }
 
-.selectItem[data-highlighted] {
-  background-color: var(--color-accent-500);
-  outline: 0;
-  transition: background-color 0.3s;
-}
-
-.selectViewport {
+.viewport {
   border: 1px solid var(--color-dark-300);
 }
 
-.selectContent {
+.content {
   width: var(--radix-select-trigger-width);
 }
 
 .disabled {
-  opacity: 0.5;
+  color: var(--color-dark-300);
 
-  &:hover {
-    cursor: initial;
-    background-color: var(--color-dark-900);
+  .label,
+  .item,
+  .trigger {
+    cursor: default;
+  }
+
+  .trigger,
+  .item {
+    &:hover {
+      color: inherit;
+      background-color: transparent;
+    }
+  }
+
+  .trigger {
+    &::before {
+      filter: invert(76%) sepia(0%) saturate(1493%) hue-rotate(142deg) brightness(107%)
+        contrast(83%);
+    }
   }
 }
