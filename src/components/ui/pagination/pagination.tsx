@@ -1,165 +1,123 @@
-import { FC, ReactNode, useCallback, useEffect, useState } from 'react'
+import { FC, forwardRef } from 'react'
 
 import s from './pagination.module.scss'
 
-import { OptionType, SelectCustom } from '@/components/ui/select'
-
-type PaginationProps<T> = {
-  data: Array<T>
-  callback: (pageNumber: number, pageSize: number) => void
-  optionsForSelect: OptionType[]
+type Props = {
+  onChangePage: (page: number) => void
+  onChangePerPage: (perPage: number) => void
+  perPageOptions: number[]
+  totalPages: number
+  perPage: number
+  page: number
 }
 
-export function Pagination<T>(props: PaginationProps<T>) {
-  const { data, callback, optionsForSelect } = props
-  const dotsValue = <span className={`${s.dots} ${s.item}`}>&#8230;</span>
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsAmountPerPage, setItemsAmountPerPage] = useState(5)
-  const totalPageCount = Math.ceil(data.length / itemsAmountPerPage)
+type MiddlePaginationType = number | '...'
+export const Pagination = forwardRef<HTMLDivElement, Props>(
+  ({ onChangePage, onChangePerPage, perPageOptions, totalPages, perPage, page }, ref?) => {
+    const onPageClick = (page: number) => onChangePage(page)
 
-  const onPageClick = (pageNumber: number) => {
-    callback(pageNumber, itemsAmountPerPage)
-    setCurrentPage(pageNumber)
-  }
-  const calculateMiddlePagePortion = useCallback(() => {
-    const middlePortion = [] as ReactNode[]
+    const paginationRange = (page: number, totalPages: number): MiddlePaginationType[] => {
+      let middle: MiddlePaginationType[] = []
 
-    for (let i = 2; i < totalPageCount; i++) {
-      if (currentPage <= 5 && i <= 5) {
-        middlePortion.push(
-          <ButtonForPaginator currentPage={currentPage} onClick={onPageClick} pageNumber={i} />
-        )
-        continue
-      }
-      if (totalPageCount > 5) {
-        middlePortion.push(dotsValue)
-      }
-      if (middlePortion.length >= 5) return middlePortion
-
-      if (currentPage >= totalPageCount - 4) {
-        for (let j = 4; j > 0; j--) {
-          middlePortion.push(
-            <ButtonForPaginator
-              currentPage={currentPage}
-              onClick={onPageClick}
-              pageNumber={totalPageCount - j}
-            />
-          )
+      if (totalPages <= 5) {
+        for (let i = 1; i < totalPages + 1; i++) {
+          middle.push(i)
         }
-
-        return middlePortion
       } else {
-        middlePortion.push(
-          <ButtonForPaginator
-            currentPage={currentPage}
-            onClick={onPageClick}
-            pageNumber={currentPage - 1}
-          />,
-          <ButtonForPaginator
-            currentPage={currentPage}
-            onClick={onPageClick}
-            pageNumber={currentPage}
-          />,
-          <ButtonForPaginator
-            currentPage={currentPage}
-            onClick={onPageClick}
-            pageNumber={currentPage + 1}
-          />,
-          dotsValue
-        )
-
-        return middlePortion
+        if (page <= 4) {
+          for (let i = 2; i < 5 + 1; i++) {
+            middle.push(i)
+          }
+          middle.push('...')
+        } else if (page >= totalPages - 4) {
+          middle.push('...')
+          for (let i = totalPages - 4; i < totalPages; i++) {
+            middle.push(i)
+          }
+        } else {
+          middle = ['...', page - 1, page, page + 1, '...']
+        }
       }
+
+      return [1, ...middle, totalPages]
     }
 
-    return middlePortion
-  }, [totalPageCount, itemsAmountPerPage, currentPage])
+    const arrayPaginationRange: MiddlePaginationType[] = paginationRange(page, totalPages)
 
-  const calculatePagesArrayForRender = () => {
-    let pages
+    const selectCallBack = (optionValue: string) => {
+      onChangePerPage(+optionValue)
+      // callback(page, perPage)
+      //setPagesForRendering(calculatePagesArrayForRender())
+    }
 
-    totalPageCount > 1
-      ? (pages = [
-          <ButtonForPaginator currentPage={currentPage} onClick={onPageClick} pageNumber={1} />,
-          ...calculateMiddlePagePortion(),
-          <ButtonForPaginator
-            currentPage={currentPage}
-            onClick={onPageClick}
-            pageNumber={totalPageCount}
-          />,
-        ])
-      : (pages = [
-          <ButtonForPaginator currentPage={currentPage} onClick={onPageClick} pageNumber={1} />,
-        ])
+    const handlePrevClick = () => onChangePage(page - 1)
 
-    return pages
+    const handleNextClick = () => onChangePage(page + 1)
+
+    return (
+      <div className={s.paginator} ref={ref}>
+        <ArrowButton onClick={handlePrevClick} disabled={page === 1} type={'prev'} />
+
+        <MainButtons arrayPaginationRange={arrayPaginationRange} onChangePage={onPageClick} />
+
+        <ArrowButton onClick={handleNextClick} disabled={page === totalPages} type={'next'} />
+        <span className={s.selectArea}>
+          Show
+          {/*<span className={s.select}>*/}
+          {/*  <SelectCustom items={perPageOptions} callback={selectCallBack} />*/}
+          {/*</span>*/}
+          on page
+        </span>
+      </div>
+    )
   }
+)
 
-  const [pagesForRendering, setPagesForRendering] = useState(calculatePagesArrayForRender())
+type ArrowButtonProps = {
+  type: 'prev' | 'next'
+  className?: string
+  disabled: boolean
+  onClick: (some: any) => void
+}
 
-  const selectCallBack = (optionValue: string) => {
-    setItemsAmountPerPage(+optionValue)
-    callback(currentPage, itemsAmountPerPage)
-    setPagesForRendering(calculatePagesArrayForRender())
-  }
-
-  useEffect(() => {
-    setPagesForRendering(calculatePagesArrayForRender())
-  }, [itemsAmountPerPage, currentPage])
-
-  const handlePrevClick = () => {
-    setCurrentPage(prev => prev - 1)
-  }
-  const handleNextClick = () => {
-    setCurrentPage(prev => prev + 1)
-  }
+const ArrowButton: FC<ArrowButtonProps> = ({ type, className, disabled, onClick }) => {
+  const buttonClassName = `${s.buttonArrow} ${className ? className : ''} ${s[type]}`
 
   return (
-    <div className={s.paginator}>
-      <button
-        className={`${currentPage === 1 && s.disabledArrow} ${s.item}`}
-        onClick={handlePrevClick}
-        disabled={currentPage === 1}
-      >
-        {'<'}
-      </button>
-
-      {pagesForRendering}
-
-      <button
-        className={`${currentPage === totalPageCount && s.disabledArrow} ${s.item}`}
-        onClick={handleNextClick}
-        disabled={currentPage === totalPageCount}
-      >
-        {'>'}
-      </button>
-      <span className={s.selectArea}>
-        Show
-        <span className={s.select}>
-          <SelectCustom items={optionsForSelect} callback={selectCallBack} />
-        </span>
-        on page
-      </span>
-    </div>
+    <button
+      className={buttonClassName}
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={type}
+      type={'button'}
+    />
   )
 }
 
-type ButtonForPaginatorPropsType = {
-  pageNumber: number
-  onClick: (pageNumber: number) => void
-  currentPage: number
+type MainButtonsProps = {
+  onChangePage: (page: number) => void
+  arrayPaginationRange: MiddlePaginationType[]
 }
-const ButtonForPaginator: FC<ButtonForPaginatorPropsType> = ({
-  pageNumber,
-  onClick,
-  currentPage,
-}) => {
+
+const MainButtons: FC<MainButtonsProps> = ({ arrayPaginationRange, onChangePage }) => {
+  const items = arrayPaginationRange.map((el, index) => {
+    if (el !== '...') {
+      return <MainButton key={index} pageNumber={el} onClick={onChangePage} />
+    } else {
+      return <span key={index}>{el}</span>
+    }
+  })
+
+  return <>{items}</>
+}
+
+type MainButtonProps = {
+  onClick: (pageNumber: number) => void
+  pageNumber: number
+}
+const MainButton: FC<MainButtonProps> = ({ onClick, pageNumber }) => {
   return (
-    <button
-      onClick={() => onClick(pageNumber)}
-      className={`${pageNumber === currentPage ? s.currentPage : ''} ${s.btn} ${s.item}`}
-      key={pageNumber}
-    >
+    <button onClick={() => onClick(pageNumber)} className={s.item} key={pageNumber}>
       {pageNumber}
     </button>
   )
