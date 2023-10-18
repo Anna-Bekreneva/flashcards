@@ -2,6 +2,8 @@ import { FC, forwardRef } from 'react'
 
 import s from './pagination.module.scss'
 
+import { Select } from '@/components/ui/select'
+
 type Props = {
   onChangePage: (page: number) => void
   onChangePerPage: (perPage: number) => void
@@ -44,15 +46,12 @@ export const Pagination = forwardRef<HTMLDivElement, Props>(
 
     const arrayPaginationRange: MiddlePaginationType[] = paginationRange(page, totalPages)
 
-    const selectCallBack = (optionValue: string) => {
-      onChangePerPage(+optionValue)
-      // callback(page, perPage)
-      //setPagesForRendering(calculatePagesArrayForRender())
-    }
-
+    const selectCallBack = (value: string) => onChangePerPage(Number(value))
     const handlePrevClick = () => onChangePage(page - 1)
 
     const handleNextClick = () => onChangePage(page + 1)
+
+    const optionsForSelect = perPageOptions.map(el => ({ value: String(el), label: String(el) }))
 
     return (
       <div className={s.paginator} ref={ref}>
@@ -61,13 +60,17 @@ export const Pagination = forwardRef<HTMLDivElement, Props>(
         <MainButtons arrayPaginationRange={arrayPaginationRange} onChangePage={onPageClick} />
 
         <ArrowButton onClick={handleNextClick} disabled={page === totalPages} type={'next'} />
-        <span className={s.selectArea}>
-          Show
-          {/*<span className={s.select}>*/}
-          {/*  <SelectCustom items={perPageOptions} callback={selectCallBack} />*/}
-          {/*</span>*/}
-          on page
-        </span>
+        <div className={s.selectArea}>
+          <Select
+            value={String(perPage)}
+            className={s.select}
+            id={'selectPagination'}
+            label={'Show'}
+            items={optionsForSelect}
+            onValueChange={selectCallBack}
+          />
+          <span className={s.selectSubtext}>on page</span>
+        </div>
       </div>
     )
   }
@@ -77,7 +80,7 @@ type ArrowButtonProps = {
   type: 'prev' | 'next'
   className?: string
   disabled: boolean
-  onClick: (some: any) => void
+  onClick: () => void
 }
 
 const ArrowButton: FC<ArrowButtonProps> = ({ type, className, disabled, onClick }) => {
