@@ -2,7 +2,9 @@ import { FC, forwardRef } from 'react'
 
 import s from './pagination.module.scss'
 
+import { TypographyVariant } from '@/common/types/types.ts'
 import { Select } from '@/components/ui/select'
+import { Typography } from '@/components/ui/typography'
 
 type Props = {
   onChangePage: (page: number) => void
@@ -31,7 +33,7 @@ export const Pagination = forwardRef<HTMLDivElement, Props>(
             middle.push(i)
           }
           middle.push('...')
-        } else if (page >= totalPages - 4) {
+        } else if (page >= totalPages - 3) {
           middle.push('...')
           for (let i = totalPages - 4; i < totalPages; i++) {
             middle.push(i)
@@ -57,7 +59,11 @@ export const Pagination = forwardRef<HTMLDivElement, Props>(
       <div className={s.paginator} ref={ref}>
         <ArrowButton onClick={handlePrevClick} disabled={page === 1} type={'prev'} />
 
-        <MainButtons arrayPaginationRange={arrayPaginationRange} onChangePage={onPageClick} />
+        <MainButtons
+          page={page}
+          arrayPaginationRange={arrayPaginationRange}
+          onChangePage={onPageClick}
+        />
 
         <ArrowButton onClick={handleNextClick} disabled={page === totalPages} type={'next'} />
         <div className={s.selectArea}>
@@ -100,14 +106,28 @@ const ArrowButton: FC<ArrowButtonProps> = ({ type, className, disabled, onClick 
 type MainButtonsProps = {
   onChangePage: (page: number) => void
   arrayPaginationRange: MiddlePaginationType[]
+  page: number
 }
 
-const MainButtons: FC<MainButtonsProps> = ({ arrayPaginationRange, onChangePage }) => {
+const MainButtons: FC<MainButtonsProps> = ({ arrayPaginationRange, onChangePage, page }) => {
   const items = arrayPaginationRange.map((el, index) => {
     if (el !== '...') {
-      return <MainButton key={index} pageNumber={el} onClick={onChangePage} />
+      const buttonClassName = `${s.item} ${s.button} ${el === page ? s.active : ''}`
+
+      return (
+        <MainButton
+          className={buttonClassName}
+          key={index}
+          pageNumber={el}
+          onClick={onChangePage}
+        />
+      )
     } else {
-      return <span key={index}>{el}</span>
+      return (
+        <Typography className={s.item} key={index} as={'span'} variant={TypographyVariant.body2}>
+          {el}
+        </Typography>
+      )
     }
   })
 
@@ -117,11 +137,18 @@ const MainButtons: FC<MainButtonsProps> = ({ arrayPaginationRange, onChangePage 
 type MainButtonProps = {
   onClick: (pageNumber: number) => void
   pageNumber: number
+  className?: string
 }
-const MainButton: FC<MainButtonProps> = ({ onClick, pageNumber }) => {
+const MainButton: FC<MainButtonProps> = ({ onClick, pageNumber, className }) => {
   return (
-    <button onClick={() => onClick(pageNumber)} className={s.item} key={pageNumber}>
+    <Typography
+      className={className}
+      onClick={() => onClick(pageNumber)}
+      as={'button'}
+      type={'button'}
+      variant={TypographyVariant.body2}
+    >
       {pageNumber}
-    </button>
+    </Typography>
   )
 }
