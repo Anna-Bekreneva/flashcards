@@ -1,0 +1,17 @@
+@import '../../../styles/mixins';
+
+.header {
+  @include flex(flex-start, space-between);
+
+  gap: 20px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--color-dark-500);
+}
+
+.close {
+  @include bg;
+
+  width: 24px;
+  height: 24px;
+  background-image: url('../../../assets/images/icons/close.svg');
+}
