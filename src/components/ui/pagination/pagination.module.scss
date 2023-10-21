@@ -1,0 +1,78 @@
+@import '../../../styles/mixins';
+
+.paginator {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.item {
+  width: 24px;
+  height: 24px;
+}
+
+.button {
+  border-radius: 2px;
+  transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+
+  &:focus {
+    box-shadow: 0 0 0 2px var(--color-info-900);
+  }
+
+  &:hover {
+    background-color: var(--color-dark-500);
+  }
+
+  &:active {
+    color: var(--color-dark-500);
+    background-color: var(--color-light-100);
+  }
+}
+
+.active {
+  color: var(--color-dark-500);
+  background-color: var(--color-light-100);
+
+  &:hover {
+    color: var(--color-dark-500);
+    background-color: var(--color-light-100);
+  }
+}
+
+.selectArea,
+.select {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+
+.select {
+  gap: 6px;
+  font-size: 14px;
+
+  button {
+    width: 50px;
+  }
+}
+
+.selectSubtext {
+  white-space: nowrap;
+}
+
+.buttonArrow {
+  @include bg;
+
+  width: 16px;
+  height: 16px;
+  background-image: url('../../../assets/images/icons/arrowStraight.svg');
+  transition: opacity 0.3s;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+}
+
+.prev {
+    transform: rotate(180deg);
+}
