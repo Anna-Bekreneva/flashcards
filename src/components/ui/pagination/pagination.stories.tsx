@@ -10,7 +10,7 @@ const meta = {
   component: Pagination,
   tags: ['autodocs'],
   argTypes: {
-    onChangePage: { description: '(page: number) => void' },
+    onChangePage: { description: '(currentPage: number) => void' },
     onChangePerPage: { description: '(perPage: number) => void' },
     totalPages: { type: 'number', defaultValue: 50 },
   },
@@ -20,13 +20,13 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-export function PaginatorDefault(args: Story) {
-  const [page, setPage] = useState<number>(1)
+export const PaginatorDefault = (args: Story) => {
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const [perPage, setPerPage] = useState(5)
 
-  const onChangePage = (page: number) => {
-    action(String(page))()
-    setPage(page)
+  const onChangePage = (currentPage: number) => {
+    action(String(currentPage))()
+    setCurrentPage(currentPage)
   }
 
   const onChangePerPage = (perPage: number) => {
@@ -37,7 +37,7 @@ export function PaginatorDefault(args: Story) {
   return (
     <Pagination
       totalPages={50}
-      page={page}
+      currentPage={currentPage}
       {...args}
       perPage={perPage}
       onChangePage={onChangePage}
