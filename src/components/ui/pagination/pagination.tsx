@@ -7,65 +7,69 @@ import { Select } from '@/components/ui/select'
 import { Typography } from '@/components/ui/typography'
 
 type Props = {
-  onChangePage: (page: number) => void
+  onChangePage: (currentPage: number) => void
   onChangePerPage: (perPage: number) => void
   perPageOptions: number[]
   totalPages: number
   perPage: number
-  page: number
+  currentPage: number
 }
 
 type MiddlePaginationType = number | '...'
 export const Pagination = forwardRef<HTMLDivElement, Props>(
-  ({ onChangePage, onChangePerPage, perPageOptions, totalPages, perPage, page }, ref?) => {
-    const onPageClick = (page: number) => onChangePage(page)
+  ({ onChangePage, onChangePerPage, perPageOptions, totalPages, perPage, currentPage }, ref?) => {
+    const onPageClick = (currentPage: number) => onChangePage(currentPage)
 
-    const paginationRange = (page: number, totalPages: number): MiddlePaginationType[] => {
+    const paginationRange = (currentPage: number, totalPages: number): MiddlePaginationType[] => {
       let middle: MiddlePaginationType[] = []
 
       if (totalPages <= 5) {
         for (let i = 1; i < totalPages + 1; i++) {
           middle.push(i)
         }
+
+        return middle
       } else {
-        if (page <= 4) {
+        if (currentPage <= 4) {
           for (let i = 2; i < 5 + 1; i++) {
             middle.push(i)
           }
           middle.push('...')
-        } else if (page >= totalPages - 3) {
+        } else if (currentPage >= totalPages - 3) {
           middle.push('...')
           for (let i = totalPages - 4; i < totalPages; i++) {
             middle.push(i)
           }
         } else {
-          middle = ['...', page - 1, page, page + 1, '...']
+          middle = ['...', currentPage - 1, currentPage, currentPage + 1, '...']
         }
-      }
 
-      return [1, ...middle, totalPages]
+        return [1, ...middle, totalPages]
+      }
     }
 
-    const arrayPaginationRange: MiddlePaginationType[] = paginationRange(page, totalPages)
-
     const selectCallBack = (value: string) => onChangePerPage(Number(value))
-    const handlePrevClick = () => onChangePage(page - 1)
+    const handlePrevClick = () => onChangePage(currentPage - 1)
 
-    const handleNextClick = () => onChangePage(page + 1)
+    const handleNextClick = () => onChangePage(currentPage + 1)
 
     const optionsForSelect = perPageOptions.map(el => ({ value: String(el), label: String(el) }))
 
     return (
       <div className={s.paginator} ref={ref}>
-        <ArrowButton onClick={handlePrevClick} disabled={page === 1} type={'prev'} />
+        <ArrowButton onClick={handlePrevClick} disabled={currentPage === 1} type={'prev'} />
 
         <MainButtons
-          page={page}
-          arrayPaginationRange={arrayPaginationRange}
+          page={currentPage}
+          arrayPaginationRange={paginationRange(currentPage, totalPages)}
           onChangePage={onPageClick}
         />
 
-        <ArrowButton onClick={handleNextClick} disabled={page === totalPages} type={'next'} />
+        <ArrowButton
+          onClick={handleNextClick}
+          disabled={currentPage === totalPages}
+          type={'next'}
+        />
         <div className={s.selectArea}>
           <Select
             value={String(perPage)}
@@ -104,7 +108,7 @@ const ArrowButton: FC<ArrowButtonProps> = ({ type, className, disabled, onClick 
 }
 
 type MainButtonsProps = {
-  onChangePage: (page: number) => void
+  onChangePage: (pageNumber: number) => void
   arrayPaginationRange: MiddlePaginationType[]
   page: number
 }
