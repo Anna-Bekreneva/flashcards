@@ -1,3 +1,6 @@
+import { action } from '@storybook/addon-actions'
+import { Meta, StoryObj } from '@storybook/react'
+
 import { Column, TableWithSort } from '@/components/ui/table/table.tsx'
 
 const columns: Array<Column> = [
@@ -67,16 +70,27 @@ export const data = [
 ]
 
 const onChangeSort = (sortedString: string) => {
-  console.log(sortedString)
+  action(sortedString)()
 }
 
-export function App() {
-  return (
-    <div>
-      Hello
-      <div style={{ margin: '230px' }}>
-        <TableWithSort columns={columns} data={data} onChangeSort={onChangeSort} />
-      </div>
-    </div>
-  )
+const meta = {
+  title: 'Components/TableWithSort',
+  component: TableWithSort,
+  tags: ['autodocs'],
+  argTypes: {
+    columns,
+    data,
+    onChangeSort,
+  },
+} satisfies Meta<typeof TableWithSort>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const TableWithSortDefault: Story = {
+  args: {
+    columns,
+    data,
+    onChangeSort,
+  },
 }
