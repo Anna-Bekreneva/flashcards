@@ -1,58 +1,38 @@
-import user from '../src/assets/images/user.png'
+import { useState } from 'react'
 
-import { EditIcon } from '@/assets/iconsComponents/edit.tsx'
-import { SignOutIcon } from '@/assets/iconsComponents/signOut.tsx'
-import { TypographyVariant } from '@/common/types/types.ts'
-import { DropDownMenu } from '@/components/ui/dropDownMenu'
-import { DropDownItem } from '@/components/ui/dropDownMenu/dropDownItem.tsx'
+import { ButtonVariant } from '@/common/types/types.ts'
+import { Button } from '@/components/ui/button'
+import { Modal } from '@/components/ui/modal'
 import { Typography } from '@/components/ui/typography'
 
 export function App() {
+  const [isOpen, setIsOpen] = useState(false)
+  const onOpenChange = (isOpen: boolean) => setIsOpen(isOpen)
+
   return (
-    <div style={{ margin: '230px' }}>
-      <DropDownMenu trigger={'Test'}>
-        <DropDownItem>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <img
-              style={{ borderRadius: '50%', width: '36px', height: '36px', objectFit: 'cover' }}
-              src={user}
-              alt={'ava'}
-            />
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography variant={TypographyVariant.subtitle2} as={'span'}>
-                Ivan
-              </Typography>
-              <Typography
-                style={{ color: '#808080' }}
-                variant={TypographyVariant.caption}
-                as={'span'}
-              >
-                j&johnson@gmail.com
-              </Typography>
-            </div>
-          </div>
-        </DropDownItem>
-        <DropDownItem>
-          <Typography
-            as={'button'}
-            type={'button'}
-            variant={TypographyVariant.caption}
-            style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
-          >
-            <EditIcon /> My Profile
+    <>
+      <Button onClick={() => setIsOpen(!isOpen)}>Open modal</Button>
+      <Modal className={'testModal'} isOpen={isOpen} onOpenChange={onOpenChange} overlay>
+        <div style={{ padding: '18px 24px 36px' }}>
+          <Typography>
+            Do you really want to remove Card Name? All cards will be deleted.
           </Typography>
-        </DropDownItem>
-        <DropDownItem>
-          <Typography
-            as={'button'}
-            type={'button'}
-            variant={TypographyVariant.caption}
-            style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+          <footer
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '20px',
+              paddingTop: '20px',
+            }}
           >
-            <SignOutIcon /> Sign Out
-          </Typography>
-        </DropDownItem>
-      </DropDownMenu>
-    </div>
+            <Button variant={ButtonVariant.secondary} type={'button'}>
+              Cancel
+            </Button>
+            <Button type={'button'}>Delete Card</Button>
+          </footer>
+        </div>
+      </Modal>
+    </>
   )
 }
