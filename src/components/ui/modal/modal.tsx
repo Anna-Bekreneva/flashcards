@@ -10,20 +10,22 @@ import { Typography } from '@/components/ui/typography'
 
 type Props = {
   className?: string
-  open: boolean
+  isOpen: boolean
   onOpenChange: (isOpen: boolean) => void
   title?: string
   close?: boolean
+  overlay?: boolean
   children: ReactNode
 }
 export const Modal = forwardRef<ElementRef<typeof RadixDialog.Content>, Props>(
-  ({ className, open, onOpenChange, title, close = false, children }, ref?) => {
+  ({ className, isOpen, onOpenChange, title, close = false, overlay = false, children }, ref?) => {
+    const contentClasName = `${s.content} ${className ? className : ''}`
+
     return (
-      <RadixDialog.Root open={open} onOpenChange={onOpenChange}>
-        <RadixDialog.Trigger />
+      <RadixDialog.Root open={isOpen} onOpenChange={onOpenChange}>
         {/*<RadixDialog.Portal>*/}
-        <RadixDialog.Overlay className={'overline'} />
-        <Card as={RadixDialog.Content} className={className} ref={ref}>
+        {overlay && <RadixDialog.Overlay className={s.overlay} />}
+        <Card as={RadixDialog.Content} className={contentClasName} ref={ref}>
           {(title || close) && (
             <header className={s.header}>
               {title && (
