@@ -13,8 +13,9 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     close: { type: 'boolean' },
+    overlay: { type: 'boolean' },
     title: { type: 'string' },
-    open: { type: 'boolean', defaultValue: true },
+    isOpen: { type: 'boolean', defaultValue: true },
   },
 } satisfies Meta<typeof Modal>
 
@@ -27,7 +28,7 @@ export const ModalDefault: Story = {
       <Modal {...args}>
         <div style={{ padding: '18px 24px 36px' }}>
           <Typography>
-            Do you really want to remove Card Name? All cards will be deleted.{' '}
+            Do you really want to remove Card Name? All cards will be deleted.
           </Typography>
           <footer
             style={{
