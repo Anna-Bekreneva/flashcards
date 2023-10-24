@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
-import { string } from 'zod'
 
 import { RadioGroup } from '@/components/ui/radioGroup/radioGroup.tsx'
 import { RadioItem } from '@/components/ui/radioGroup/radioItem.tsx'
