@@ -8,12 +8,12 @@ import s from './checkbox.module.scss'
 import { TypographyVariant } from '@/common/types/types.ts'
 import { Typography } from '@/components/ui/typography'
 
-export type CheckboxCustomProps = {
+export type CustomCheckboxProps = {
   label?: string
   className?: string
 } & CheckboxProps
 
-export const Checkbox = forwardRef<HTMLDivElement, CheckboxCustomProps>(
+export const Checkbox = forwardRef<HTMLDivElement, CustomCheckboxProps>(
   ({ label, className, id, onCheckedChange, ...props }, ref?) => {
     const rootClassName = `${s.checkbox} ${props.checked ? s.checked : ''}`
     const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''} ${
