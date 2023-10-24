@@ -5,19 +5,29 @@ import { RadioGroupProps } from '@radix-ui/react-radio-group'
 
 import s from './radioGroup.module.scss'
 
-type Props = RadioGroupProps & {
+import { TypographyVariant } from '@/common/types/types.ts'
+import { Typography } from '@/components/ui'
+
+export type CustomRadioGroupProps = RadioGroupProps & {
   className?: string
   children: ReactNode
+  errorMessage?: string
 }
 
-export const RadioGroup = forwardRef<ElementRef<typeof RadixRadioGroup.Root>, Props>(
-  ({ children, className, ...props }, ref?) => {
-    const rootClassName = `${s.root} ${className ? className : ''}`
+export const RadioGroup = forwardRef<
+  ElementRef<typeof RadixRadioGroup.Root>,
+  CustomRadioGroupProps
+>(({ children, errorMessage, className, ...props }, ref?) => {
+  const rootClassName = `${s.root} ${className ? className : ''}`
 
-    return (
-      <RadixRadioGroup.Root className={rootClassName} ref={ref} {...props}>
-        {children}
-      </RadixRadioGroup.Root>
-    )
-  }
-)
+  return (
+    <RadixRadioGroup.Root className={rootClassName} ref={ref} {...props}>
+      {children}
+      {errorMessage && (
+        <Typography className={s.errorMessage} variant={TypographyVariant.caption}>
+          {errorMessage}
+        </Typography>
+      )}
+    </RadixRadioGroup.Root>
+  )
+})
