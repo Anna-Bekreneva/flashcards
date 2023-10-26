@@ -1,12 +1,6 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { ComponentPropsWithoutRef, ElementRef, FC, forwardRef } from 'react'
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@/components/ui/table/tableComponents.tsx'
+import s from '@/components/ui/table/table.module.scss'
 
 export type Column = {
   key: string
@@ -16,41 +10,71 @@ export type Column = {
 
 export type Sort = {
   key: string
-  direction: 'asc' | 'desc'
+  direction: sortDirectionType
 } | null
 
-type Props = {
-  onChangeSort?: (sortedString: string) => void
-  columns?: Array<Column>
-  data?: Array<Object> //to fix?
-}
-export const TableWithSort: FC<Props> = ({ onChangeSort, data, columns }) => {
-  const [sort, setSort] = useState<Sort>(null)
+export type sortDirectionType = 'asc' | 'desc'
 
-  const sortedString = useMemo(() => {
-    if (!sort) return null
+export const Table = forwardRef<ElementRef<'table'>, ComponentPropsWithoutRef<'table'>>(
+  ({ className, ...rest }, ref?) => {
+    return (
+      <table className={`${s.table} ${className ? className : ''}`} ref={ref} {...rest}></table>
+    )
+  }
+)
+export const TableHead: FC<
+  Omit<
+    ComponentPropsWithoutRef<'thead'> & {
+      columns: Column[]
+      sort?: Sort
+      onSort?: (sort: Sort) => void
+    },
+    'children'
+  >
+> = ({ className, columns, sort, onSort, ...restProps }) => {
+  const handleSort = (key: string, sortable?: boolean) => () => {
+    if (!onSort || !sortable) return
 
-    return `${sort.key}-${sort.direction}`
-  }, [sort])
+    if (sort?.key !== key) return onSort({ key, direction: 'asc' })
+    if (sort.direction === 'desc') return onSort(null)
 
-  useEffect(() => {
-    if (sortedString && onChangeSort) onChangeSort(sortedString)
-  }, [sort])
+    return onSort({
+      key,
+      direction: sort?.direction === 'asc' ? 'desc' : 'asc',
+    })
+  }
 
   return (
-    <Table>
-      {columns && <TableHead columns={columns} sort={sort} onSort={setSort} />}
-      <TableBody>
-        {data &&
-          data.map((item, index) => (
-            <TableRow key={index}>
-              {Object.keys(item).map((itemKey, ind) => (
-                // @ts-ignore
-                <TableCell key={ind}>{item[itemKey]}</TableCell>
-              ))}
-            </TableRow>
-          ))}
-      </TableBody>
-    </Table>
+    <thead {...restProps} className={`${className} ${s.thead}`}>
+      <TableRow>
+        {columns.map(({ title, key, sortable }) => (
+          <TableHeadRow key={key} onClick={handleSort(key, sortable)} className={s.headCell}>
+            {title}
+            {sort && sort.key === key && <span>{sort.direction === 'asc' ? '▲' : '▼'}</span>}
+          </TableHeadRow>
+        ))}
+      </TableRow>
+    </thead>
   )
 }
+
+export const TableBody = forwardRef<ElementRef<'tbody'>, ComponentPropsWithoutRef<'tbody'>>(
+  ({ ...rest }, ref?) => {
+    return <tbody {...rest} ref={ref} />
+  }
+)
+export const TableRow = forwardRef<ElementRef<'tr'>, ComponentPropsWithoutRef<'tr'>>(
+  ({ className, ...rest }, ref?) => {
+    return <tr className={`${s.row} ${className ? className : ''}`} {...rest} ref={ref} />
+  }
+)
+export const TableHeadRow = forwardRef<ElementRef<'th'>, ComponentPropsWithoutRef<'th'>>(
+  ({ className, ...rest }, ref?) => {
+    return <th className={`${s.headRow} ${className ? className : ''}`} {...rest} ref={ref} />
+  }
+)
+export const TableCell = forwardRef<ElementRef<'td'>, ComponentPropsWithoutRef<'td'>>(
+  ({ className, ...rest }, ref?) => {
+    return <td className={`${s.tableCell} ${className ? className : ''}`} {...rest} ref={ref} />
+  }
+)
