@@ -1,1 +1,1 @@
-export * from './controlledRadioGroup.tsx'
+export * from './controlledRadioGroup'
