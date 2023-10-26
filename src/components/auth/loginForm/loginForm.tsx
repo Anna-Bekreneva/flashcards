@@ -4,8 +4,7 @@ import { z } from 'zod'
 
 import { Button } from '../../ui'
 
-import { ControlledCheckbox } from '@/components/controlled/controlledCheckbox/controlledСheckbox.tsx'
-import { TextField } from '@/components/ui/textField'
+import { TextField, ControlledCheckbox } from '@/components'
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email'),

@@ -2,10 +2,9 @@ import { ComponentProps, ComponentPropsWithoutRef, forwardRef, useState } from '
 
 import s from './textField.module.scss'
 
-import { EyeOff } from '@/assets/iconsComponents/eye-off'
-import { EyeOn } from '@/assets/iconsComponents/eye-on'
-import { TypographyVariant } from '@/common/types/types.ts'
-import { Typography } from '@/components/ui/typography'
+import { EyeOff, EyeOn } from '@/assets/iconsComponents'
+import { TypographyVariant } from '@/common'
+import { Typography } from '@/components'
 
 export type TextFieldOwnProps = {
   label?: string

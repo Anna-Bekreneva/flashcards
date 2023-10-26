@@ -5,8 +5,8 @@ import { RadioGroupProps } from '@radix-ui/react-radio-group'
 
 import s from './radioGroup.module.scss'
 
-import { TypographyVariant } from '@/common/types/types.ts'
-import { Typography } from '@/components/ui'
+import { TypographyVariant } from '@/common'
+import { Typography } from '@/components'
 
 export type CustomRadioGroupProps = RadioGroupProps & {
   className?: string

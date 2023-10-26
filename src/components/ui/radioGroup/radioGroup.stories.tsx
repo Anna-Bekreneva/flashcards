@@ -3,8 +3,7 @@ import { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { RadioGroup } from '@/components/ui/radioGroup/radioGroup.tsx'
-import { RadioItem } from '@/components/ui/radioGroup/radioItem.tsx'
+import { RadioGroup, RadioItem } from '@/components'
 
 const meta = {
   title: 'Components/RadioGroup',

@@ -2,9 +2,8 @@ import { FC, forwardRef } from 'react'
 
 import s from './pagination.module.scss'
 
-import { TypographyVariant } from '@/common/types/types.ts'
-import { Select } from '@/components/ui/select'
-import { Typography } from '@/components/ui/typography'
+import { TypographyVariant } from '@/common'
+import { Select, Typography } from '@/components'
 
 type Props = {
   onChangePage: (currentPage: number) => void

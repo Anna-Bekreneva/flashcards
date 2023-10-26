@@ -2,15 +2,10 @@ import { forwardRef } from 'react'
 
 import s from './header.module.scss'
 
-import { PersonIcon } from '@/assets/iconsComponents/person.tsx'
-import { SignOutIcon } from '@/assets/iconsComponents/signOut.tsx'
-import logo from '@/assets/images/logo.svg'
+import { Logo, PersonIcon, SignOutIcon } from '@/assets/iconsComponents'
 import userPhoto from '@/assets/images/user.png'
-import { TypographyVariant } from '@/common/types/types.ts'
-import { Button } from '@/components/ui/button'
-import { DropDownMenu } from '@/components/ui/dropDownMenu'
-import { DropDownItem } from '@/components/ui/dropDownMenu/dropDownItem.tsx'
-import { Typography } from '@/components/ui/typography'
+import { TypographyVariant } from '@/common'
+import { Button, DropDownMenu, Typography, DropDownItem } from '@/components'
 
 type Props = {
   userName?: string
@@ -24,7 +19,7 @@ export const Header = forwardRef<HTMLHeadElement, Props>(
       <header ref={ref} className={`${s.header} ${className ? className : ''}`}>
         <div className={`container ${s.wrapper}`}>
           <a className={s.logo} href={'#'}>
-            <img src={logo} alt="logo" width={156} height={36} />
+            <Logo />
           </a>
           {userName ? (
             <span className={s.userInfo}>

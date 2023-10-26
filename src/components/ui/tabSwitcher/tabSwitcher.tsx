@@ -5,7 +5,7 @@ import { TabsProps } from '@radix-ui/react-tabs'
 
 import s from './tabSwitcher.module.scss'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components'
 
 type Props = {
   items: ItemType[]

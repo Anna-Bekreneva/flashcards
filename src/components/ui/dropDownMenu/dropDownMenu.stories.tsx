@@ -4,11 +4,9 @@ import userPhoto from '../../../assets/images/user.png'
 
 import { DropDownMenu } from './'
 
-import { EditIcon } from '@/assets/iconsComponents/edit.tsx'
-import { SignOutIcon } from '@/assets/iconsComponents/signOut.tsx'
-import { TypographyVariant } from '@/common/types/types.ts'
-import { DropDownItem } from '@/components/ui/dropDownMenu/dropDownItem.tsx'
-import { Typography } from '@/components/ui/typography'
+import { EditIcon, SignOutIcon } from '@/assets/iconsComponents'
+import { TypographyVariant } from '@/common'
+import { DropDownItem, Typography } from '@/components'
 
 const meta = {
   title: 'Components/DropDownMenu',

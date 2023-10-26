@@ -9,7 +9,7 @@ import {
 
 import s from './typography.module.scss'
 
-import { TypographyVariant } from '@/common/types/types.ts'
+import { TypographyVariant } from '@/common'
 
 export type TypographyProps<T extends ElementType = 'p'> = {
   variant?: keyof typeof TypographyVariant
