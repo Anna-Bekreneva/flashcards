@@ -1,7 +1,9 @@
+import { useState } from 'react'
+
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { Column, TableWithSort } from '@/components/ui/table/table.tsx'
+import { Column, Sort, Table, TableBody, TableCell, TableHead, TableRow } from './'
 
 const columns: Array<Column> = [
   {
@@ -22,16 +24,11 @@ const columns: Array<Column> = [
   {
     key: 'createdBy',
     title: 'Created by',
-    sortable: true,
-  },
-  {
-    key: 'icons',
-    title: '',
     sortable: false,
   },
 ]
 
-export const data = [
+const data = [
   {
     title: 'Project A',
     cardsCount: 10,
@@ -69,28 +66,65 @@ export const data = [
   },
 ]
 
-const onChangeSort = (sortedString: string) => {
-  action(sortedString)()
-}
-
 const meta = {
   title: 'Components/TableWithSort',
-  component: TableWithSort,
+  component: Table,
   tags: ['autodocs'],
-  argTypes: {
-    columns,
-    data,
-    onChangeSort,
-  },
-} satisfies Meta<typeof TableWithSort>
+} satisfies Meta<typeof Table>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const TableWithSortDefault: Story = {
-  args: {
-    columns,
-    data,
-    onChangeSort,
-  },
+export const TableDefault = (args: Story) => {
+  const [sort, setSort] = useState<Sort>(null)
+
+  sort && action(`${sort}`)()
+
+  return (
+    <Table className={'table'} {...args}>
+      <TableHead sort={sort} onSort={setSort} columns={columns}></TableHead>
+      <TableBody>
+        <TableRow>
+          <TableCell>Project A</TableCell>
+          <TableCell>10</TableCell>
+          <TableCell>2023-07-07</TableCell>
+          <TableCell>John Doe</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Project B</TableCell>
+          <TableCell>5</TableCell>
+          <TableCell>2023-07-06</TableCell>
+          <TableCell>Jane Smith</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Project C</TableCell>
+          <TableCell>8</TableCell>
+          <TableCell>2023-07-05</TableCell>
+          <TableCell>Alice Johnson</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  )
+}
+
+export const TableWithMap = (args: Story) => {
+  const [sort, setSort] = useState<Sort>(null)
+
+  sort && action(`${sort}`)()
+
+  return (
+    <Table className={'table'} {...args}>
+      <TableHead sort={sort} onSort={setSort} columns={columns}></TableHead>
+      <TableBody>
+        {data.map((item, key) => (
+          <TableRow key={key}>
+            <TableCell>{item.title}</TableCell>
+            <TableCell>{item.cardsCount}</TableCell>
+            <TableCell>{item.updated}</TableCell>
+            <TableCell>{item.createdBy}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
 }
