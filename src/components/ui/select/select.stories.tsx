@@ -21,20 +21,18 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const SelectDefault: Story = {
-  render: args => {
-    const items = [
-      { label: 'label1', value: 'value1' },
-      { label: 'label2', value: 'value2' },
-      { label: 'label3', value: 'value3' },
-    ]
+export const SelectDefault = (args: Story) => {
+  const items = [
+    { label: 'label1', value: 'value1' },
+    { label: 'label2', value: 'value2' },
+    { label: 'label3', value: 'value3' },
+  ]
 
-    const [value, setVaue] = useState('value1')
-    const onChange = (value: string) => {
-      action(value)()
-      setVaue(value)
-    }
+  const [value, setValue] = useState('value1')
+  const onChange = (value: string) => {
+    action(value)()
+    setValue(value)
+  }
 
-    return <Select {...args} items={items} value={value} onValueChange={onChange} />
-  },
+  return <Select {...args} items={items} value={value} onValueChange={onChange} />
 }

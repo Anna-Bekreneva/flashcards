@@ -18,20 +18,18 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const RadioGroupDefault: Story = {
-  render: args => {
-    const [value, setValue] = useState('radio-1')
-    const onValueChange = (value: string) => {
-      setValue(value)
-      action(value)()
-    }
+export const RadioGroupDefault = (args: Story) => {
+  const [value, setValue] = useState('radio-1')
+  const onValueChange = (value: string) => {
+    setValue(value)
+    action(value)()
+  }
 
-    return (
-      <RadioGroup {...args} value={value} onValueChange={onValueChange} name={'RadioGroupForStory'}>
-        <RadioItem label={'radio 1'} value={'radio-1'}></RadioItem>
-        <RadioItem label={'radio 2'} value={'radio-2'}></RadioItem>
-        <RadioItem label={'radio 3'} value={'radio-3'}></RadioItem>
-      </RadioGroup>
-    )
-  },
+  return (
+    <RadioGroup {...args} value={value} onValueChange={onValueChange} name={'RadioGroupForStory'}>
+      <RadioItem label={'radio 1'} value={'radio-1'}></RadioItem>
+      <RadioItem label={'radio 2'} value={'radio-2'}></RadioItem>
+      <RadioItem label={'radio 3'} value={'radio-3'}></RadioItem>
+    </RadioGroup>
+  )
 }
