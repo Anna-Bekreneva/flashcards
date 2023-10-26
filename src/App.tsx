@@ -1,7 +1,7 @@
 import user from '../src/assets/images/user.png'
 
-import { EditIcon } from '@/assets/iconsComponents/edit.tsx'
-import { SignOutIcon } from '@/assets/iconsComponents/signOut.tsx'
+import { EditIcon } from '@/assets/iconsComponents/Edit.tsx'
+import { SignOutIcon } from '@/assets/iconsComponents/SignOut.tsx'
 import { TypographyVariant } from '@/common/types/types.ts'
 import { DropDownMenu } from '@/components/ui/dropDownMenu'
 import { DropDownItem } from '@/components/ui/dropDownMenu/dropDownItem.tsx'

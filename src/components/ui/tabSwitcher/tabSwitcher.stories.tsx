@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { TabSwitcher } from '@/components/ui/tabSwitcher/tabSwitcher.tsx'
+import { TabSwitcher } from '@/components'
 const items = [
   {
     value: 'tab-1',

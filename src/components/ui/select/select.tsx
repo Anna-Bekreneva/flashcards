@@ -5,8 +5,8 @@ import { SelectProps } from '@radix-ui/react-select'
 
 import s from './select.module.scss'
 
-import { TypographyVariant } from '@/common/types/types.ts'
-import { Typography } from '@/components/ui/typography'
+import { TypographyVariant } from '@/common'
+import { Typography } from '@/components'
 
 type OptionType = { label: string; value: string; disabled?: boolean }
 

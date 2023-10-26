@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { Button } from './'
 
 import { Logout } from '@/assets/iconsComponents'
-import { ButtonVariant } from '@/common/types/types.ts'
+import { ButtonVariant } from '@/common'
 
 const meta = {
   title: 'Components/Button',

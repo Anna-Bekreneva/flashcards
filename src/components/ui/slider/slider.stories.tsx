@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { Slider } from '@/components/ui/slider/slider.tsx'
+import { Slider } from '@/components'
 
 const meta = {
   title: 'Components/Slider',

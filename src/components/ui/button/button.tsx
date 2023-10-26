@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, ElementRef, ElementType, ForwardedRef, forwar
 
 import s from './button.module.scss'
 
-import { ButtonVariant } from '@/common/types/types.ts'
+import { ButtonVariant } from '@/common'
 
 export type ButtonProps<T extends ElementType> = {
   as?: T

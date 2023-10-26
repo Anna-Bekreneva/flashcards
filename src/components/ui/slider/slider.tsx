@@ -5,7 +5,7 @@ import { SliderProps } from '@radix-ui/react-slider'
 
 import s from './slider.module.scss'
 
-import { TextField } from '@/components/ui/textField'
+import { TextField } from '@/components'
 
 type Props = {
   value: [number, number]

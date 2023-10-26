@@ -1,6 +1,6 @@
 import { FieldValues, useController, UseControllerProps } from 'react-hook-form'
 
-import { CustomRadioGroupProps, RadioGroup } from '@/components/ui'
+import { CustomRadioGroupProps, RadioGroup } from '@/components'
 
 type ControlledRadioGroupProps<T extends FieldValues> = Pick<
   UseControllerProps<T>,
