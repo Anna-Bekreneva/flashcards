@@ -6,7 +6,7 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
+  TableHeader,
   TableRow,
 } from '@/components/ui/table/table.tsx'
 
@@ -74,7 +74,7 @@ export function App() {
   return (
     <>
       <Table className={'table'}>
-        <TableHead sort={sort} onSort={setSort} columns={columns}></TableHead>
+        <TableHeader sort={sort} onSort={setSort} columns={columns} />
         <TableBody>
           <TableRow>
             <TableCell>Project A</TableCell>
