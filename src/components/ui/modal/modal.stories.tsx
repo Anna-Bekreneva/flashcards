@@ -1,18 +1,32 @@
-import { useState } from 'react'
+import { Meta, StoryObj } from '@storybook/react'
+
+import { Button } from '../button/button'
+
+import { Modal } from './'
 
 import { ButtonVariant } from '@/common/types/types.ts'
-import { Button } from '@/components/ui/button'
-import { Modal } from '@/components/ui/modal'
 import { Typography } from '@/components/ui/typography'
 
-export function App() {
-  const [isOpen, setIsOpen] = useState(false)
-  const onOpenChange = (isOpen: boolean) => setIsOpen(isOpen)
+const meta = {
+  title: 'Components/Modal',
+  component: Modal,
+  tags: ['autodocs'],
+  argTypes: {
+    close: { type: 'boolean' },
+    overlay: { type: 'boolean' },
+    title: { type: 'string' },
+    isOpen: { type: 'boolean', defaultValue: true },
+  },
+} satisfies Meta<typeof Modal>
 
-  return (
-    <>
-      <Button onClick={() => setIsOpen(!isOpen)}>Open modal</Button>
-      <Modal className={'testModal'} isOpen={isOpen} onOpenChange={onOpenChange} overlay>
+export default meta
+type Story = StoryObj<typeof meta>
+
+// @ts-expect-error TS2322
+export const ModalDefault: Story = {
+  render: args => {
+    return (
+      <Modal {...args}>
         <div style={{ padding: '18px 24px 36px' }}>
           <Typography>
             Do you really want to remove Card Name? All cards will be deleted.
@@ -33,6 +47,6 @@ export function App() {
           </footer>
         </div>
       </Modal>
-    </>
-  )
+    )
+  },
 }
