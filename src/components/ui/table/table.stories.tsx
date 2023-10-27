@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { Column, Sort, Table, TableBody, TableCell, TableHead, TableRow } from './'
+import { Column, Sort, Table, TableBody, TableCell, TableHeader, TableRow } from './'
 
 const columns: Array<Column> = [
   {
@@ -78,11 +78,11 @@ type Story = StoryObj<typeof meta>
 export const TableDefault = (args: Story) => {
   const [sort, setSort] = useState<Sort>(null)
 
-  sort && action(`${sort}`)()
+  action(`${sort?.direction} ${sort?.key}`)()
 
   return (
     <Table className={'table'} {...args}>
-      <TableHead sort={sort} onSort={setSort} columns={columns}></TableHead>
+      <TableHeader sort={sort} onSort={setSort} columns={columns} />
       <TableBody>
         <TableRow>
           <TableCell>Project A</TableCell>
@@ -110,11 +110,11 @@ export const TableDefault = (args: Story) => {
 export const TableWithMap = (args: Story) => {
   const [sort, setSort] = useState<Sort>(null)
 
-  sort && action(`${sort}`)()
+  action(`${sort?.direction} ${sort?.key}`)()
 
   return (
     <Table className={'table'} {...args}>
-      <TableHead sort={sort} onSort={setSort} columns={columns}></TableHead>
+      <TableHeader sort={sort} onSort={setSort} columns={columns}></TableHeader>
       <TableBody>
         {data.map((item, key) => (
           <TableRow key={key}>
