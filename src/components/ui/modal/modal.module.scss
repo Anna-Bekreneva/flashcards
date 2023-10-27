@@ -1,0 +1,36 @@
+@import '../../../styles/mixins';
+
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  @include flex(flex-start, space-between);
+
+  gap: 20px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--color-dark-500);
+}
+
+.close {
+  @include bg;
+
+  width: 24px;
+  height: 24px;
+
+  background-image: url('../../../assets/images/icons/close.svg');
+}
+
+.overlay {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0.7;
+  background-color: var(--color-dark-900);
+}
