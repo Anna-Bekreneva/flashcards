@@ -22,6 +22,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+// @ts-expect-error TS2322
 export const ModalDefault: Story = {
   render: args => {
     return (
