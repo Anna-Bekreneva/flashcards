@@ -13,18 +13,10 @@ export const ControlledCheckbox = <T extends FieldValues>({
   ...rest
 }: ControlledCheckboxProps<T>) => {
   const {
-    field: { value, onChange, ref, disabled },
+    field: { onChange, value, ...field },
   } = useController({ name, control })
 
   return (
-    <Checkbox
-      {...rest}
-      checked={value}
-      onCheckedChange={onChange}
-      ref={ref}
-      name={name}
-      id={name}
-      disabled={disabled}
-    ></Checkbox>
+    <Checkbox {...rest} {...field} checked={value} onCheckedChange={onChange} id={name}></Checkbox>
   )
 }
