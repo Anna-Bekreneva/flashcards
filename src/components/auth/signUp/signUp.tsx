@@ -63,15 +63,15 @@ export const SignUp = () => {
         <Button className={s.button} type="submit">
           Sign In
         </Button>
-        <div className={s.footer}>
-          <Typography as={'span'} variant={TypographyVariant.body2}>
-            Already have an account?
-          </Typography>
-          <Typography className={s.link} as={'a'} href={'#'} variant={TypographyVariant.subtitle1}>
-            Sign In
-          </Typography>
-        </div>
       </form>
+      <div className={s.footer}>
+        <Typography as={'span'} variant={TypographyVariant.body2}>
+          Already have an account?
+        </Typography>
+        <Typography className={s.link} as={'a'} href={'#'} variant={TypographyVariant.subtitle1}>
+          Sign In
+        </Typography>
+      </div>
     </Card>
   )
 }

@@ -43,15 +43,15 @@ export const ForgotPassword = () => {
         <Button className={s.button} type="submit">
           Send Instructions
         </Button>
-        <div className={s.footer}>
-          <Typography as={'span'} variant={TypographyVariant.body2}>
-            Did you remember your password?
-          </Typography>
-          <Typography className={s.link} as={'a'} href={'#'} variant={TypographyVariant.subtitle1}>
-            Try logging in
-          </Typography>
-        </div>
       </form>
+      <div className={s.footer}>
+        <Typography as={'span'} variant={TypographyVariant.body2}>
+          Did you remember your password?
+        </Typography>
+        <Typography className={s.link} as={'a'} href={'#'} variant={TypographyVariant.subtitle1}>
+          Try logging in
+        </Typography>
+      </div>
     </Card>
   )
 }
