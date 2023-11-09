@@ -12,7 +12,7 @@ export type TextFieldOwnProps = {
   onValueChange?: (value: string) => void
 } & ComponentPropsWithoutRef<'input'>
 
-type TextFieldProps = TextFieldOwnProps &
+export type TextFieldProps = TextFieldOwnProps &
   Omit<ComponentPropsWithoutRef<'input'>, keyof TextFieldOwnProps>
 
 export const TextField = forwardRef<HTMLDivElement, TextFieldProps>((props, ref?) => {
