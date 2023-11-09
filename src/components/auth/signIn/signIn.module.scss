@@ -1,6 +1,12 @@
-.card {
+.card,
+.form,
+.items,
+.footer {
   display: flex;
   flex-direction: column;
+}
+
+.card {
   max-width: 420px;
   padding: 33px 36px 25px;
 }
@@ -10,14 +16,7 @@
   text-align: center;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-}
-
 .items {
-  display: flex;
-  flex-direction: column;
   gap: 24px;
   margin-bottom: 18px;
 }
@@ -36,15 +35,12 @@
 }
 
 .footer {
-  display: flex;
-  flex-direction: column;
   gap: 11px;
   align-items: center;
-
   color: var(--color-light-900);
 }
 
-.signup {
+.link {
   color: var(--color-accent-500);
   text-decoration: underline;
 }

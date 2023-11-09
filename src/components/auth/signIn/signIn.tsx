@@ -7,19 +7,19 @@ import s from './signIn.module.scss'
 import { TypographyVariant } from '@/common'
 import { Button, Card, ControlledCheckbox, ControlledTextField, Typography } from '@/components'
 
-const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email'),
-  password: z.string().min(3, 'Password must be at least 3 characters'),
-  rememberMe: z.boolean().optional().default(false),
+const signInSchema = z.object({
+  email: z.string().email('Invalid email'),
+  password: z.string(),
+  rememberMe: z.boolean().optional(),
 })
 
-type FormValues = z.infer<typeof loginSchema>
-export const signIn = () => {
+type FormValues = z.infer<typeof signInSchema>
+export const SignIn = () => {
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<FormValues>({ resolver: zodResolver(loginSchema) })
+  } = useForm<FormValues>({ resolver: zodResolver(signInSchema) })
 
   const onSubmit = (data: FormValues) => {
     console.log(data)
@@ -69,12 +69,7 @@ export const signIn = () => {
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Don't have an account?
           </Typography>
-          <Typography
-            className={s.signup}
-            as={'a'}
-            href={'#'}
-            variant={TypographyVariant.subtitle1}
-          >
+          <Typography className={s.link} as={'a'} href={'#'} variant={TypographyVariant.subtitle1}>
             Sign Up
           </Typography>
         </div>
