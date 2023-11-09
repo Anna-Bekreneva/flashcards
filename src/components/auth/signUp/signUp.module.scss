@@ -1,6 +1,5 @@
 .card,
 .form,
-.items,
 .footer {
   display: flex;
   flex-direction: column;
@@ -17,17 +16,10 @@
 }
 
 .items {
+  display: flex;
+  flex-direction: column;
   gap: 24px;
-  margin-bottom: 18px;
-}
-
-.remember {
-  margin-bottom: 6px;
-}
-
-.forgot {
-  margin-bottom: 66px;
-  margin-left: auto;
+  margin-bottom: 60px;
 }
 
 .button {

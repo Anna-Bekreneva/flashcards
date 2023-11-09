@@ -2,24 +2,30 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import s from './signIn.module.scss'
+import s from './signUp.module.scss'
 
 import { TypographyVariant } from '@/common'
-import { Button, Card, ControlledCheckbox, ControlledTextField, Typography } from '@/components'
+import { Button, Card, ControlledTextField, Typography } from '@/components'
 
-const signInSchema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string(),
-  rememberMe: z.boolean().optional(),
-})
+const signUpSchema = z
+  .object({
+    email: z.string().email('Invalid email'),
+    password: z.string(),
+    confirmPassword: z.string(),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'], // path of error
+  })
 
-type FormValues = z.infer<typeof signInSchema>
-export const SignIn = () => {
+type FormValues = z.infer<typeof signUpSchema>
+
+export const SignUp = () => {
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<FormValues>({ resolver: zodResolver(signInSchema) })
+  } = useForm<FormValues>({ resolver: zodResolver(signUpSchema) })
 
   const onSubmit = (data: FormValues) => {
     console.log(data)
@@ -28,14 +34,14 @@ export const SignIn = () => {
   return (
     <Card className={s.card}>
       <Typography className={s.title} as={'span'} variant={TypographyVariant.large}>
-        Sign In
+        Sign Up
       </Typography>
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={s.items}>
           <ControlledTextField
             control={control}
             name={'email'}
-            type={'email'}
+            type={'text'}
             label={'Email'}
             errorMessage={errors.email?.message}
           />
@@ -46,31 +52,23 @@ export const SignIn = () => {
             label={'Password'}
             errorMessage={errors.password?.message}
           />
+          <ControlledTextField
+            type={'password'}
+            control={control}
+            name={'confirmPassword'}
+            label={'Confirm Password'}
+            errorMessage={errors.confirmPassword?.message}
+          />
         </div>
-        <ControlledCheckbox
-          className={s.remember}
-          control={control}
-          name={'rememberMe'}
-          label={'Remember me'}
-        />
-        <Typography
-          className={s.forgot}
-          as={'button'}
-          type={'button'}
-          variant={TypographyVariant.body2}
-        >
-          Forgot Password?
-        </Typography>
         <Button className={s.button} type="submit">
           Sign In
         </Button>
         <div className={s.footer}>
           <Typography as={'span'} variant={TypographyVariant.body2}>
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
-            Don't have an account?
+            Already have an account?
           </Typography>
           <Typography className={s.link} as={'a'} href={'#'} variant={TypographyVariant.subtitle1}>
-            Sign Up
+            Sign In
           </Typography>
         </div>
       </form>
