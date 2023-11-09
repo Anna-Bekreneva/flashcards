@@ -1,0 +1,38 @@
+.card,
+.form,
+.footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  max-width: 420px;
+  padding: 33px 36px 25px;
+}
+
+.title {
+  margin-bottom: 27px;
+  text-align: center;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+.button {
+  margin-bottom: 20px;
+}
+
+.footer {
+  gap: 11px;
+  align-items: center;
+  color: var(--color-light-900);
+}
+
+.link {
+  color: var(--color-accent-500);
+  text-decoration: underline;
+}
