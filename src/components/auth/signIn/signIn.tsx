@@ -64,16 +64,16 @@ export const SignIn = () => {
         <Button className={s.button} type="submit">
           Sign In
         </Button>
-        <div className={s.footer}>
-          <Typography as={'span'} variant={TypographyVariant.body2}>
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
-            Don't have an account?
-          </Typography>
-          <Typography className={s.link} as={'a'} href={'#'} variant={TypographyVariant.subtitle1}>
-            Sign Up
-          </Typography>
-        </div>
       </form>
+      <div className={s.footer}>
+        <Typography as={'span'} variant={TypographyVariant.body2}>
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
+          Don't have an account?
+        </Typography>
+        <Typography className={s.link} as={'a'} href={'#'} variant={TypographyVariant.subtitle1}>
+          Sign Up
+        </Typography>
+      </div>
     </Card>
   )
 }
