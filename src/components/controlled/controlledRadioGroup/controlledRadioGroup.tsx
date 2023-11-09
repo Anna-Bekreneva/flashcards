@@ -13,18 +13,17 @@ export const ControlledRadioGroup = <T extends FieldValues>({
   ...rest
 }: ControlledRadioGroupProps<T>) => {
   const {
-    field: { value, onChange, ref, disabled },
+    field: { onChange, ...field },
+    fieldState: { error },
   } = useController({ name, control })
 
   return (
     <RadioGroup
       {...rest}
+      {...field}
       id={name}
-      value={value}
-      name={name}
       onValueChange={onChange}
-      ref={ref}
-      disabled={disabled}
+      errorMessage={error?.message}
     />
   )
 }

@@ -1,0 +1,50 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  max-width: 420px;
+  padding: 33px 36px 25px;
+}
+
+.title {
+  margin-bottom: 27px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.remember {
+  margin-bottom: 6px;
+}
+
+.forgot {
+  margin-bottom: 66px;
+  margin-left: auto;
+}
+
+.button {
+  margin-bottom: 20px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  align-items: center;
+
+  color: var(--color-light-900);
+}
+
+.signup {
+  color: var(--color-accent-500);
+  text-decoration: underline;
+}
