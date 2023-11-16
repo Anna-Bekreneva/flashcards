@@ -1,3 +1,5 @@
+import { FC } from 'react'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -12,16 +14,18 @@ const forgotPasswordSchema = z.object({
 })
 
 type FormValues = z.infer<typeof forgotPasswordSchema>
-export const ForgotPassword = () => {
+
+type Props = {
+  onSubmit: (data: FormValues) => void
+}
+export const ForgotPassword: FC<Props> = props => {
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<FormValues>({ resolver: zodResolver(forgotPasswordSchema) })
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data)
-  }
+  const onSubmit = (data: FormValues) => props.onSubmit(data)
 
   return (
     <Card className={s.card}>
