@@ -1,3 +1,5 @@
+import { FC } from 'react'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -20,16 +22,18 @@ const signUpSchema = z
 
 type FormValues = z.infer<typeof signUpSchema>
 
-export const SignUp = () => {
+type Props = {
+  onSubmit: (data: FormValues) => void
+}
+
+export const SignUp: FC<Props> = props => {
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<FormValues>({ resolver: zodResolver(signUpSchema) })
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data)
-  }
+  const onSubmit = (data: FormValues) => props.onSubmit(data)
 
   return (
     <Card className={s.card}>

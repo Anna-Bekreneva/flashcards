@@ -11,4 +11,8 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const ForgotPasswordDefault: Story = {}
+export const ForgotPasswordDefault: Story = {
+  args: {
+    onSubmit: data => console.dir(data),
+  },
+}

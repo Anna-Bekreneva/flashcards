@@ -1,3 +1,5 @@
+import { FC } from 'react'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -7,23 +9,26 @@ import s from './signIn.module.scss'
 import { TypographyVariant } from '@/common'
 import { Button, Card, ControlledCheckbox, ControlledTextField, Typography } from '@/components'
 
-const signInSchema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string(),
-  rememberMe: z.boolean().optional(),
+const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email'),
+  password: z.string().min(3, 'Password must be at least 3 characters'),
+  rememberMe: z.boolean().optional().default(false),
 })
 
-type FormValues = z.infer<typeof signInSchema>
-export const SignIn = () => {
+type FormValues = z.infer<typeof loginSchema>
+
+type Props = {
+  onSubmit: (data: FormValues) => void
+}
+
+export const SignIn: FC<Props> = props => {
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<FormValues>({ resolver: zodResolver(signInSchema) })
+  } = useForm<FormValues>({ resolver: zodResolver(loginSchema) })
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data)
-  }
+  const onSubmit = (data: FormValues) => props.onSubmit(data)
 
   return (
     <Card className={s.card}>
@@ -64,16 +69,21 @@ export const SignIn = () => {
         <Button className={s.button} type="submit">
           Sign In
         </Button>
+        <div className={s.footer}>
+          <Typography as={'span'} variant={TypographyVariant.body2}>
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            Don't have an account?
+          </Typography>
+          <Typography
+            className={s.signup}
+            as={'a'}
+            href={'#'}
+            variant={TypographyVariant.subtitle1}
+          >
+            Sign Up
+          </Typography>
+        </div>
       </form>
-      <div className={s.footer}>
-        <Typography as={'span'} variant={TypographyVariant.body2}>
-          {/* eslint-disable-next-line react/no-unescaped-entities */}
-          Don't have an account?
-        </Typography>
-        <Typography className={s.link} as={'a'} href={'#'} variant={TypographyVariant.subtitle1}>
-          Sign Up
-        </Typography>
-      </div>
     </Card>
   )
 }
