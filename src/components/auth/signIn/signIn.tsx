@@ -21,7 +21,7 @@ type Props = {
   onSubmit: (data: FormValues) => void
 }
 
-export const signIn: FC<Props> = props => {
+export const SignIn: FC<Props> = props => {
   const {
     handleSubmit,
     control,
