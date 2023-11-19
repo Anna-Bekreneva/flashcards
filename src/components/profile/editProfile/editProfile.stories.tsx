@@ -18,8 +18,8 @@ export const EditProfileDefault: Story = {
     avatar: userPhoto,
     prevName: 'Ivan',
 
-    onSubmit: () => {
-      console.info('new name saved')
+    onSubmit: data => {
+      console.info(data)
     },
   },
 }
