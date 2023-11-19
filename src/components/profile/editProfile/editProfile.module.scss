@@ -8,22 +8,15 @@
   text-align: center;
 }
 
-.photoContainer {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 36px;
+.photo {
+  display: block;
 
-  div {
-    position: relative;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 36px;
 
-    img {
-      width: 96px;
-      height: 96px;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-  }
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .input {

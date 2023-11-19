@@ -35,9 +35,7 @@ export const EditProfile = ({ avatar, prevName, onSubmit }: Props) => {
       <Typography className={s.title} variant={'large'}>
         Personal Information
       </Typography>
-      <div className={s.photoContainer}>
-        <img alt={'avatar'} src={avatar} />
-      </div>
+      <img className={s.photo} alt={'avatar'} src={avatar} />
       <form onSubmit={handleFormSubmitted}>
         <ControlledTextField
           label={'Nickname'}
@@ -45,7 +43,9 @@ export const EditProfile = ({ avatar, prevName, onSubmit }: Props) => {
           control={control}
           className={s.input}
         />
-        <Button fullWidth>Save Changes</Button>
+        <Button type={'submit'} fullWidth>
+          Save Changes
+        </Button>
       </form>
     </Card>
   )
