@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import userPhoto from '@/assets/images/user.png'
@@ -18,13 +19,13 @@ export const PersonalInformationDefault: Story = {
     email: 'j&johnson@gmail.com',
     name: 'Ivan',
     onAvatarChange: () => {
-      console.dir('on avatar change')
+      action('on avatar change')()
     },
     onLogout: () => {
-      console.dir('on logout')
+      action('on logout')()
     },
     onNameChange: () => {
-      console.dir('on name change')
+      action('on name change')()
     },
   },
 }
