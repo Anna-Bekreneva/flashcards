@@ -1,4 +1,3 @@
-import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
 import { CreateNewPassword } from './'
@@ -14,6 +13,6 @@ type Story = StoryObj<typeof meta>
 
 export const CreateNewPasswordDefault: Story = {
   args: {
-    onSubmit: data => action(data.password)(),
+    onSubmit: data => console.dir(data),
   },
 }
