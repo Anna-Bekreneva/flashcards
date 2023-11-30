@@ -13,6 +13,13 @@
 .cell {
   height: 100%;
   padding: 6px 24px;
+
+  * {
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+
 }
 
 .row {
@@ -34,15 +41,15 @@
     content: "";
 
     position: absolute;
-    top: 3px;
+    top: 1px;
     right: -6px;
-    transform: translateX(100%);
+    transform: translateX(100%) rotate(90deg);
 
-    width: 12px;
-    height: 12px;
+    width: 15px;
+    height: 16px;
 
     opacity: 0;
-    background-image: url('../../../assets/images/icons/iconUp.svg');
+    background-image: url('../../../assets/images/icons/arrowStraight.svg');
 
     transition: opacity 0.3s, transform 0.3s;
   }
@@ -56,7 +63,7 @@
 
 .arrowBottom {
   &::before {
-    transform: rotate(180deg) translateX(-100%);
+    transform: rotate(-90deg) translateX(0) translateY(100%);
     opacity: 1;
   }
 }
