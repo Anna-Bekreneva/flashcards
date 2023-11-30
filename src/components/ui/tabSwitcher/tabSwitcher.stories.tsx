@@ -3,31 +3,13 @@ import { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { TabSwitcher } from '@/components'
-const items = [
-  {
-    value: 'tab-1',
-    title: 'tab-1',
-  },
-  {
-    value: 'tab-2',
-    title: 'tab-2',
-    disabled: true,
-  },
-  {
-    value: 'tab-3',
-    title: 'tab-3',
-  },
-]
+import { TabsTrigger, TabSwitcher } from '@/components'
+
 const meta = {
   title: 'Components/TabSwitcher',
   component: TabSwitcher,
   tags: ['autodocs'],
   argTypes: {
-    items: {
-      defaultValue: items,
-      description: '{value: string, title: string, disabled?: boolean}',
-    },
     onValueChange: { description: '(value: string) => void ' },
   },
 } satisfies Meta<typeof TabSwitcher>
@@ -41,5 +23,11 @@ export const TabSwitcherDefault = (args: Story) => {
     action(value)()
   }
 
-  return <TabSwitcher {...args} items={items} onValueChange={callback} value={value} />
+  return (
+    <TabSwitcher {...args} onValueChange={callback} value={value}>
+      <TabsTrigger value={'tabs1'}>tab 1</TabsTrigger>
+      <TabsTrigger value={'tabs2'}>tab 2</TabsTrigger>
+      <TabsTrigger value={'tabs3'}>tab 3</TabsTrigger>
+    </TabSwitcher>
+  )
 }

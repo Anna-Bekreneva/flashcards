@@ -5,36 +5,10 @@ import { TabsProps } from '@radix-ui/react-tabs'
 
 import s from './tabSwitcher.module.scss'
 
-import { Button } from '@/components'
+import { Button, ButtonProps } from '@/components'
 
-type Props = {
-  items: ItemType[]
-} & TabsProps
-
-type ItemType = {
-  value: string
-  title: string
-  disabled?: boolean
-}
-
-export const TabSwitcher = forwardRef<ElementRef<typeof Tabs.Root>, Props>(
-  ({ items, value, onValueChange, ...props }, ref?) => {
-    const tabsList = items.map(item => {
-      const isActive = item.value === value
-
-      return (
-        <Tabs.Trigger key={item.value} value={item.value} disabled={item.disabled} asChild>
-          <Button
-            className={s.button}
-            variant={isActive ? 'primary' : 'tertiary'}
-            disabled={item.disabled}
-          >
-            {item.title}
-          </Button>
-        </Tabs.Trigger>
-      )
-    })
-
+export const TabSwitcher = forwardRef<ElementRef<typeof Tabs.Root>, TabsProps>(
+  ({ value, onValueChange, ...props }, ref?) => {
     return (
       <Tabs.Root
         className={s.root}
@@ -46,9 +20,26 @@ export const TabSwitcher = forwardRef<ElementRef<typeof Tabs.Root>, Props>(
         {...props}
       >
         <Tabs.List className={s.list} loop={true}>
-          {tabsList}
+          {props.children}
         </Tabs.List>
       </Tabs.Root>
+    )
+  }
+)
+
+type TabsTriggerPropsType = {
+  value: string
+  disabled?: boolean
+  children: string
+} & ButtonProps<'button'>
+export const TabsTrigger = forwardRef<ElementRef<typeof Tabs.Trigger>, TabsTriggerPropsType>(
+  ({ value, children, disabled, ...props }, ref?) => {
+    return (
+      <Tabs.Trigger ref={ref} value={value} disabled={disabled} asChild>
+        <Button className={s.button} disabled={disabled} {...props}>
+          {children}
+        </Button>
+      </Tabs.Trigger>
     )
   }
 )
