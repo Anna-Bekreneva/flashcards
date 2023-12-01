@@ -17,6 +17,7 @@ export const Slider = forwardRef<HTMLDivElement, Props>(
     const minValueForMaxInput = min + step
     const minValue = value[0]
     const maxValue = value[1]
+
     const changeMinValueHandler = (value: string) => {
       const minValue = Number(value)
 
@@ -40,12 +41,8 @@ export const Slider = forwardRef<HTMLDivElement, Props>(
       }
     }
 
-    const wrapperClassName = `${s.wrapper} ${props.disabled && s.disabled} ${
-      className && className
-    }`
-
     return (
-      <div className={wrapperClassName} ref={ref}>
+      <div className={`${s.wrapper} ${props.disabled} ${className}`} ref={ref}>
         <TextField
           className={s.field}
           min={String(min)}

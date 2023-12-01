@@ -16,6 +16,7 @@ const meta = {
     max: { type: 'number' },
     disabled: { type: 'boolean' },
     onValueChange: { description: '(values: [number, number]) => void' },
+    onValueCommit: { description: '(values: [number, number]) => void' },
   },
 } satisfies Meta<typeof Slider>
 
@@ -30,5 +31,9 @@ export const SliderDefault = (args: Story) => {
     setValue(values)
   }
 
-  return <Slider {...args} value={value} onValueChange={onValueChange} />
+  const onValueCommit = (values: [number, number]) => action(`commit ${values}`)()
+
+  return (
+    <Slider {...args} value={value} onValueChange={onValueChange} onValueCommit={onValueCommit} />
+  )
 }
