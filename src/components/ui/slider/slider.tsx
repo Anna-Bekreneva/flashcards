@@ -40,8 +40,8 @@ export const Slider = forwardRef<HTMLDivElement, Props>(
       }
     }
 
-    const wrapperClassName = `${s.wrapper} ${props.disabled ? s.disabled : ''} ${
-      className ? className : ''
+    const wrapperClassName = `${s.wrapper} ${props.disabled && s.disabled} ${
+      className && className
     }`
 
     return (
