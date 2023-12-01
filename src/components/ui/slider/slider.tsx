@@ -5,7 +5,7 @@ import { SliderProps } from '@radix-ui/react-slider'
 
 import s from './slider.module.scss'
 
-import { TextField } from '@/components'
+import { TextField, useSlider } from '@/components'
 
 type Props = {
   value: [number, number]
@@ -18,28 +18,14 @@ export const Slider = forwardRef<HTMLDivElement, Props>(
     const minValue = value[0]
     const maxValue = value[1]
 
-    const changeMinValueHandler = (value: string) => {
-      const minValue = Number(value)
-
-      if ((minValue > min || minValue === min) && minValue < maxValue) {
-        props.onValueChange?.([minValue, maxValue])
-      } else if (minValue < min) {
-        props.onValueChange?.([min, maxValue])
-      } else if (minValue > maxValue || minValue === maxValue) {
-        props.onValueChange?.([maxValue - step, maxValue])
-      }
-    }
-    const changeMaxValueHandler = (value: string) => {
-      const maxValue = Number(value)
-
-      if ((maxValue < max || maxValue === max) && maxValue > minValue) {
-        props.onValueChange?.([minValue, maxValue])
-      } else if (maxValue > max) {
-        props.onValueChange?.([minValue, max])
-      } else if (maxValue < minValue || maxValue === minValue) {
-        props.onValueChange?.([minValue, minValue + step])
-      }
-    }
+    const { changeMinValueHandler, changeMaxValueHandler } = useSlider(
+      props.onValueChange,
+      min,
+      step,
+      max,
+      minValue,
+      maxValue
+    )
 
     return (
       <div className={`${s.wrapper} ${props.disabled} ${className}`} ref={ref}>
