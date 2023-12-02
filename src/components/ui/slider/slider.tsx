@@ -1,44 +1,79 @@
-import { forwardRef } from 'react'
+import { createRef, forwardRef, useEffect } from 'react'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import * as RadixSlider from '@radix-ui/react-slider'
 import { SliderProps } from '@radix-ui/react-slider'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import s from './slider.module.scss'
 
-import { TextField, useSlider } from '@/components'
+import { ControlledTextField } from '@/components'
 
 type Props = {
   value: [number, number]
   className?: string
+  changeMaxValueHandler?: (value: string) => void
+  changeMinValueHandler?: (value: string) => void
+  onSubmit: (data: SliderFormValues) => void
 } & SliderProps
-export const Slider = forwardRef<HTMLDivElement, Props>(
+
+export type SliderFormValues = z.infer<ReturnType<typeof sliderSchema>>
+const sliderSchema = (
+  min: number,
+  step: number,
+  max: number,
+  minValue: number,
+  maxValue: number
+) => {
+  return z.object({
+    min: z.coerce
+      .number()
+      .min(min)
+      .max(maxValue - step),
+    max: z.coerce
+      .number()
+      .min(minValue + step)
+      .max(max),
+  })
+}
+
+export const Slider = forwardRef<HTMLFormElement, Props>(
   ({ min = 0, max = 100, step = 1, value, className, ...props }, ref?) => {
-    const maxValueForMinInput = max - step
-    const minValueForMaxInput = min + step
     const minValue = value[0]
     const maxValue = value[1]
 
-    const { changeMinValueHandler, changeMaxValueHandler } = useSlider(
-      props.onValueChange,
-      min,
-      step,
-      max,
-      minValue,
-      maxValue
-    )
+    useEffect(() => {
+      setValue('min', minValue)
+      setValue('max', maxValue)
+    }, [minValue, maxValue])
+
+    const { setValue, handleSubmit, control } = useForm<SliderFormValues>({
+      resolver: zodResolver(sliderSchema(min, step, max, minValue, maxValue)),
+      mode: 'onBlur',
+    })
+
+    const onSubmit = (data: SliderFormValues) => props.onSubmit(data)
+    const onBlurHandler = () => buttonRef.current?.click()
+    const buttonRef = createRef<HTMLButtonElement>()
 
     return (
-      <div className={`${s.wrapper} ${props.disabled} ${className}`} ref={ref}>
-        <TextField
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={`${s.wrapper} ${props.disabled} ${className}`}
+        ref={ref}
+      >
+        <ControlledTextField
           className={s.field}
-          min={String(min)}
-          max={maxValueForMinInput}
-          value={minValue}
-          name={'min value'}
-          onValueChange={changeMinValueHandler}
-          type="number"
+          control={control}
+          min={minValue}
+          max={maxValue - step}
+          name={'min'}
+          type={'number'}
           disabled={props.disabled}
+          onBlur={onBlurHandler}
         />
+
         <RadixSlider.Root
           className={s.root}
           value={value}
@@ -53,17 +88,19 @@ export const Slider = forwardRef<HTMLDivElement, Props>(
           <RadixSlider.Thumb className={s.thumb} />
           <RadixSlider.Thumb className={s.thumb} />
         </RadixSlider.Root>
-        <TextField
+        <ControlledTextField
           className={s.field}
-          min={minValueForMaxInput}
-          max={String(max)}
-          value={maxValue}
-          name={'max value'}
-          onValueChange={changeMaxValueHandler}
-          type="number"
+          control={control}
+          name={'max'}
+          type={'number'}
           disabled={props.disabled}
+          onBlur={onBlurHandler}
+          max={maxValue}
+          min={minValue - step}
         />
-      </div>
+
+        <button type={'submit'} ref={buttonRef} aria-hidden />
+      </form>
     )
   }
 )

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { Slider } from '@/components'
+import { Slider, SliderFormValues } from '@/components'
 
 const meta = {
   title: 'Components/Slider',
@@ -17,6 +17,7 @@ const meta = {
     disabled: { type: 'boolean' },
     onValueChange: { description: '(values: [number, number]) => void' },
     onValueCommit: { description: '(values: [number, number]) => void' },
+    onSubmit: { description: '(data: {min: number, max: number) => void' },
   },
 } satisfies Meta<typeof Slider>
 
@@ -32,8 +33,15 @@ export const SliderDefault = (args: Story) => {
   }
 
   const onValueCommit = (values: [number, number]) => action(`commit ${values}`)()
+  const onSubmit = (values: SliderFormValues) => action(`${values.min} ${values.max}`)()
 
   return (
-    <Slider {...args} value={value} onValueChange={onValueChange} onValueCommit={onValueCommit} />
+    <Slider
+      {...args}
+      value={value}
+      onValueChange={onValueChange}
+      onValueCommit={onValueCommit}
+      onSubmit={onSubmit}
+    />
   )
 }
