@@ -37,7 +37,6 @@ export const ForgotPassword: FC<Props> = props => {
           className={s.item}
           control={control}
           name={'email'}
-          type={'email'}
           label={'Email'}
           errorMessage={errors.email?.message}
         />

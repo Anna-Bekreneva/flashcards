@@ -40,7 +40,6 @@ export const SignIn: FC<Props> = props => {
           <ControlledTextField
             control={control}
             name={'email'}
-            type={'email'}
             label={'Email'}
             errorMessage={errors.email?.message}
           />
