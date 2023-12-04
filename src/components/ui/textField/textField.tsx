@@ -10,13 +10,24 @@ export type TextFieldOwnProps = {
   label?: string
   errorMessage?: string
   onValueChange?: (value: string) => void
+  isShowErrorMessage?: boolean
 } & ComponentPropsWithoutRef<'input'>
 
 export type TextFieldProps = TextFieldOwnProps &
   Omit<ComponentPropsWithoutRef<'input'>, keyof TextFieldOwnProps>
 
 export const TextField = forwardRef<HTMLDivElement, TextFieldProps>((props, ref?) => {
-  const { type, label, errorMessage, disabled, className, id, onValueChange, ...restProps } = props
+  const {
+    type,
+    label,
+    errorMessage,
+    disabled,
+    className,
+    isShowErrorMessage = true,
+    id,
+    onValueChange,
+    ...restProps
+  } = props
   const [showPassword, setShowPassword] = useState(false)
   const isPassword = type === 'password'
   const isSearch = type === 'search'
@@ -53,7 +64,7 @@ export const TextField = forwardRef<HTMLDivElement, TextFieldProps>((props, ref?
           </button>
         )}
       </div>
-      {errorMessage && (
+      {isShowErrorMessage && errorMessage && (
         <Typography className={s.errorMessage} variant={TypographyVariant.caption}>
           {errorMessage}
         </Typography>
