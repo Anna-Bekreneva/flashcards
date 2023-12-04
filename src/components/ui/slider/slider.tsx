@@ -29,12 +29,12 @@ const sliderSchema = (
   return z.object({
     min: z.coerce
       .number()
-      .min(min)
-      .max(maxValue - step),
+      .min(min, `Not less than ${min}`)
+      .max(maxValue - step, `Not more than ${maxValue - step}`),
     max: z.coerce
       .number()
-      .min(minValue + step)
-      .max(max),
+      .min(minValue + step, `Not less than ${minValue + step}`)
+      .max(max, `Not more than ${max}`),
   })
 }
 
@@ -66,12 +66,11 @@ export const Slider = forwardRef<HTMLFormElement, Props>(
         <ControlledTextField
           className={s.field}
           control={control}
-          min={minValue}
-          max={maxValue - step}
           name={'min'}
-          type={'number'}
           disabled={props.disabled}
           onBlur={onBlurHandler}
+          min={min}
+          max={max - step}
         />
 
         <RadixSlider.Root
@@ -92,11 +91,10 @@ export const Slider = forwardRef<HTMLFormElement, Props>(
           className={s.field}
           control={control}
           name={'max'}
-          type={'number'}
           disabled={props.disabled}
           onBlur={onBlurHandler}
-          max={maxValue}
-          min={minValue - step}
+          min={min + step}
+          max={max}
         />
 
         <button type={'submit'} ref={buttonRef} aria-hidden />
