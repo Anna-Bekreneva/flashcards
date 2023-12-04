@@ -1,0 +1,59 @@
+@import '../../../styles/mixins';
+
+.root {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 5px;
+}
+
+.list,
+.content {
+  align-self: flex-start;
+}
+
+.list {
+  border-radius: 0;
+}
+
+.button {
+  border-radius: 0;
+
+  &[data-state='active'] {
+    @include button;
+
+    color: var(--color-light-100);
+    background-color: var(--color-accent-500);
+    box-shadow: 0 4px 18px 0 rgb(140 97 255 / 35%);
+
+    &:focus {
+      background-color: var(--color-accent-500);
+    }
+
+    &:hover {
+      background-color: var(--color-accent-300);
+    }
+
+    &:active {
+      background-color: var(--color-accent-700);
+    }
+
+    &:disabled {
+      color: var(--color-light-900);
+      background: var(--color-accent-900);
+    }
+  }
+
+  &:first-child {
+    border-radius: 2px 0 0 2px;
+  }
+
+  &:last-child {
+    border-radius: 0 2px 2px 0;
+  }
+
+  &:disabled {
+    color: var(--color-dark-300);
+    background-color: var(--color-dark-700);
+    border-color: var(--color-dark-300);
+  }
+}
