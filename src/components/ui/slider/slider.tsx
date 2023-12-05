@@ -10,8 +10,10 @@ import s from './slider.module.scss'
 
 import { ControlledTextField } from '@/components'
 
+export type ValuesSliderType = [number, number]
+
 type Props = {
-  value: [number, number]
+  value: ValuesSliderType
   className?: string
   changeMaxValueHandler?: (value: string) => void
   changeMinValueHandler?: (value: string) => void

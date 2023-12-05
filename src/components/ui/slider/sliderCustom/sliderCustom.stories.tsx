@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 
-import { SliderCustom } from '@/components'
+import { SliderCustom, ValuesSliderType } from '@/components'
 
 const meta = {
   title: 'Components/SliderCustom',
@@ -25,13 +25,13 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const SliderDefault = (args: Story) => {
-  const [value, setValue] = useState<[number, number]>([5, 25])
-  const onValueChange = (values: [number, number]) => {
+  const [value, setValue] = useState<ValuesSliderType>([5, 25])
+  const onValueChange = (values: ValuesSliderType) => {
     action(`${values} onValueChange`)()
     setValue(values)
   }
 
-  const onValueCommit = (values: [number, number]) => {
+  const onValueCommit = (values: ValuesSliderType) => {
     setValue(values)
     action(`${values} commit`)()
   }

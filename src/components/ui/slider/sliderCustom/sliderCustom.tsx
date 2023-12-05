@@ -5,10 +5,10 @@ import { SliderProps } from '@radix-ui/react-slider'
 
 import s from '../slider.module.scss'
 
-import { TextField, useSlider } from '@/components'
+import { TextField, useSlider, ValuesSliderType } from '@/components'
 
 type Props = {
-  value: [number, number]
+  value: ValuesSliderType
   className?: string
 } & SliderProps
 

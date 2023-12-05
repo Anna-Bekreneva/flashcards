@@ -1,5 +1,7 @@
+import { ValuesSliderType } from '@/components'
+
 export const useSlider = (
-  onValueCommit: ((values: [number, number]) => void) | undefined,
+  onValueCommit: ((values: ValuesSliderType) => void) | undefined,
   min: number,
   step: number,
   max: number,
