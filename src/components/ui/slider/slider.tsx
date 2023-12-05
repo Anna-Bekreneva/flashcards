@@ -70,7 +70,7 @@ export const Slider = forwardRef<HTMLFormElement, Props>(
           disabled={props.disabled}
           onBlur={onBlurHandler}
           min={min}
-          max={max - step}
+          max={maxValue - step}
         />
 
         <RadixSlider.Root
@@ -93,7 +93,7 @@ export const Slider = forwardRef<HTMLFormElement, Props>(
           name={'max'}
           disabled={props.disabled}
           onBlur={onBlurHandler}
-          min={min + step}
+          min={minValue + step}
           max={max}
         />
 
