@@ -22,10 +22,16 @@ export const DecksService = baseApi.injectEndpoints({
       }),
       createDeck: builder.mutation<DeckType, CreateParamsType>({
         query: body => {
+          const formData = new FormData()
+
+          formData.append('name', body.name)
+          body.cover && formData.append('cover', body.cover)
+          formData.append('isPrivate', body.isPrivate.toString())
+
           return {
             method: 'POST',
             url: 'v1/decks',
-            body,
+            body: formData,
           }
         },
         invalidatesTags: ['Decks'],

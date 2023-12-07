@@ -40,7 +40,7 @@ export type GetParamsType = {
 }
 
 export type CreateParamsType = {
-  cover?: string
+  cover?: File | string | undefined
   name: string
   isPrivate: boolean
 }
