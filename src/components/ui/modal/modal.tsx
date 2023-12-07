@@ -18,7 +18,7 @@ type Props = {
   children: ReactNode
 }
 export const Modal = forwardRef<ElementRef<typeof RadixDialog.Content>, Props>(
-  ({ className, isOpen, onOpenChange, title, close = false, overlay = false, children }, ref?) => {
+  ({ className, isOpen, onOpenChange, title, close = true, overlay = true, children }, ref?) => {
     const contentClasName = `${s.content} ${className ? className : ''}`
 
     return (
