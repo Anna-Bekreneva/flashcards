@@ -1,8 +1,9 @@
 import { FC } from 'react'
 
+import s from '../decksModals.module.scss'
+
 import { TypographyVariant } from '@/common'
 import { DialogButtons, Modal, Typography } from '@/components'
-import s from '@/pages/decksPage/decks.module.scss'
 import { useDeleteDeckMutation } from '@/services'
 
 type Props = {

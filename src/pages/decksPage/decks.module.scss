@@ -1,24 +1,5 @@
 @import '../../styles/mixins';
 
-.modal {
-  max-width: 542px;
-}
-
-.modalWrapper {
-  padding: 24px 34px;
-}
-
-.modalContent {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-bottom: 24px;
-}
-
-.modalFooter {
-  @include flex($justify-content: space-between);
-}
-
 .header {
   @include flex(center, space-between);
 

@@ -1,13 +1,18 @@
-import { ChangeEvent, FC, useRef, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { ImageIcon } from '@/assets/iconsComponents'
-import { ButtonVariant } from '@/common'
-import { Button, ControlledTextField, DialogButtons, Modal } from '@/components'
-import s from '@/pages/decksPage/decks.module.scss'
+import s from '../decksModals.module.scss'
+
+import {
+  ControlledCheckbox,
+  ControlledTextField,
+  DialogButtons,
+  Modal,
+  UploadFile,
+} from '@/components'
 import { useCreateDeckMutation } from '@/services'
 
 type Props = {
@@ -33,41 +38,11 @@ export const AddDeckModal: FC<Props> = ({ title, isOpen, onOpenChange }) => {
     onOpenChange()
   }
 
+  const [cover, setCover] = useState<File | undefined>(undefined)
+
   const { control, handleSubmit, formState } = useForm<AddDeckSchemaType>({
     resolver: zodResolver(AddDeckSchema),
   })
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  const selectFileHandler = () => {
-    inputRef && inputRef.current?.click()
-  }
-
-  const [cover, setCover] = useState<File | undefined>(undefined)
-  const [localCover, setLocalCover] = useState<string>('')
-  const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length) {
-      const file = e.target.files[0]
-
-      if (file.size < 4000000) {
-        const formData = new FormData()
-
-        formData.append('cover', file)
-        setCover(file)
-
-        const blob = new Blob([file], { type: 'image/jpeg' })
-
-        const downloadUrl = window.URL.createObjectURL(blob)
-
-        setLocalCover(downloadUrl)
-      } else {
-        alert('Файл слишком большого размера')
-      }
-    }
-  }
-
-  const errorHandler = () => {
-    alert('Кривая картинка')
-  }
 
   return (
     <Modal className={s.modal} title={title} isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -81,19 +56,12 @@ export const AddDeckModal: FC<Props> = ({ title, isOpen, onOpenChange }) => {
             control={control}
             name={'name'}
           />
-          {localCover && (
-            <img className={s.img} src={localCover} onError={errorHandler} alt="cover" />
-          )}
-          <Button variant={ButtonVariant.secondary} onClick={selectFileHandler} type={'button'}>
-            <ImageIcon />
-            Upload Cover
-          </Button>
-          <input
-            style={{ display: 'none' }}
-            ref={inputRef}
-            type="file"
-            accept={'image/*'}
-            onChange={uploadHandler}
+          <UploadFile setCover={setCover} />
+          <ControlledCheckbox
+            className={s.modalInput}
+            label={'Private pack'}
+            name={'isPrivate'}
+            control={control}
           />
         </div>
         <DialogButtons
