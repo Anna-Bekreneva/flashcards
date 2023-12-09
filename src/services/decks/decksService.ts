@@ -13,13 +13,13 @@ export const DecksService = baseApi.injectEndpoints({
         },
         providesTags: ['Decks'],
       }),
-      getDeck: builder.query<any, void>({
-        query: () => {
-          return {
-            url: `v1/decks`,
-          }
-        },
-      }),
+      // getDeck: builder.query<any, GetParamsType | void>({
+      //   query: () => {
+      //     return {
+      //       url: `v1/decks`,
+      //     }
+      //   },
+      // }),
       createDeck: builder.mutation<DeckType, CreateParamsType>({
         query: body => {
           const formData = new FormData()
@@ -47,10 +47,16 @@ export const DecksService = baseApi.injectEndpoints({
       }),
       updateDeck: builder.mutation<DeckType, CreateParamsType & { id: string }>({
         query: body => {
+          const formData = new FormData()
+
+          body.cover && formData.append('cover', body.cover)
+          formData.append('name', body.name)
+          body.isPrivate && formData.append('isPrivate', body.isPrivate.toString())
+
           return {
             method: 'PATCH',
             url: `v1/decks/${body.id}`,
-            body: { name: body.name, isPrivate: body.isPrivate, cover: body.cover },
+            body: formData,
           }
         },
         invalidatesTags: ['Decks'],

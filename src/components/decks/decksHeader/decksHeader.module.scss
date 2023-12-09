@@ -1,0 +1,8 @@
+@import '../../../styles/mixins';
+
+.header {
+  @include flex(center, space-between);
+
+  flex-wrap: wrap;
+  gap: 20px;
+}

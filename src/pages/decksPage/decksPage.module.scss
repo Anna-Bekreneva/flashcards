@@ -1,0 +1,16 @@
+.settings {
+  display: flex;
+  gap: 25px;
+  align-items: flex-end;
+  margin-bottom: 36px;
+}
+
+.setting {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.clear {
+  margin-left: auto;
+}
