@@ -6,3 +6,13 @@
   flex-wrap: wrap;
   gap: 20px;
 }
+
+.title {
+  @include flex;
+
+  gap: 6px;
+}
+
+.count {
+  color: var(--color-light-900);
+}
