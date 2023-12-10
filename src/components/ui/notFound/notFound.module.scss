@@ -1,0 +1,10 @@
+@import '../../../styles/mixins';
+
+.content {
+  @include flex($flex-direction: column);
+  gap: 28px;
+}
+
+.img {
+  @include bg;
+}
