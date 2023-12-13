@@ -31,7 +31,7 @@ export const DecksService = baseApi.injectEndpoints({
           return {
             method: 'POST',
             url: 'v1/decks',
-            body: formData,
+            body: 'formData',
           }
         },
         invalidatesTags: ['Decks'],
@@ -70,4 +70,5 @@ export const {
   useCreateDeckMutation,
   useDeleteDeckMutation,
   useUpdateDeckMutation,
+  useGetDeckQuery,
 } = DecksService

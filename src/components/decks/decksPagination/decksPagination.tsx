@@ -21,20 +21,16 @@ export const DecksPagination: FC<Props> = ({
   const perPageOptions = [10, 20, 30, 50, 100]
 
   return (
-    <>
-      {totalPages ? (
-        <Pagination
-          className={s.pagination}
-          totalPages={totalPages}
-          currentPage={currentPage}
-          onChangePage={page => setCurrentPage(page)}
-          onChangePerPage={perPage => {
-            setItemsPerPage(perPage)
-          }}
-          perPageOptions={perPageOptions}
-          perPage={perPage}
-        />
-      ) : null}
-    </>
+    <Pagination
+      className={s.pagination}
+      totalPages={totalPages}
+      currentPage={currentPage}
+      onChangePage={page => setCurrentPage(page)}
+      onChangePerPage={perPage => {
+        setItemsPerPage(perPage)
+      }}
+      perPageOptions={perPageOptions}
+      perPage={perPage}
+    />
   )
 }

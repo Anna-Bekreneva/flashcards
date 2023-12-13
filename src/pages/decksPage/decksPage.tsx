@@ -19,12 +19,20 @@ import {
   Typography,
   UpdateDeckModal,
 } from '@/components'
+import { ProgressBar } from '@/components/ui/progressBar'
 import { useGetDecksQuery } from '@/services'
 
 const TabsVariant = {
   myCards: 'my',
   allCards: 'all',
 } as const
+
+type ErrorDataType = {
+  error: string
+  errorObject: Object
+  in: string
+  info: string
+}
 
 type TabsVariantType = (typeof TabsVariant)[keyof typeof TabsVariant]
 
@@ -44,7 +52,7 @@ export const DecksPage = () => {
   const [tabsValue, setTabsValue] = useState<TabsVariantType>(TabsVariant.allCards)
   const authorId = tabsValue === 'my' ? MY_ID : ''
 
-  const { data } = useGetDecksQuery({
+  const { data, isLoading, isFetching, error } = useGetDecksQuery({
     minCardsCount: countCards.minCardsCount,
     maxCardsCount: countCards.maxCardsCount,
     name,
@@ -75,92 +83,114 @@ export const DecksPage = () => {
     setMaxCardsCount(values[1])
   }
 
+  if (isLoading) {
+    return <h1>Loading...</h1>
+  }
+
+  if (error) {
+    if ('data' in error) {
+      const errMsg = error.data as ErrorDataType
+
+      if ('error' in errMsg) {
+        return <h1>{errMsg.error}</h1>
+      }
+    }
+  }
+
   return (
-    <section className={'container section'}>
-      <DeleteDeckModal
-        key={idDeleteDeck}
-        nameDeleteDeck={nameDeleteDeck ?? ''}
-        idDeleteDeck={idDeleteDeck}
-        title={'Delete Pack'}
-        isOpen={!!idDeleteDeck}
-        onOpenChange={() => setIdDeleteDeck('')}
-      />
-
-      <AddDeckModal
-        key={Math.random()}
-        title={'Add New Pack'}
-        isOpen={isOpenAddModal}
-        onOpenChange={() => setIsOpenAddModal(!isOpenAddModal)}
-      />
-
-      <UpdateDeckModal
-        key={idUpdateDeck}
-        currentDeck={{
-          name: updateDeck?.name,
-          isPrivate: updateDeck?.isPrivate,
-          cover: updateDeck?.cover ?? '',
-        }}
-        title={'Edit Pack'}
-        openChangeHandler={() => setIdUpdateDeck('')}
-        id={idUpdateDeck}
-      />
-      <DecksHeader isOpenAddModal={isOpenAddModal} setIsOpenAddModal={setIsOpenAddModal} />
-
-      <div className={s.settings}>
-        <TextField
-          type={'search'}
-          placeholder={'Input search'}
-          value={name}
-          onValueChange={value => setName(value)}
+    <>
+      {isFetching && <ProgressBar />}
+      <section className={'container section'}>
+        <DeleteDeckModal
+          key={idDeleteDeck}
+          nameDeleteDeck={nameDeleteDeck ?? ''}
+          idDeleteDeck={idDeleteDeck}
+          title={'Delete Pack'}
+          isOpen={!!idDeleteDeck}
+          onOpenChange={() => setIdDeleteDeck('')}
         />
-        <div className={s.setting}>
-          <Typography as={'span'}>Show packs cards</Typography>
-          <Tabs value={tabsValue} onValueChange={value => setTabsValue(value as TabsVariantType)}>
-            <TabsList>
-              <TabsTrigger value={TabsVariant.allCards} type={'button'}>
-                All Cards
-              </TabsTrigger>
-              <TabsTrigger value={TabsVariant.myCards} type={'button'}>
-                My Cards
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-        <div className={s.setting}>
-          <Typography as={'span'}>Number of cards</Typography>
-          <SliderCustom
-            value={[minCardsCount, maxCardsCount]}
-            onValueChange={changeValueSliderHandler}
-            onValueCommit={values => {
-              changeValueSliderHandler(values)
-              setCountCards({ minCardsCount: values[0], maxCardsCount: values[1] })
-            }}
-          />
-        </div>
-        <Button
-          className={s.clear}
-          onClick={clearSettingsHandler}
-          type={'button'}
-          variant={ButtonVariant.secondary}
-        >
-          <DeleteIcon />
-          Clear Filter
-        </Button>
-      </div>
 
-      <DecksTable
-        id={MY_ID}
-        items={data?.items}
-        setIdDeleteDeck={setIdDeleteDeck}
-        setIdUpdateDeck={setIdUpdateDeck}
-      />
-      <DecksPagination
-        totalPages={data?.pagination?.totalPages ?? 0}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        perPage={perPage}
-        setItemsPerPage={setPerPage}
-      />
-    </section>
+        <AddDeckModal
+          title={'Add New Pack'}
+          isOpen={isOpenAddModal}
+          onOpenChange={() => setIsOpenAddModal(!isOpenAddModal)}
+        />
+
+        <UpdateDeckModal
+          key={idUpdateDeck}
+          currentDeck={{
+            name: updateDeck?.name,
+            isPrivate: updateDeck?.isPrivate,
+            cover: updateDeck?.cover ?? '',
+          }}
+          title={'Edit Pack'}
+          openChangeHandler={() => setIdUpdateDeck('')}
+          id={idUpdateDeck}
+        />
+        <DecksHeader
+          isOpenAddModal={isOpenAddModal}
+          setIsOpenAddModal={setIsOpenAddModal}
+          count={data?.pagination.totalItems}
+        />
+
+        <div className={s.settings}>
+          <TextField
+            type={'search'}
+            placeholder={'Input search'}
+            value={name}
+            onValueChange={value => setName(value)}
+          />
+          <div className={s.setting}>
+            <Typography as={'span'}>Show packs cards</Typography>
+            <Tabs value={tabsValue} onValueChange={value => setTabsValue(value as TabsVariantType)}>
+              <TabsList>
+                <TabsTrigger value={TabsVariant.allCards} type={'button'}>
+                  All Cards
+                </TabsTrigger>
+                <TabsTrigger value={TabsVariant.myCards} type={'button'}>
+                  My Cards
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+          <div className={s.setting}>
+            <Typography as={'span'}>Number of cards</Typography>
+            <SliderCustom
+              value={[minCardsCount, maxCardsCount]}
+              onValueCommit={changeValueSliderHandler}
+              onValueChange={values => {
+                changeValueSliderHandler(values)
+                setCountCards({ minCardsCount: values[0], maxCardsCount: values[1] })
+              }}
+            />
+          </div>
+          <Button
+            className={s.clear}
+            onClick={clearSettingsHandler}
+            type={'button'}
+            variant={ButtonVariant.secondary}
+          >
+            <DeleteIcon />
+            Clear Filter
+          </Button>
+        </div>
+
+        <DecksTable
+          id={MY_ID}
+          items={data?.items}
+          setIdDeleteDeck={setIdDeleteDeck}
+          setIdUpdateDeck={setIdUpdateDeck}
+        />
+        {data?.pagination.totalPages && data?.pagination.totalPages > 1 && (
+          <DecksPagination
+            totalPages={data?.pagination?.totalPages ?? 0}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            perPage={perPage}
+            setItemsPerPage={setPerPage}
+          />
+        )}
+      </section>
+    </>
   )
 }
