@@ -11,10 +11,10 @@ export type Column = {
 
 export type Sort = {
   key: string
-  direction: sortDirectionType
+  direction: SortDirectionType
 } | null
 
-export type sortDirectionType = 'asc' | 'desc'
+export type SortDirectionType = 'asc' | 'desc'
 
 export const Table = forwardRef<ElementRef<'table'>, ComponentPropsWithoutRef<'table'>>(
   ({ className, ...rest }, ref?) => {

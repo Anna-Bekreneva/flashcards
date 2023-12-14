@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 import { NavLink } from 'react-router-dom'
 
@@ -27,9 +27,19 @@ type Props = {
   items: DeckType[] | undefined
   setIdUpdateDeck: (id: string) => void
   setIdDeleteDeck: (id: string) => void
+  sort: Sort
+  setSort: (value: Sort) => void
+  disabled?: boolean
 }
-export const DecksTable: FC<Props> = ({ id, items, setIdUpdateDeck, setIdDeleteDeck }) => {
-  const [sort, setSort] = useState<Sort>(null)
+export const DecksTable: FC<Props> = ({
+  id,
+  items,
+  setIdUpdateDeck,
+  setIdDeleteDeck,
+  sort,
+  setSort,
+  disabled,
+}) => {
   const columns: Array<Column> = [
     {
       key: 'name',
@@ -38,11 +48,11 @@ export const DecksTable: FC<Props> = ({ id, items, setIdUpdateDeck, setIdDeleteD
     {
       key: 'cardsCount',
       title: 'Cards',
-      sortable: true,
     },
     {
       key: 'updated',
       title: 'Last Updated',
+      sortable: true,
     },
     {
       key: 'createdBy',
@@ -78,22 +88,26 @@ export const DecksTable: FC<Props> = ({ id, items, setIdUpdateDeck, setIdDeleteD
                 <TableCell>{getDate(item.updated)}</TableCell>
                 <TableCell>{item.author.name}</TableCell>
                 <TableCell>
-                  <a href="#" aria-label={'Learn deck'}>
+                  <a className={s.button} href="#" aria-label={'Learn deck'}>
                     <PlayIcon />
                   </a>
                   {item.author.id === id ? (
                     <>
                       <button
+                        className={s.button}
                         onClick={() => setIdUpdateDeck(item.id)}
                         type="button"
                         aria-label={'Edit deck'}
+                        disabled={disabled}
                       >
                         <EditIcon />
                       </button>
                       <button
+                        className={s.button}
                         onClick={() => setIdDeleteDeck(item.id)}
                         type="button"
                         aria-label={'Delete deck'}
+                        disabled={disabled}
                       >
                         <DeleteIcon />
                       </button>
@@ -105,7 +119,7 @@ export const DecksTable: FC<Props> = ({ id, items, setIdUpdateDeck, setIdDeleteD
           </TableBody>
         </Table>
       ) : (
-        <NotFound>
+        <NotFound className={s.notFound}>
           <img src={notFoundImg} alt="Not found" width={400} height={200} />
           <Typography variant={TypographyVariant.h3}> Decks not found </Typography>
         </NotFound>

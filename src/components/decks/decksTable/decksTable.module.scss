@@ -1,3 +1,5 @@
+@import '../../../styles/mixins';
+
 .table {
   margin-bottom: 24px;
 }
@@ -14,11 +16,58 @@
 }
 
 .deck {
+  display: flex;
+  max-width: fit-content;
   color: var(--color-light-100);
-  transition: opacity 0.3s;
+  transition: color 0.3s;
+
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 0;
+    box-shadow: 0 0 0 2px var(--color-accent-500);
+  }
 
   &:hover {
-    opacity: 0.7;
-    transition: opacity 0.3s;
+    color: var(--color-accent-500);
+  }
+}
+
+.button {
+  @include flex;
+
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  transition: box-shadow 0.3s;
+
+  svg {
+    transition: stroke 0.3s;
+  }
+
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 0;
+    box-shadow: 0 0 0 2px var(--color-accent-500);
+  }
+
+  &:hover {
+    svg {
+      stroke: var(--color-accent-500);
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+
+    svg {
+      stroke: var(--color-dark-300);
+    }
+  }
+}
+
+.notFound {
+  img {
+    max-width: 400px;
+    height: 200px;
   }
 }

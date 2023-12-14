@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import s from './decksPage.module.scss'
 
@@ -12,6 +12,7 @@ import {
   DecksTable,
   DeleteDeckModal,
   SliderCustom,
+  Sort,
   Tabs,
   TabsList,
   TabsTrigger,
@@ -19,50 +20,42 @@ import {
   Typography,
   UpdateDeckModal,
 } from '@/components'
+import { Preloader } from '@/components/ui/preloader'
 import { ProgressBar } from '@/components/ui/progressBar'
 import { useGetDecksQuery } from '@/services'
 
-const TabsVariant = {
-  myCards: 'my',
-  allCards: 'all',
-} as const
-
-type ErrorDataType = {
-  error: string
-  errorObject: Object
-  in: string
-  info: string
-}
-
-type TabsVariantType = (typeof TabsVariant)[keyof typeof TabsVariant]
-
 const MY_ID = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
+const DEFAULT_MAX_CARDS_COUNT = 100
 
 export const DecksPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [perPage, setPerPage] = useState(10)
 
-  const [minCardsCount, setMinCardsCount] = useState(0)
-  const [maxCardsCount, setMaxCardsCount] = useState(100)
-
-  const [countCards, setCountCards] = useState({ minCardsCount, maxCardsCount })
+  const [cardsCountLocal, setCardsCountLocal] = useState([0, DEFAULT_MAX_CARDS_COUNT])
+  const [cardsCount, setCardsCount] = useState([cardsCountLocal[0], cardsCountLocal[1]])
   const [name, setName] = useState('')
 
   // tabs
   const [tabsValue, setTabsValue] = useState<TabsVariantType>(TabsVariant.allCards)
   const authorId = tabsValue === 'my' ? MY_ID : ''
-
+  const [sort, setSort] = useState<Sort>(null)
   const { data, isLoading, isFetching, error } = useGetDecksQuery({
-    minCardsCount: countCards.minCardsCount,
-    maxCardsCount: countCards.maxCardsCount,
+    minCardsCount: cardsCount[0],
+    maxCardsCount: cardsCount[1],
     name,
     currentPage,
     itemsPerPage: perPage,
     authorId,
+    orderBy: sort ? `${sort?.key}-${sort?.direction}` : '',
   })
 
+  useEffect(() => {
+    if (!data || !data.maxCardsCount) return
+    setCardsCountLocal([cardsCountLocal[0], data?.maxCardsCount ?? DEFAULT_MAX_CARDS_COUNT])
+  }, [data?.maxCardsCount])
+
   // update modal
-  const [idUpdateDeck, setIdUpdateDeck] = useState('')
+  const [idUpdateDeck, setIdUpdateDeck] = useState<string | null>(null)
   const updateDeck = data?.items.find(item => item.id === idUpdateDeck)
 
   // delete modal
@@ -74,18 +67,10 @@ export const DecksPage = () => {
   const clearSettingsHandler = () => {
     setName('')
     setTabsValue(TabsVariant.allCards)
-    setMinCardsCount(0)
-    setMaxCardsCount(10)
-    setCountCards({ minCardsCount: 0, maxCardsCount: 10 })
+    setCardsCountLocal([0, data?.maxCardsCount ?? 100])
+    setCardsCount([0, data?.maxCardsCount ?? 100])
   }
-  const changeValueSliderHandler = (values: number[]) => {
-    setMinCardsCount(values[0])
-    setMaxCardsCount(values[1])
-  }
-
-  if (isLoading) {
-    return <h1>Loading...</h1>
-  }
+  const changeValueSliderHandler = (values: number[]) => setCardsCountLocal([values[0], values[1]])
 
   if (error) {
     if ('data' in error) {
@@ -94,7 +79,13 @@ export const DecksPage = () => {
       if ('error' in errMsg) {
         return <h1>{errMsg.error}</h1>
       }
+    } else if ('error' in error) {
+      return <h1>{error.error}</h1>
     }
+  }
+
+  if (isLoading) {
+    return <Preloader />
   }
 
   return (
@@ -125,7 +116,7 @@ export const DecksPage = () => {
           }}
           title={'Edit Pack'}
           openChangeHandler={() => setIdUpdateDeck('')}
-          id={idUpdateDeck}
+          id={idUpdateDeck ?? ''}
         />
         <DecksHeader
           isOpenAddModal={isOpenAddModal}
@@ -139,15 +130,16 @@ export const DecksPage = () => {
             placeholder={'Input search'}
             value={name}
             onValueChange={value => setName(value)}
+            disabled={isFetching}
           />
           <div className={s.setting}>
             <Typography as={'span'}>Show packs cards</Typography>
             <Tabs value={tabsValue} onValueChange={value => setTabsValue(value as TabsVariantType)}>
               <TabsList>
-                <TabsTrigger value={TabsVariant.allCards} type={'button'}>
+                <TabsTrigger value={TabsVariant.allCards} type={'button'} disabled={isFetching}>
                   All Cards
                 </TabsTrigger>
-                <TabsTrigger value={TabsVariant.myCards} type={'button'}>
+                <TabsTrigger value={TabsVariant.myCards} type={'button'} disabled={isFetching}>
                   My Cards
                 </TabsTrigger>
               </TabsList>
@@ -156,12 +148,14 @@ export const DecksPage = () => {
           <div className={s.setting}>
             <Typography as={'span'}>Number of cards</Typography>
             <SliderCustom
-              value={[minCardsCount, maxCardsCount]}
-              onValueCommit={changeValueSliderHandler}
-              onValueChange={values => {
+              max={data?.maxCardsCount}
+              value={[cardsCountLocal[0], cardsCountLocal[1]]}
+              onValueChange={changeValueSliderHandler}
+              onValueCommit={values => {
                 changeValueSliderHandler(values)
-                setCountCards({ minCardsCount: values[0], maxCardsCount: values[1] })
+                setCardsCount([values[0], values[1]])
               }}
+              disabled={isFetching}
             />
           </div>
           <Button
@@ -180,8 +174,11 @@ export const DecksPage = () => {
           items={data?.items}
           setIdDeleteDeck={setIdDeleteDeck}
           setIdUpdateDeck={setIdUpdateDeck}
+          sort={sort}
+          setSort={setSort}
+          disabled={isFetching}
         />
-        {data?.pagination.totalPages && data?.pagination.totalPages > 1 && (
+        {data?.pagination.totalPages && data?.pagination.totalPages > 1 ? (
           <DecksPagination
             totalPages={data?.pagination?.totalPages ?? 0}
             currentPage={currentPage}
@@ -189,8 +186,22 @@ export const DecksPage = () => {
             perPage={perPage}
             setItemsPerPage={setPerPage}
           />
-        )}
+        ) : null}
       </section>
     </>
   )
 }
+
+const TabsVariant = {
+  myCards: 'my',
+  allCards: 'all',
+} as const
+
+type ErrorDataType = {
+  error: string
+  errorObject: Object
+  in: string
+  info: string
+}
+
+type TabsVariantType = (typeof TabsVariant)[keyof typeof TabsVariant]

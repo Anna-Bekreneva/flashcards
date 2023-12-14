@@ -6,6 +6,7 @@ import s from './deckPage.module.scss'
 
 import { DeleteIcon, EditIcon, PlayIcon } from '@/assets/iconsComponents'
 import { DecksHeader, DropDownMenu, TextField } from '@/components'
+import { Preloader } from '@/components/ui/preloader'
 import { ProgressBar } from '@/components/ui/progressBar'
 import { useGetDeckQuery } from '@/services'
 
@@ -19,7 +20,7 @@ export const DeckPage = () => {
   const goBack = () => navigate(-1)
 
   if (isLoading) {
-    return <h1>Loading...</h1>
+    return <Preloader />
   }
 
   return (

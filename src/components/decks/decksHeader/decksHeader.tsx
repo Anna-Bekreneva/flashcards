@@ -50,7 +50,7 @@ export const DecksHeader: FC<Props> = ({
             {buttonText || 'Add New Pack'}
           </Button>
         ) : (
-          <Button as={NavLink} to={to}>
+          <Button as={NavLink} to={to ?? ''}>
             {buttonText || 'Add New Pack'}
           </Button>
         )}

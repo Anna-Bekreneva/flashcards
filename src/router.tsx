@@ -6,12 +6,16 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
-import { DeckPage, DecksPage } from '@/pages'
+import { DeckPage, DecksPage, ErrorPage } from '@/pages'
 
 const publicRoutes: RouteObject[] = [
   {
     path: '/login',
     element: <div>login</div>,
+  },
+  {
+    path: '*',
+    element: <ErrorPage />,
   },
 ]
 

@@ -18,7 +18,7 @@ export const DecksPagination: FC<Props> = ({
   setItemsPerPage,
   perPage,
 }) => {
-  const perPageOptions = [10, 20, 30, 50, 100]
+  const perPageOptions = [10, 20, 30, 50]
 
   return (
     <Pagination
