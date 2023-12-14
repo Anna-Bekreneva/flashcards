@@ -13,13 +13,13 @@ export const DecksService = baseApi.injectEndpoints({
         },
         providesTags: ['Decks'],
       }),
-      // getDeck: builder.query<any, GetParamsType | void>({
-      //   query: () => {
-      //     return {
-      //       url: `v1/decks`,
-      //     }
-      //   },
-      // }),
+      getDeck: builder.query<DeckType, { id: string }>({
+        query: body => {
+          return {
+            url: `v1/decks/${body.id}`,
+          }
+        },
+      }),
       createDeck: builder.mutation<DeckType, CreateParamsType>({
         query: body => {
           const formData = new FormData()
