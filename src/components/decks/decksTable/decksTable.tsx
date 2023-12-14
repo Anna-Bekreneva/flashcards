@@ -1,5 +1,7 @@
 import { FC, useState } from 'react'
 
+import { NavLink } from 'react-router-dom'
+
 import notFoundImg from '../../../assets/images/not-found.png'
 
 import s from './decksTable.module.scss'
@@ -61,14 +63,16 @@ export const DecksTable: FC<Props> = ({ id, items, setIdUpdateDeck, setIdDeleteD
             {items.map(item => (
               <TableRow key={item.id}>
                 <TableCell>
-                  {item.cover ? (
-                    <figure className={s.preview}>
-                      <img className={s.image} src={item.cover} alt={'Preview'} />
-                      <figcaption>{item.name}</figcaption>
-                    </figure>
-                  ) : (
-                    <span>{item.name}</span>
-                  )}
+                  <NavLink className={s.deck} to={`decks/deck/${item.id}`}>
+                    {item.cover ? (
+                      <div className={s.preview}>
+                        <img className={s.image} src={item.cover} alt={'Preview'} />
+                        <span>{item.name}</span>
+                      </div>
+                    ) : (
+                      <span>{item.name}</span>
+                    )}
+                  </NavLink>
                 </TableCell>
                 <TableCell>{item.cardsCount}</TableCell>
                 <TableCell>{getDate(item.updated)}</TableCell>
