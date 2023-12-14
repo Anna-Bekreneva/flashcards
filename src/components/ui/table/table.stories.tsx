@@ -9,12 +9,10 @@ const columns: Array<Column> = [
   {
     key: 'name',
     title: 'Name',
-    sortable: true,
   },
   {
     key: 'cardsCount',
     title: 'Cards',
-    sortable: true,
   },
   {
     key: 'updated',

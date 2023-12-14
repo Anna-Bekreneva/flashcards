@@ -2,11 +2,12 @@
   cursor: pointer;
 
   position: relative;
+  z-index: 1;
 
   width: 100%;
   max-width: 300px;
   margin-top: 12px;
-  padding: 0 12px 12px;
+  padding: 12px;
 
   background-color: var(--color-dark-700);
   border: 1px solid var(--color-dark-500);

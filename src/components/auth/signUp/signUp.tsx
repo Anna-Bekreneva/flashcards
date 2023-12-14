@@ -17,7 +17,7 @@ const signUpSchema = z
   })
   .refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
-    path: ['confirmPassword'], // path of error
+    path: ['confirmPassword'],
   })
 
 type FormValues = z.infer<typeof signUpSchema>
@@ -45,7 +45,6 @@ export const SignUp: FC<Props> = props => {
           <ControlledTextField
             control={control}
             name={'email'}
-            type={'text'}
             label={'Email'}
             errorMessage={errors.email?.message}
           />

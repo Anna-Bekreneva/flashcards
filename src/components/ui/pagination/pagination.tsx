@@ -6,6 +6,7 @@ import { TypographyVariant } from '@/common'
 import { Select, Typography } from '@/components'
 
 type Props = {
+  className?: string
   onChangePage: (currentPage: number) => void
   onChangePerPage: (perPage: number) => void
   perPageOptions: number[]
@@ -16,7 +17,10 @@ type Props = {
 
 type MiddlePaginationType = number | '...'
 export const Pagination = forwardRef<HTMLDivElement, Props>(
-  ({ onChangePage, onChangePerPage, perPageOptions, totalPages, perPage, currentPage }, ref?) => {
+  (
+    { onChangePage, onChangePerPage, perPageOptions, totalPages, perPage, currentPage, className },
+    ref?
+  ) => {
     const onPageClick = (currentPage: number) => onChangePage(currentPage)
 
     const paginationRange = (currentPage: number, totalPages: number): MiddlePaginationType[] => {
@@ -55,7 +59,7 @@ export const Pagination = forwardRef<HTMLDivElement, Props>(
     const optionsForSelect = perPageOptions.map(el => ({ value: String(el), label: String(el) }))
 
     return (
-      <div className={s.paginator} ref={ref}>
+      <div className={`${s.paginator} ${className}`} ref={ref}>
         <ArrowButton onClick={handlePrevClick} disabled={currentPage === 1} type={'prev'} />
 
         <MainButtons

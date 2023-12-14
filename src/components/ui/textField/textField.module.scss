@@ -24,7 +24,6 @@
     height: 20px;
 
     background-image: url('../../../assets/images/icons/search.svg');
-    filter: invert(46%) sepia(0%) saturate(0%) hue-rotate(84deg) brightness(93%) contrast(93%);
   }
 }
 
@@ -39,6 +38,10 @@
 }
 
 .disabledWrapper {
+  &::before {
+    filter: invert(46%) sepia(0%) saturate(0%) hue-rotate(84deg) brightness(93%) contrast(93%);
+  }
+
   .field {
     color: var(--color-dark-300);
     border-color: var(--color-dark-300);

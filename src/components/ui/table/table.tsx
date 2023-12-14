@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 
+import { Typography } from '@/components'
 import s from '@/components/ui/table/table.module.scss'
-import { Typography } from '@/components/ui/typography'
 
 export type Column = {
   key: string
@@ -11,10 +11,10 @@ export type Column = {
 
 export type Sort = {
   key: string
-  direction: sortDirectionType
+  direction: SortDirectionType
 } | null
 
-export type sortDirectionType = 'asc' | 'desc'
+export type SortDirectionType = 'asc' | 'desc'
 
 export const Table = forwardRef<ElementRef<'table'>, ComponentPropsWithoutRef<'table'>>(
   ({ className, ...rest }, ref?) => {
@@ -47,7 +47,7 @@ export const TableHeader = forwardRef<ElementRef<'thead'>, TableHeadProps>(
     const arrowClassName = `${s.arrow} ${sort?.direction === 'asc' ? s.arrowTop : s.arrowBottom}`
 
     return (
-      <thead className={`${className} ${s.thead}`} ref={ref} {...rest}>
+      <TableHead className={`${className} ${s.thead}`} ref={ref} {...rest}>
         <TableRow>
           {columns.map(({ title, key, sortable }) => (
             <TableHeadRow
@@ -61,7 +61,7 @@ export const TableHeader = forwardRef<ElementRef<'thead'>, TableHeadProps>(
             </TableHeadRow>
           ))}
         </TableRow>
-      </thead>
+      </TableHead>
     )
   }
 )

@@ -19,7 +19,7 @@ export const DropDownMenu = forwardRef<
 
   return (
     <RadixDropDownMenu.Root>
-      <RadixDropDownMenu.Trigger>{trigger}</RadixDropDownMenu.Trigger>
+      <RadixDropDownMenu.Trigger asChild>{trigger}</RadixDropDownMenu.Trigger>
       {/*<RadixDropDownMenu.Portal>*/}
       <RadixDropDownMenu.Content className={contentClassName} align={align} ref={ref} {...props}>
         {children}

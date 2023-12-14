@@ -22,8 +22,8 @@ export const ControlledTextField = <T extends FieldValues>({
 
   return (
     <TextField
-      {...rest}
       {...field}
+      {...rest}
       onValueChange={onChange}
       errorMessage={error?.message}
       id={name}

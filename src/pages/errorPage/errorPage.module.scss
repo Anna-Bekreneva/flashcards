@@ -1,0 +1,14 @@
+@import '../../styles/mixins';
+
+.container {
+  @include flex;
+
+  min-height: 100vh;
+}
+
+.wrapper {
+  img {
+    max-width: 451px;
+    height: 200px;
+  }
+}
