@@ -1,0 +1,41 @@
+@import './mixins';
+
+.container {
+  max-width: 1026px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.section {
+  padding: 33px 0;
+}
+
+.back {
+  margin-bottom: 33px;
+  padding-left: 22px;
+  position: relative;
+  display: inline-block;
+  transition: border-radius 0.3s, box-shadow 0.3s, opacity 0.3s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    @include bg;
+    top: 3px;
+    left: 0;
+    background-image: url('../assets/images/icons/back.svg')
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--color-accent-700);
+    outline: 0;
+    border-radius: 2px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+}

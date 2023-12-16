@@ -1,0 +1,32 @@
+@import '../../../styles/mixins';
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.content {
+  @include flex(center, space-between);
+
+  gap: 20px;
+}
+
+.title {
+  @include flex;
+
+  gap: 6px;
+}
+
+.count {
+  color: var(--color-light-900);
+}
+
+.preview {
+  width: 100%;
+  max-width: 170px;
+  height: 107px;
+
+  object-fit: cover;
+  border-radius: 2px;
+}

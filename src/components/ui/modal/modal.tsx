@@ -18,14 +18,12 @@ type Props = {
   children: ReactNode
 }
 export const Modal = forwardRef<ElementRef<typeof RadixDialog.Content>, Props>(
-  ({ className, isOpen, onOpenChange, title, close = false, overlay = false, children }, ref?) => {
-    const contentClasName = `${s.content} ${className ? className : ''}`
+  ({ className, isOpen, onOpenChange, title, close = true, overlay = true, children }, ref?) => {
+    const modalClasName = `${s.modal} ${className ? className : ''}`
 
-    return (
-      <RadixDialog.Root open={isOpen} onOpenChange={onOpenChange}>
-        {/*<RadixDialog.Portal>*/}
-        {overlay && <RadixDialog.Overlay className={s.overlay} />}
-        <Card as={RadixDialog.Content} className={contentClasName} ref={ref}>
+    const content = (
+      <div className={modalClasName}>
+        <Card className={s.content} as={RadixDialog.Content} ref={ref}>
           {(title || close) && (
             <header className={s.header}>
               {title && (
@@ -42,6 +40,19 @@ export const Modal = forwardRef<ElementRef<typeof RadixDialog.Content>, Props>(
           )}
           {children}
         </Card>
+      </div>
+    )
+
+    return (
+      <RadixDialog.Root open={isOpen} onOpenChange={onOpenChange}>
+        {/*<RadixDialog.Portal>*/}
+
+        {overlay ? (
+          <RadixDialog.Overlay className={s.overlay}>{content}</RadixDialog.Overlay>
+        ) : (
+          <>{content}</>
+        )}
+
         {/*</RadixDialog.Portal>*/}
       </RadixDialog.Root>
     )

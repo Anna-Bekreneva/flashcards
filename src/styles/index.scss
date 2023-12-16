@@ -1,3 +1,4 @@
-@forward 'colors';
-@forward 'typography';
-@forward 'boilerplate';
+@import 'colors';
+@import 'typography';
+@import 'reset';
+@import 'global';

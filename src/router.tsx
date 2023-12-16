@@ -4,33 +4,33 @@ import {
   Outlet,
   RouteObject,
   RouterProvider,
-  // useParams,
 } from 'react-router-dom'
 
-import { useGetCardsQuery } from '@/services/cards'
+import { DeckPage, DecksPage, ErrorPage } from '@/pages'
 
 const publicRoutes: RouteObject[] = [
   {
     path: '/login',
     element: <div>login</div>,
   },
+  {
+    path: '*',
+    element: <ErrorPage />,
+  },
 ]
 
 const privateRoutes: RouteObject[] = [
   {
     path: '/',
-    element: <div>hello</div>,
+    element: <DecksPage />,
+  },
+  {
+    path: '/decks/deck/:id',
+    element: <DeckPage />,
   },
 ]
 
 export const Router = () => {
-  // let { id } = useParams<{ id: string }>()
-  // const res = useGetCardsQuery(id ?? '')
-  // const res = useGetCardsFromSpecificDeckQuery('f2be95b9-4d07-4751-a775-bd612fc9553a')
-  const res = useGetCardsQuery({ id: 'clpqq7n0b0afqwv2qfdw4hfls' })
-
-  console.log(res)
-
   return <RouterProvider router={router} />
 }
 
