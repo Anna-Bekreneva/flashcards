@@ -26,7 +26,8 @@ const privateRoutes: RouteObject[] = [
 export const Router = () => {
   // let { id } = useParams<{ id: string }>()
   // const res = useGetCardsQuery(id ?? '')
-  const res = useGetCardsQuery('f2be95b9-4d07-4751-a775-bd612fc9553a')
+  // const res = useGetCardsFromSpecificDeckQuery('f2be95b9-4d07-4751-a775-bd612fc9553a')
+  const res = useGetCardsQuery({ id: 'clpqq7n0b0afqwv2qfdw4hfls' })
 
   console.log(res)
 

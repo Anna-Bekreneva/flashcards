@@ -29,7 +29,7 @@ export type UpdateCardRequestType = Partial<CardRequestCommonType> & { id: strin
 
 export type CreateCardRequestType = CardRequestCommonType & { deckId: string }
 
-export type GetCardsFromSpecificDeckRequestType = {
+export type GetCardsRequestType = {
   id: string
   question?: string
   answer?: string
@@ -38,7 +38,7 @@ export type GetCardsFromSpecificDeckRequestType = {
   itemsPerPage?: number
 }
 
-export type GetCardsFromSpecificDeckResponseType = {
+export type GetCardsResponseType = {
   items: ItemsType[]
   pagination: PaginationType
 }
@@ -56,6 +56,6 @@ export type GetRandomCardRequestType = {
 }
 
 export type SaveGradeOfCardType = {
-  cardId: string
+  id: string
   grade: CardRatingType
 }

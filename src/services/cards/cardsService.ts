@@ -2,8 +2,8 @@ import { baseApi } from '@/services/baseApi.ts'
 import {
   CardsResponseType,
   CreateCardRequestType,
-  GetCardsFromSpecificDeckRequestType,
-  GetCardsFromSpecificDeckResponseType,
+  GetCardsRequestType,
+  GetCardsResponseType,
   GetRandomCardRequestType,
   SaveGradeOfCardType,
   UpdateCardRequestType,
@@ -12,13 +12,30 @@ import {
 export const CardsService = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      getCards: builder.query<CardsResponseType[], string>({
+      getCards: builder.query<GetCardsResponseType, GetCardsRequestType>({
+        query: card => {
+          return {
+            url: `/v1/decks/${card.id}/cards`,
+            params: {
+              question: card.question,
+              answer: card.answer,
+              orderBy: card.orderBy,
+              currentPage: card.currentPage,
+              itemsPerPage: card.itemsPerPage,
+            },
+          }
+        },
+        providesTags: res =>
+          res
+            ? [...res.items.map(card => ({ type: 'Cards' as const, id: card.id })), 'Cards']
+            : ['Cards'],
+      }),
+      getCardById: builder.query<CardsResponseType[], string>({
         query: id => {
           return {
             url: `/v1/cards/${id}`,
           }
         },
-        providesTags: ['Cards'],
       }),
       createCard: builder.mutation<any, CreateCardRequestType>({
         query: card => {
@@ -42,7 +59,7 @@ export const CardsService = baseApi.injectEndpoints({
             },
           }
         },
-        invalidatesTags: ['Cards'], //fix
+        invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.id }],
       }),
       deleteCard: builder.mutation<void, string>({
         query: id => {
@@ -52,17 +69,6 @@ export const CardsService = baseApi.injectEndpoints({
           }
         },
         invalidatesTags: ['Cards'],
-      }),
-      getCardsFromSpecificDeck: builder.query<
-        GetCardsFromSpecificDeckResponseType,
-        GetCardsFromSpecificDeckRequestType
-      >({
-        query: params => {
-          return {
-            url: `/v1/decks/${params.id}/cards`,
-            params,
-          }
-        },
       }),
       getRandomCard: builder.query<CardsResponseType, GetRandomCardRequestType>({
         query: params => {
@@ -76,11 +82,11 @@ export const CardsService = baseApi.injectEndpoints({
         query: params => {
           return {
             method: 'POST',
-            url: `/v1/decks/${params.cardId}/learn`,
+            url: `/v1/decks/${params.id}/learn`,
             body: params,
           }
         },
-        invalidatesTags: ['Cards'], //fix!!! (id)
+        invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.id }],
       }),
     }
   },
@@ -88,10 +94,10 @@ export const CardsService = baseApi.injectEndpoints({
 
 export const {
   useGetCardsQuery,
+  useGetCardByIdQuery,
   useUpdateCardMutation,
   useDeleteCardMutation,
   useCreateCardMutation,
-  useGetCardsFromSpecificDeckQuery,
   useGetRandomCardQuery,
   useSaveGradeOfCardMutation,
 } = CardsService
