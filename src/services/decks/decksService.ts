@@ -1,4 +1,11 @@
-import { CreateParamsType, DeckType, GetDecksResponseType, GetParamsType } from '@/services'
+import {
+  CardParamsType,
+  CreateParamsType,
+  DeckType,
+  GetCardsResponseType,
+  GetDecksResponseType,
+  GetParamsType,
+} from '@/services'
 import { baseApi } from '@/services/baseApi.ts'
 
 export const DecksService = baseApi.injectEndpoints({
@@ -39,11 +46,11 @@ export const DecksService = baseApi.injectEndpoints({
         },
         invalidatesTags: ['Decks'],
       }),
-      deleteDeck: builder.mutation<Omit<DeckType, 'author'>, string>({
-        query: id => {
+      deleteDeck: builder.mutation<Omit<DeckType, 'author'>, { id: string }>({
+        query: body => {
           return {
             method: 'DELETE',
-            url: `v1/decks/${id}`,
+            url: `v1/decks/${body.id}`,
           }
         },
         invalidatesTags: ['Decks'],
@@ -64,6 +71,15 @@ export const DecksService = baseApi.injectEndpoints({
         },
         invalidatesTags: (res, error, deck) => [{ type: 'Decks', id: deck.id }],
       }),
+      getCards: builder.query<GetCardsResponseType, CardParamsType>({
+        query: ({ id, ...rest }) => {
+          return {
+            url: `v1/decks/${id}/cards`,
+            params: rest,
+          }
+        },
+        providesTags: ['Cards'],
+      }),
     }
   },
 })
@@ -74,4 +90,5 @@ export const {
   useDeleteDeckMutation,
   useUpdateDeckMutation,
   useGetDeckQuery,
+  useGetCardsQuery,
 } = DecksService

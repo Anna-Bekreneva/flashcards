@@ -41,27 +41,11 @@ export const DecksTable: FC<Props> = ({
   disabled,
 }) => {
   const columns: Array<Column> = [
-    {
-      key: 'name',
-      title: 'Name',
-    },
-    {
-      key: 'cardsCount',
-      title: 'Cards',
-    },
-    {
-      key: 'updated',
-      title: 'Last Updated',
-      sortable: true,
-    },
-    {
-      key: 'createdBy',
-      title: 'Created by',
-    },
-    {
-      key: 'buttons',
-      title: '',
-    },
+    { key: 'name', title: 'Name' },
+    { key: 'cardsCount', title: 'Cards' },
+    { key: 'updated', title: 'Last Updated', sortable: true },
+    { key: 'createdBy', title: 'Created by' },
+    { key: 'buttons', title: '' },
   ]
 
   return (

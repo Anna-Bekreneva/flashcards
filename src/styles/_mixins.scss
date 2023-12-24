@@ -72,3 +72,11 @@
   clip-path: inset(100%);
   border: 0;
 }
+
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  overflow: hidden;
+  //text-overflow: ellipsis;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+}
