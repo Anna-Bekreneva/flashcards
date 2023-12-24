@@ -11,7 +11,10 @@ export const DecksService = baseApi.injectEndpoints({
             params,
           }
         },
-        providesTags: ['Decks'],
+        providesTags: res =>
+          res
+            ? [...res.items.map(item => ({ type: 'Decks' as const, id: item.id })), 'Decks']
+            : ['Decks'],
       }),
       getDeck: builder.query<DeckType, { id: string }>({
         query: body => {
@@ -31,7 +34,7 @@ export const DecksService = baseApi.injectEndpoints({
           return {
             method: 'POST',
             url: 'v1/decks',
-            body: 'formData',
+            body: formData,
           }
         },
         invalidatesTags: ['Decks'],
@@ -59,7 +62,7 @@ export const DecksService = baseApi.injectEndpoints({
             body: formData,
           }
         },
-        invalidatesTags: ['Decks'],
+        invalidatesTags: (res, error, deck) => [{ type: 'Decks', id: deck.id }],
       }),
     }
   },
