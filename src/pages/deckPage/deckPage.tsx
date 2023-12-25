@@ -2,10 +2,13 @@ import { useState } from 'react'
 
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 
+import video from '../../assets/video.mp4'
+
 import s from './deckPage.module.scss'
 
 import { DeleteIcon, EditIcon, PlayIcon, StarIcon } from '@/assets/iconsComponents'
 import {
+  AddCardModal,
   Column,
   DecksHeader,
   DropDownMenu,
@@ -24,9 +27,11 @@ import { useGetCardsQuery, useGetDeckQuery } from '@/services'
 import { calcRating, getDate } from '@/utils'
 
 export const DeckPage = () => {
+  // заменить на deckId
   const { id } = useParams()
   const { data } = useGetDeckQuery({ id: id ?? '' })
   const [isOpenAddModal, setIsOpenAddModal] = useState(false)
+  // const [id]
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<Sort>(null)
   const navigate = useNavigate()
@@ -50,6 +55,11 @@ export const DeckPage = () => {
     <>
       {isFetching && <ProgressBar />}
       <section className={'container section'}>
+        <AddCardModal
+          deckId={id ?? ''}
+          isOpen={isOpenAddModal}
+          onOpenChange={() => setIsOpenAddModal(!isOpenAddModal)}
+        />
         <button className={'back'} onClick={goBack}>
           Back to Packs List
         </button>
@@ -80,9 +90,69 @@ export const DeckPage = () => {
               cards.items.map(card => {
                 return (
                   <TableRow key={card.id}>
-                    <TableCell> {card.question} </TableCell>
                     <TableCell>
-                      <p className={s.answerText}>{card.answer}</p>
+                      <div className={s.cardInfo}>
+                        {card.questionImg && (
+                          <div className={s.preview}>
+                            <img
+                              className={s.image}
+                              src={card.questionImg}
+                              alt={'Preview'}
+                              width={118}
+                              height={48}
+                              loading={'lazy'}
+                            />
+                            <span>{card.question} </span>
+                          </div>
+                        )}
+
+                        {card.questionVideo && (
+                          <div className={s.preview}>
+                            <video
+                              className={s.video}
+                              src={video}
+                              width={118}
+                              height={48}
+                              controls
+                              muted
+                            />
+                            <span>{card.question} </span>
+                          </div>
+                        )}
+                      </div>
+                      {!card.questionImg && !card.questionVideo && <span>{card.question}</span>}
+                    </TableCell>
+                    <TableCell>
+                      <div className={s.cardInfo}>
+                        {card.answerImg && (
+                          <div className={s.preview}>
+                            <img
+                              className={s.image}
+                              src={card.answerImg}
+                              alt={'Preview'}
+                              width={118}
+                              height={48}
+                              loading={'lazy'}
+                            />
+                            <span>{card.answer} </span>
+                          </div>
+                        )}
+
+                        {card.answerVideo && (
+                          <div className={s.preview}>
+                            <video
+                              className={s.video}
+                              src={video}
+                              width={118}
+                              height={48}
+                              controls
+                              muted
+                            />
+                            <span>{card.answer} </span>
+                          </div>
+                        )}
+                      </div>
+                      {!card.answerImg && !card.answerVideo && <span>{card.answer}</span>}
                     </TableCell>
                     <TableCell>{getDate(card.updated)}</TableCell>
                     <TableCell>
@@ -102,13 +172,15 @@ export const DeckPage = () => {
                       </ul>
                     </TableCell>
                     {card.userId === MY_ID ? (
-                      <TableCell className={s.manage}>
-                        <button className={s.button} type="button" aria-label={'Edit card'}>
-                          <EditIcon />
-                        </button>
-                        <button className={s.button} type="button" aria-label={'Delete card'}>
-                          <DeleteIcon />
-                        </button>
+                      <TableCell>
+                        <div className={s.manage}>
+                          <button className={s.button} type="button" aria-label={'Edit card'}>
+                            <EditIcon />
+                          </button>
+                          <button className={s.button} type="button" aria-label={'Delete card'}>
+                            <DeleteIcon />
+                          </button>
+                        </div>
                       </TableCell>
                     ) : null}
                   </TableRow>

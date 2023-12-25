@@ -60,7 +60,14 @@ export const DecksTable: FC<Props> = ({
                   <NavLink className={s.deck} to={`decks/deck/${item.id}`}>
                     {item.cover ? (
                       <div className={s.preview}>
-                        <img className={s.image} src={item.cover} alt={'Preview'} />
+                        <img
+                          className={s.image}
+                          src={item.cover}
+                          alt={'Preview'}
+                          width={118}
+                          height={48}
+                          loading={'lazy'}
+                        />
                         <span>{item.name}</span>
                       </div>
                     ) : (
@@ -72,31 +79,33 @@ export const DecksTable: FC<Props> = ({
                 <TableCell>{getDate(item.updated)}</TableCell>
                 <TableCell>{item.author.name}</TableCell>
                 <TableCell>
-                  <a className={s.button} href="#" aria-label={'Learn deck'}>
-                    <PlayIcon />
-                  </a>
-                  {item.author.id === id ? (
-                    <>
-                      <button
-                        className={s.button}
-                        onClick={() => setIdUpdateDeck(item.id)}
-                        type="button"
-                        aria-label={'Edit deck'}
-                        disabled={disabled}
-                      >
-                        <EditIcon />
-                      </button>
-                      <button
-                        className={s.button}
-                        onClick={() => setIdDeleteDeck(item.id)}
-                        type="button"
-                        aria-label={'Delete deck'}
-                        disabled={disabled}
-                      >
-                        <DeleteIcon />
-                      </button>
-                    </>
-                  ) : null}
+                  <div className={s.manage}>
+                    <a className={s.button} href="#" aria-label={'Learn deck'}>
+                      <PlayIcon />
+                    </a>
+                    {item.author.id === id ? (
+                      <>
+                        <button
+                          className={s.button}
+                          onClick={() => setIdUpdateDeck(item.id)}
+                          type="button"
+                          aria-label={'Edit deck'}
+                          disabled={disabled}
+                        >
+                          <EditIcon />
+                        </button>
+                        <button
+                          className={s.button}
+                          onClick={() => setIdDeleteDeck(item.id)}
+                          type="button"
+                          aria-label={'Delete deck'}
+                          disabled={disabled}
+                        >
+                          <DeleteIcon />
+                        </button>
+                      </>
+                    ) : null}
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

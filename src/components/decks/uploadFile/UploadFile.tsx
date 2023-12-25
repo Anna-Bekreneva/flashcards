@@ -3,14 +3,20 @@ import { ChangeEvent, FC, useRef, useState } from 'react'
 import s from './uploadFile.module.scss'
 
 import { ImageIcon } from '@/assets/iconsComponents'
+import video from '@/assets/video.mp4'
 import { ButtonVariant } from '@/common'
 import { Button, TextField } from '@/components'
 
 type Props = {
   setCover: (cover: File) => void
   defaultLocalCover?: string
+  typeCover?: 'image' | 'video'
 }
-export const UploadFile: FC<Props> = ({ setCover, defaultLocalCover = '' }) => {
+export const UploadFile: FC<Props> = ({
+  setCover,
+  defaultLocalCover = '',
+  typeCover = 'image',
+}) => {
   const inputRef = useRef<HTMLDivElement>(null)
 
   const selectFileHandler = () => {
@@ -33,6 +39,7 @@ export const UploadFile: FC<Props> = ({ setCover, defaultLocalCover = '' }) => {
 
         const downloadUrl = window.URL.createObjectURL(blob)
 
+        console.log(downloadUrl)
         setLocalCover(downloadUrl)
         setCoverErrorMessage(undefined)
       } else {
@@ -45,23 +52,36 @@ export const UploadFile: FC<Props> = ({ setCover, defaultLocalCover = '' }) => {
 
   return (
     <div className={s.content}>
-      {localCover && (
+      {localCover && typeCover === 'video' && (
+        <video
+          className={`${coverErrorMessage ? '' : s.img}`}
+          src={video}
+          width={484}
+          height={120}
+          onError={errorHandler}
+          controls
+          muted
+        />
+      )}
+      {localCover && typeCover === 'image' && (
         <img
           className={`${coverErrorMessage ? '' : s.img}`}
           src={localCover}
+          width={484}
+          height={120}
           onError={errorHandler}
           alt="cover"
         />
       )}
       <Button variant={ButtonVariant.secondary} onClick={selectFileHandler} type={'button'}>
         <ImageIcon />
-        Upload Cover
+        {typeCover === 'image' ? 'Upload Cover' : 'Upload video'}
       </Button>
       <TextField
         className={s.imageField}
         ref={inputRef}
         type="file"
-        accept={'image/*'}
+        accept={typeCover === 'image' ? 'image/*' : 'video/*'}
         errorMessage={coverErrorMessage}
         onChange={uploadHandler}
       />

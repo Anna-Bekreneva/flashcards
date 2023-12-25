@@ -8,7 +8,7 @@ import s from './select.module.scss'
 import { TypographyVariant } from '@/common'
 import { Typography } from '@/components'
 
-type OptionType = { label: string; value: string; disabled?: boolean }
+export type OptionType = { label: string; value: string; disabled?: boolean }
 
 type Props = SelectProps & {
   label?: string

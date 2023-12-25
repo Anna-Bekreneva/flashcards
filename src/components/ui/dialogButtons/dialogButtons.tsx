@@ -10,7 +10,7 @@ type Props = {
   cancelText?: string
   cancelHandler: () => void
   agreeText?: string
-  agreeHandler: () => void
+  agreeHandler?: () => void
   agreeButtonType?: 'button' | 'submit' | 'reset'
   agreeButtonDisabled?: boolean
 }

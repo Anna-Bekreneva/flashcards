@@ -1,0 +1,26 @@
+.modal {
+  max-width: 542px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  padding: 24px 34px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.select {
+  label {
+    color: var(--color-dark-100);
+  }
+
+  div {
+    z-index: 6 !important;
+  }
+
+}

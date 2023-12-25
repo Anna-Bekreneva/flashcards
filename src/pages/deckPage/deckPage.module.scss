@@ -91,6 +91,20 @@
   }
 }
 
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  img,
+  video {
+    width: 118px;
+    height: 48px;
+    margin-right: 0;
+    object-fit: cover;
+  }
+}
+
 .button {
   @include flex;
 

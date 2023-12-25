@@ -30,7 +30,7 @@ type PaginationType = {
   totalItems: number
 }
 
-export type GetParamsType = {
+export type GetDecksParamsType = {
   minCardsCount: number
   maxCardsCount: number
   name: string
@@ -40,13 +40,13 @@ export type GetParamsType = {
   orderBy?: string
 }
 
-export type CreateParamsType = {
+export type CreateDeckParamsType = {
   cover: File | undefined
   name: string
   isPrivate: boolean
 }
 
-export type CardParamsType = {
+export type GetCardParamsType = {
   id: string
   question?: string
   answer?: string
@@ -74,4 +74,14 @@ export type CardType = {
   answerVideo: string | null
   created: string
   updated: string
+}
+
+export type CreateCardParamsType = {
+  id: string
+  question: string
+  answer: string
+  answerImg?: File | undefined
+  questionImg?: File | undefined
+  questionVideo?: File | undefined
+  answerVideo?: File | undefined
 }

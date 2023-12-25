@@ -68,7 +68,6 @@ export const AddDeckModal: FC<Props> = ({ title, isOpen, onOpenChange }) => {
           cancelHandler={onOpenChange}
           agreeText={'Add New Pack'}
           agreeButtonType={'submit'}
-          agreeHandler={() => {}}
           agreeButtonDisabled={!!Object.keys(formState.errors).length}
         />
       </form>

@@ -1,17 +1,19 @@
 import {
-  CardParamsType,
-  CreateParamsType,
+  GetCardParamsType,
+  CreateDeckParamsType,
   DeckType,
   GetCardsResponseType,
   GetDecksResponseType,
-  GetParamsType,
+  GetDecksParamsType,
+  CreateCardParamsType,
+  CardType,
 } from '@/services'
 import { baseApi } from '@/services/baseApi.ts'
 
 export const DecksService = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      getDecks: builder.query<GetDecksResponseType, GetParamsType>({
+      getDecks: builder.query<GetDecksResponseType, GetDecksParamsType>({
         query: params => {
           return {
             url: `v1/decks`,
@@ -30,7 +32,7 @@ export const DecksService = baseApi.injectEndpoints({
           }
         },
       }),
-      createDeck: builder.mutation<DeckType, CreateParamsType>({
+      createDeck: builder.mutation<DeckType, CreateDeckParamsType>({
         query: body => {
           const formData = new FormData()
 
@@ -55,7 +57,7 @@ export const DecksService = baseApi.injectEndpoints({
         },
         invalidatesTags: ['Decks'],
       }),
-      updateDeck: builder.mutation<DeckType, CreateParamsType & { id: string }>({
+      updateDeck: builder.mutation<DeckType, CreateDeckParamsType & { id: string }>({
         query: body => {
           const formData = new FormData()
 
@@ -71,7 +73,7 @@ export const DecksService = baseApi.injectEndpoints({
         },
         invalidatesTags: (res, error, deck) => [{ type: 'Decks', id: deck.id }],
       }),
-      getCards: builder.query<GetCardsResponseType, CardParamsType>({
+      getCards: builder.query<GetCardsResponseType, GetCardParamsType>({
         query: ({ id, ...rest }) => {
           return {
             url: `v1/decks/${id}/cards`,
@@ -79,6 +81,38 @@ export const DecksService = baseApi.injectEndpoints({
           }
         },
         providesTags: ['Cards'],
+      }),
+      createCard: builder.mutation<CardType, CreateCardParamsType>({
+        query: body => {
+          const formData = new FormData()
+
+          formData.append('answer', body.answer)
+          formData.append('question', body.question)
+          body.questionImg && formData.append('questionImg', body.questionImg)
+          body.answerImg && formData.append('answerImg', body.answerImg)
+          body.questionVideo && formData.append('questionVideo', body.questionVideo)
+          body.answerVideo && formData.append('answerVideo', body.answerVideo)
+
+          return {
+            method: 'POST',
+            url: `v1/decks/${body.id}/cards`,
+            body: formData,
+          }
+        },
+
+        // const formData = new FormData()
+        //
+        // formData.append('name', body.name)
+        // body.cover && formData.append('cover', body.cover)
+        // formData.append('isPrivate', body.isPrivate.toString())
+        //
+        // return {
+        //   method: 'POST',
+        //   url: 'v1/decks',
+        //   body: formData,
+        // }
+
+        invalidatesTags: ['Cards'],
       }),
     }
   },
@@ -91,4 +125,5 @@ export const {
   useUpdateDeckMutation,
   useGetDeckQuery,
   useGetCardsQuery,
+  useCreateCardMutation,
 } = DecksService
