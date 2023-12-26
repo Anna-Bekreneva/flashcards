@@ -10,7 +10,7 @@ import {
   DecksHeader,
   DecksPagination,
   DecksTable,
-  DeleteDeckModal,
+  DeleteModal,
   SliderCustom,
   Sort,
   Tabs,
@@ -22,7 +22,7 @@ import {
 } from '@/components'
 import { Preloader } from '@/components/ui/preloader'
 import { ProgressBar } from '@/components/ui/progressBar'
-import { useGetDecksQuery } from '@/services'
+import { useDeleteDeckMutation, useGetDecksQuery } from '@/services'
 
 export const MY_ID = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
 const DEFAULT_MAX_CARDS_COUNT = 100
@@ -61,7 +61,7 @@ export const DecksPage = () => {
   // delete modal
   const [idDeleteDeck, setIdDeleteDeck] = useState('')
   const nameDeleteDeck = data?.items.find(item => item.id === idDeleteDeck)?.name
-
+  const [deleteDeck] = useDeleteDeckMutation()
   // add modal
   const [isOpenAddModal, setIsOpenAddModal] = useState(false)
   const clearSettingsHandler = () => {
@@ -92,10 +92,11 @@ export const DecksPage = () => {
     <>
       {isFetching && <ProgressBar />}
       <section className={'container section'}>
-        <DeleteDeckModal
+        <DeleteModal
           key={idDeleteDeck}
-          nameDeleteDeck={nameDeleteDeck ?? ''}
-          idDeleteDeck={idDeleteDeck}
+          deleteCallback={deleteDeck}
+          nameDelete={nameDeleteDeck ?? ''}
+          idDelete={idDeleteDeck}
           title={'Delete Pack'}
           isOpen={!!idDeleteDeck}
           onOpenChange={() => setIdDeleteDeck('')}

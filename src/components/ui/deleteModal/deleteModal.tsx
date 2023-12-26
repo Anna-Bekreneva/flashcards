@@ -1,27 +1,26 @@
 import { FC } from 'react'
 
-import s from '../decksModals.module.scss'
+import s from '../../decks/decksModals/decksModals.module.scss'
 
 import { TypographyVariant } from '@/common'
 import { DialogButtons, Modal, Typography } from '@/components'
-import { useDeleteDeckMutation } from '@/services'
 
 type Props = {
   isOpen: boolean
   onOpenChange: () => void
+  deleteCallback: ({}: { id: string }) => void
   title: string
-  nameDeleteDeck: string
-  idDeleteDeck: string
+  nameDelete: string
+  idDelete: string
 }
-export const DeleteDeckModal: FC<Props> = ({
+export const DeleteModal: FC<Props> = ({
   isOpen,
   onOpenChange,
   title,
-  nameDeleteDeck,
-  idDeleteDeck,
+  nameDelete,
+  idDelete,
+  deleteCallback,
 }) => {
-  const [deleteDeck] = useDeleteDeckMutation()
-
   return (
     <Modal title={title} isOpen={isOpen} className={s.modal} onOpenChange={onOpenChange}>
       <div className={s.modalWrapper}>
@@ -29,16 +28,16 @@ export const DeleteDeckModal: FC<Props> = ({
           <Typography>
             Do you really want to remove
             <Typography variant={TypographyVariant.subtitle2} as={'span'}>
-              {` ${nameDeleteDeck}? `}
+              {` ${nameDelete}? `}
             </Typography>
             All cards will be deleted.
           </Typography>
         </div>
         <DialogButtons
           cancelHandler={onOpenChange}
-          agreeText={'Delete Pack'}
+          agreeText={title}
           agreeHandler={() => {
-            deleteDeck(idDeleteDeck)
+            deleteCallback({ id: idDelete })
             onOpenChange()
           }}
         />

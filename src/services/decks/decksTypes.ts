@@ -1,3 +1,5 @@
+import { CardType } from '@/services/cards'
+
 export type GetDecksResponseType = {
   items: DeckType[]
   pagination: PaginationType
@@ -58,22 +60,6 @@ export type GetCardParamsType = {
 export type GetCardsResponseType = {
   items: CardType[]
   pagination: PaginationType
-}
-
-export type CardType = {
-  id: string
-  deckId: string
-  userId: string
-  question: string
-  answer: string
-  shots: number
-  grade: number
-  answerImg: string | null
-  questionImg: string | null
-  questionVideo: string | null
-  answerVideo: string | null
-  created: string
-  updated: string
 }
 
 export type CreateCardParamsType = {

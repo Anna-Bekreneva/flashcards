@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 import notFoundImg from '../../../assets/images/not-found.png'
 
@@ -23,14 +23,16 @@ import { calcRating, getDate } from '@/utils'
 
 type Props = {
   cards: CardType[] | undefined
+  deleteCallback: (id: string) => void
+  sort: Sort
+  setSort: (value: Sort) => void
 }
 
-export const CardsTable: FC<Props> = ({ cards }) => {
-  const [sort, setSort] = useState<Sort>(null)
+export const CardsTable: FC<Props> = ({ cards, sort, setSort, deleteCallback }) => {
   const columns: Array<Column> = [
     { key: 'question', title: 'Question' },
     { key: 'answer', title: 'Answer' },
-    { key: 'update', title: 'Last Updated', sortable: true },
+    { key: 'updated', title: 'Last Updated', sortable: true },
     { key: 'grade', title: 'Grade' },
     { key: 'buttons', title: '' },
   ]
@@ -77,7 +79,12 @@ export const CardsTable: FC<Props> = ({ cards }) => {
                         <button className={s.button} type="button" aria-label={'Edit card'}>
                           <EditIcon />
                         </button>
-                        <button className={s.button} type="button" aria-label={'Delete card'}>
+                        <button
+                          className={s.button}
+                          onClick={() => deleteCallback(card.id)}
+                          type="button"
+                          aria-label={'Delete card'}
+                        >
                           <DeleteIcon />
                         </button>
                       </div>

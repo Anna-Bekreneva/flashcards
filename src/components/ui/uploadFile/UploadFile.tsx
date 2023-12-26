@@ -39,7 +39,6 @@ export const UploadFile: FC<Props> = ({
 
         const downloadUrl = window.URL.createObjectURL(blob)
 
-        console.log(downloadUrl)
         setLocalCover(downloadUrl)
         setCoverErrorMessage(undefined)
       } else {

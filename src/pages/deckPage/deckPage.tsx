@@ -11,25 +11,38 @@ import {
   Button,
   CardsTable,
   DecksHeader,
+  DeleteModal,
   DropDownMenu,
   NotFound,
+  Sort,
   TextField,
   Typography,
 } from '@/components'
 import { Preloader } from '@/components/ui/preloader'
 import { ProgressBar } from '@/components/ui/progressBar'
 import { MY_ID } from '@/pages'
-import { useGetCardsQuery, useGetDeckQuery } from '@/services'
+import { useDeleteCardMutation, useGetCardsQuery, useGetDeckQuery } from '@/services'
 
 export const DeckPage = () => {
   const { id: deckId } = useParams()
   const { data } = useGetDeckQuery({ id: deckId ?? '' })
-  const [isOpenAddModal, setIsOpenAddModal] = useState(false)
   const [search, setSearch] = useState('')
+  const [sort, setSort] = useState<Sort>(null)
+  const {
+    data: cards,
+    isLoading,
+    isFetching,
+  } = useGetCardsQuery({ id: deckId || '', orderBy: sort ? `${sort?.key}-${sort?.direction}` : '' })
+  const [deleteCard] = useDeleteCardMutation()
+
+  // Навигация
   const navigate = useNavigate()
   const goBack = () => navigate(-1)
 
-  const { data: cards, isLoading, isFetching } = useGetCardsQuery({ id: deckId || '' })
+  // Модалки
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false)
+  const [idDeleteCard, setIdDeleteCard] = useState('')
+  const nameDeleteCard = cards?.items.find(card => card.id === idDeleteCard)?.question
 
   if (isLoading) {
     return <Preloader />
@@ -44,6 +57,14 @@ export const DeckPage = () => {
           deckId={deckId ?? ''}
           isOpen={isOpenAddModal}
           onOpenChange={() => setIsOpenAddModal(!isOpenAddModal)}
+        />
+        <DeleteModal
+          deleteCallback={deleteCard}
+          isOpen={!!idDeleteCard}
+          idDelete={idDeleteCard}
+          title={'Delete Card'}
+          nameDelete={nameDeleteCard || ''}
+          onOpenChange={() => setIdDeleteCard('')}
         />
         <button className={'back'} onClick={goBack}>
           Back to Packs List
@@ -83,7 +104,12 @@ export const DeckPage = () => {
             </Button>
           </NotFound>
         ) : (
-          <CardsTable cards={cards?.items} />
+          <CardsTable
+            cards={cards?.items}
+            sort={sort}
+            setSort={setSort}
+            deleteCallback={setIdDeleteCard}
+          />
         )}
       </section>
     </>
