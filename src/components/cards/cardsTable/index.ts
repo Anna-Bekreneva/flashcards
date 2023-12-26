@@ -1,2 +1,1 @@
-export * from './cardsModal'
 export * from './cardsTable'

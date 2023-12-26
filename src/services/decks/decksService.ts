@@ -99,19 +99,6 @@ export const DecksService = baseApi.injectEndpoints({
             body: formData,
           }
         },
-
-        // const formData = new FormData()
-        //
-        // formData.append('name', body.name)
-        // body.cover && formData.append('cover', body.cover)
-        // formData.append('isPrivate', body.isPrivate.toString())
-        //
-        // return {
-        //   method: 'POST',
-        //   url: 'v1/decks',
-        //   body: formData,
-        // }
-
         invalidatesTags: ['Cards'],
       }),
     }

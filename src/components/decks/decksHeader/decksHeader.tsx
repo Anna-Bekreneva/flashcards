@@ -18,6 +18,7 @@ type Props = {
   cover?: string | null
   as?: 'button' | 'link'
   to?: string
+  isShowButton?: boolean
 }
 export const DecksHeader: FC<Props> = ({
   setIsOpenAddModal,
@@ -30,6 +31,7 @@ export const DecksHeader: FC<Props> = ({
   cover,
   as = 'button',
   to,
+  isShowButton = true,
 }) => {
   return (
     <div className={`${s.header} ${className}`}>
@@ -45,11 +47,13 @@ export const DecksHeader: FC<Props> = ({
           )}
           {children}
         </div>
-        {as === 'button' ? (
+        {isShowButton && as === 'button' && (
           <Button onClick={() => setIsOpenAddModal(!isOpenAddModal)} type={'button'}>
             {buttonText || 'Add New Pack'}
           </Button>
-        ) : (
+        )}
+
+        {isShowButton && as === 'link' && (
           <Button as={NavLink} to={to ?? ''}>
             {buttonText || 'Learn to Pack'}
           </Button>
