@@ -5,8 +5,8 @@ import s from './decksPage.module.scss'
 import { DeleteIcon } from '@/assets/iconsComponents'
 import { ButtonVariant } from '@/common'
 import {
-  AddDeckModal,
   Button,
+  DeckModal,
   DecksHeader,
   DecksPagination,
   DecksTable,
@@ -18,11 +18,15 @@ import {
   TabsTrigger,
   TextField,
   Typography,
-  UpdateDeckModal,
 } from '@/components'
 import { Preloader } from '@/components/ui/preloader'
 import { ProgressBar } from '@/components/ui/progressBar'
-import { useDeleteDeckMutation, useGetDecksQuery } from '@/services'
+import {
+  useCreateDeckMutation,
+  useDeleteDeckMutation,
+  useGetDecksQuery,
+  useUpdateDeckMutation,
+} from '@/services'
 
 export const MY_ID = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
 const DEFAULT_MAX_CARDS_COUNT = 100
@@ -57,13 +61,16 @@ export const DecksPage = () => {
   // update modal
   const [idUpdateDeck, setIdUpdateDeck] = useState<string | null>(null)
   const updateDeck = data?.items.find(item => item.id === idUpdateDeck)
+  const [updatePack] = useUpdateDeckMutation()
 
   // delete modal
   const [idDeleteDeck, setIdDeleteDeck] = useState('')
   const nameDeleteDeck = data?.items.find(item => item.id === idDeleteDeck)?.name
   const [deleteDeck] = useDeleteDeckMutation()
+
   // add modal
   const [isOpenAddModal, setIsOpenAddModal] = useState(false)
+  const [addDeck] = useCreateDeckMutation()
   const clearSettingsHandler = () => {
     setName('')
     setTabsValue(TabsVariant.allCards)
@@ -102,13 +109,19 @@ export const DecksPage = () => {
           onOpenChange={() => setIdDeleteDeck('')}
         />
 
-        <AddDeckModal
+        {/* Добавление */}
+        <DeckModal
+          key={Math.random()}
           title={'Add New Pack'}
           isOpen={isOpenAddModal}
           onOpenChange={() => setIsOpenAddModal(!isOpenAddModal)}
+          callBack={addDeck}
+          agreeText={'Add New Pack'}
         />
 
-        <UpdateDeckModal
+        {/* Обновление */}
+        <DeckModal
+          callBack={data => updatePack({ ...data, id: idUpdateDeck || '' })}
           key={idUpdateDeck}
           currentDeck={{
             name: updateDeck?.name,
@@ -116,9 +129,11 @@ export const DecksPage = () => {
             cover: updateDeck?.cover ?? '',
           }}
           title={'Edit Pack'}
-          openChangeHandler={() => setIdUpdateDeck('')}
-          id={idUpdateDeck ?? ''}
+          onOpenChange={() => setIdUpdateDeck('')}
+          isOpen={!!idUpdateDeck}
+          agreeText={'Save Changes'}
         />
+
         <DecksHeader
           isOpenAddModal={isOpenAddModal}
           setIsOpenAddModal={setIsOpenAddModal}

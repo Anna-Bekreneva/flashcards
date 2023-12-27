@@ -1,5 +1,4 @@
-export * from './decksModals'
-export * from '../ui/uploadFile'
+export * from './decksModal'
 export * from './decksTable'
 export * from './decksPagination'
 export * from './decksHeader'

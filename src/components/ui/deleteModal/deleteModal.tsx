@@ -1,9 +1,8 @@
 import { FC } from 'react'
 
-import s from '../../decks/decksModals/decksModals.module.scss'
-
 import { TypographyVariant } from '@/common'
 import { DialogButtons, Modal, Typography } from '@/components'
+import s from '@/components/decks/decksModal/decksModals.module.scss'
 
 type Props = {
   isOpen: boolean

@@ -4,8 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import s from '../decksModals.module.scss'
-
 import {
   ControlledCheckbox,
   ControlledTextField,
@@ -13,16 +11,24 @@ import {
   Modal,
   UploadFile,
 } from '@/components'
-import { useUpdateDeckMutation } from '@/services'
+import s from '@/components/decks/decksModal/decksModals.module.scss'
 
-type Props = {
-  currentDeck?: { name?: string; isPrivate?: boolean; cover?: string }
-  id: string
-  title: string
-  openChangeHandler: () => void
+type DataType = {
+  name: string
+  isPrivate: boolean
+  cover: File | undefined
 }
 
-const UpdateDeckSchema = z.object({
+type Props = {
+  title: string
+  isOpen: boolean
+  agreeText: string
+  onOpenChange: () => void
+  currentDeck?: { name?: string; isPrivate?: boolean; cover?: string }
+  callBack: (data: DataType) => void
+}
+
+const DeckSchema = z.object({
   name: z
     .string()
     .min(3, 'name must be longer than or equal to 3 characters')
@@ -30,38 +36,41 @@ const UpdateDeckSchema = z.object({
   isPrivate: z.boolean(),
 })
 
-type UpdateDeckSchemaType = z.infer<typeof UpdateDeckSchema>
+type DeckSchemaType = z.infer<typeof DeckSchema>
 
-export const UpdateDeckModal: FC<Props> = ({
-  currentDeck = { name: '', isPrivate: false, cover: '' },
-  id,
+export const DeckModal: FC<Props> = ({
   title,
-  openChangeHandler,
+  isOpen,
+  agreeText,
+  onOpenChange,
+  currentDeck,
+  callBack,
 }) => {
-  const { handleSubmit, control, formState } = useForm<UpdateDeckSchemaType>({
-    defaultValues: { name: currentDeck.name, isPrivate: currentDeck.isPrivate },
-    resolver: zodResolver(UpdateDeckSchema),
-  })
-  const [updatePack] = useUpdateDeckMutation()
-
-  const [cover, setCover] = useState<File | undefined>(undefined)
-  const submitHandler = (data: UpdateDeckSchemaType) => {
-    updatePack({ ...data, cover, id })
-    openChangeHandler()
+  const submitHandler = (data: DeckSchemaType) => {
+    callBack({ ...data, cover })
+    onOpenChange()
   }
 
+  const [cover, setCover] = useState<File | undefined>(undefined)
+
+  const { control, handleSubmit, formState } = useForm<DeckSchemaType>({
+    defaultValues: { name: currentDeck?.name, isPrivate: currentDeck?.isPrivate },
+    resolver: zodResolver(DeckSchema),
+  })
+
   return (
-    <Modal className={s.modal} title={title} isOpen={!!id} onOpenChange={openChangeHandler}>
+    <Modal className={s.modal} title={title} isOpen={isOpen} onOpenChange={onOpenChange}>
       <form className={s.modalWrapper} onSubmit={handleSubmit(submitHandler)}>
         <div className={s.modalContent}>
           <ControlledTextField
             className={s.modalInput}
             label={'Name Pack'}
             type={'text'}
-            name={'name'}
+            placeholder={'Name'}
             control={control}
+            name={'name'}
           />
-          <UploadFile setCover={setCover} defaultLocalCover={currentDeck.cover} />
+          <UploadFile setCover={setCover} defaultLocalCover={currentDeck?.cover} />
           <ControlledCheckbox
             className={s.modalInput}
             label={'Private pack'}
@@ -70,10 +79,9 @@ export const UpdateDeckModal: FC<Props> = ({
           />
         </div>
         <DialogButtons
-          cancelHandler={openChangeHandler}
-          agreeText={'Save Changes'}
+          cancelHandler={onOpenChange}
+          agreeText={agreeText}
           agreeButtonType={'submit'}
-          agreeHandler={() => {}}
           agreeButtonDisabled={!!Object.keys(formState.errors).length}
         />
       </form>
