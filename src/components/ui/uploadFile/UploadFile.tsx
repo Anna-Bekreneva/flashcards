@@ -9,7 +9,7 @@ import { Button, TextField } from '@/components'
 
 type Props = {
   setCover: (cover: File) => void
-  defaultLocalCover?: string
+  defaultLocalCover?: string | null
   typeCover?: 'image' | 'video'
 }
 export const UploadFile: FC<Props> = ({

@@ -24,11 +24,12 @@ import { calcRating, getDate } from '@/utils'
 type Props = {
   cards: CardType[] | undefined
   deleteCallback: (id: string) => void
+  editCallback: (id: string) => void
   sort: Sort
   setSort: (value: Sort) => void
 }
 
-export const CardsTable: FC<Props> = ({ cards, sort, setSort, deleteCallback }) => {
+export const CardsTable: FC<Props> = ({ cards, sort, setSort, deleteCallback, editCallback }) => {
   const columns: Array<Column> = [
     { key: 'question', title: 'Question' },
     { key: 'answer', title: 'Answer' },
@@ -76,7 +77,12 @@ export const CardsTable: FC<Props> = ({ cards, sort, setSort, deleteCallback }) 
                   {card.userId === MY_ID ? (
                     <TableCell>
                       <div className={s.manage}>
-                        <button className={s.button} type="button" aria-label={'Edit card'}>
+                        <button
+                          className={s.button}
+                          onClick={() => editCallback(card.id)}
+                          type="button"
+                          aria-label={'Edit card'}
+                        >
                           <EditIcon />
                         </button>
                         <button

@@ -5,10 +5,11 @@ import {
   GetCardsResponseType,
   GetDecksResponseType,
   GetDecksParamsType,
-  CreateCardParamsType,
+  CardSmallType,
   CardType,
 } from '@/services'
 import { baseApi } from '@/services/baseApi.ts'
+import { addFieldWIthFormData } from '@/utils'
 
 export const DecksService = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -34,11 +35,11 @@ export const DecksService = baseApi.injectEndpoints({
       }),
       createDeck: builder.mutation<DeckType, CreateDeckParamsType>({
         query: body => {
-          const formData = new FormData()
-
-          formData.append('name', body.name)
-          body.cover && formData.append('cover', body.cover)
-          formData.append('isPrivate', body.isPrivate.toString())
+          const formData = addFieldWIthFormData([
+            { name: 'name', something: body.name },
+            { name: 'cover', something: body.cover },
+            { name: 'isPrivate', something: body.isPrivate.toString() },
+          ])
 
           return {
             method: 'POST',
@@ -59,11 +60,11 @@ export const DecksService = baseApi.injectEndpoints({
       }),
       updateDeck: builder.mutation<DeckType, CreateDeckParamsType & { id: string }>({
         query: body => {
-          const formData = new FormData()
-
-          body.cover && formData.append('cover', body.cover)
-          formData.append('name', body.name)
-          body.isPrivate && formData.append('isPrivate', body.isPrivate.toString())
+          const formData = addFieldWIthFormData([
+            { name: 'name', something: body.name },
+            { name: 'cover', something: body.cover },
+            { name: 'isPrivate', something: body.isPrivate.toString() },
+          ])
 
           return {
             method: 'PATCH',
@@ -82,16 +83,16 @@ export const DecksService = baseApi.injectEndpoints({
         },
         providesTags: ['Cards'],
       }),
-      createCard: builder.mutation<CardType, CreateCardParamsType>({
+      createCard: builder.mutation<CardType, CardSmallType>({
         query: body => {
-          const formData = new FormData()
-
-          formData.append('answer', body.answer)
-          formData.append('question', body.question)
-          body.questionImg && formData.append('questionImg', body.questionImg)
-          body.answerImg && formData.append('answerImg', body.answerImg)
-          body.questionVideo && formData.append('questionVideo', body.questionVideo)
-          body.answerVideo && formData.append('answerVideo', body.answerVideo)
+          const formData = addFieldWIthFormData([
+            { name: 'answer', something: body.answer },
+            { name: 'question', something: body.question },
+            { name: 'questionImg', something: body.questionImg },
+            { name: 'answerImg', something: body.answerImg },
+            { name: 'questionVideo', something: body.questionVideo },
+            { name: 'answerVideo', something: body.answerVideo },
+          ])
 
           return {
             method: 'POST',

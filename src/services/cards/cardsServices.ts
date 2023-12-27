@@ -1,4 +1,6 @@
+import { CardType, CardSmallType } from '@/services'
 import { baseApi } from '@/services/baseApi.ts'
+import { addFieldWIthFormData } from '@/utils'
 
 export const CardsServices = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -12,8 +14,28 @@ export const CardsServices = baseApi.injectEndpoints({
         },
         invalidatesTags: ['Cards'],
       }),
+      updateCard: builder.mutation<CardType, CardSmallType>({
+        query: ({ id, ...body }) => {
+          const formData = addFieldWIthFormData([
+            { name: 'answer', something: body.answer },
+            { name: 'question', something: body.question },
+            { name: 'questionImg', something: body.questionImg },
+            { name: 'answerImg', something: body.answerImg },
+            { name: 'questionVideo', something: body.questionVideo },
+            { name: 'answerVideo', something: body.answerVideo },
+          ])
+
+          return {
+            url: `v1/cards/${id}`,
+            method: 'PATCH',
+            body: formData,
+          }
+        },
+
+        invalidatesTags: ['Cards'],
+      }),
     }
   },
 })
 
-export const { useDeleteCardMutation } = CardsServices
+export const { useDeleteCardMutation, useUpdateCardMutation } = CardsServices

@@ -1,1 +1,1 @@
-export * from './addCardModal'
+export * from './cardModal'

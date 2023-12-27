@@ -7,7 +7,7 @@ import s from './deckPage.module.scss'
 import { DeleteIcon, EditIcon, PlayIcon } from '@/assets/iconsComponents'
 import { TypographyVariant } from '@/common'
 import {
-  AddCardModal,
+  CardModal,
   Button,
   CardsTable,
   DecksHeader,
@@ -21,7 +21,13 @@ import {
 import { Preloader } from '@/components/ui/preloader'
 import { ProgressBar } from '@/components/ui/progressBar'
 import { MY_ID } from '@/pages'
-import { useDeleteCardMutation, useGetCardsQuery, useGetDeckQuery } from '@/services'
+import {
+  useCreateCardMutation,
+  useDeleteCardMutation,
+  useGetCardsQuery,
+  useGetDeckQuery,
+  useUpdateCardMutation,
+} from '@/services'
 
 export const DeckPage = () => {
   const { id: deckId } = useParams()
@@ -33,7 +39,9 @@ export const DeckPage = () => {
     isLoading,
     isFetching,
   } = useGetCardsQuery({ id: deckId || '', orderBy: sort ? `${sort?.key}-${sort?.direction}` : '' })
+  const [createCard] = useCreateCardMutation()
   const [deleteCard] = useDeleteCardMutation()
+  const [updateCard] = useUpdateCardMutation()
 
   // Навигация
   const navigate = useNavigate()
@@ -44,6 +52,9 @@ export const DeckPage = () => {
   const [idDeleteCard, setIdDeleteCard] = useState('')
   const nameDeleteCard = cards?.items.find(card => card.id === idDeleteCard)?.question
 
+  const [idUpdateCard, setIdUpdateCard] = useState('')
+  const currentUpdateCard = cards?.items.find(card => card.id === idUpdateCard)
+
   if (isLoading) {
     return <Preloader />
   }
@@ -52,11 +63,25 @@ export const DeckPage = () => {
     <>
       {isFetching && <ProgressBar />}
       <section className={'container section'}>
-        <AddCardModal
-          key={deckId}
-          deckId={deckId ?? ''}
+        {/* Добавление */}
+        <CardModal
+          key={Math.random()}
+          title={'Add New Card'}
           isOpen={isOpenAddModal}
+          agreeText={'Add New Card'}
           onOpenChange={() => setIsOpenAddModal(!isOpenAddModal)}
+          callback={data => createCard({ ...data, id: deckId ?? '' })}
+        />
+
+        {/* Обнавление */}
+        <CardModal
+          key={idUpdateCard}
+          title={'Edit Card'}
+          isOpen={!!idUpdateCard}
+          agreeText={'Save Changes'}
+          onOpenChange={() => setIdUpdateCard('')}
+          currentCard={currentUpdateCard}
+          callback={data => updateCard({ ...data, id: idUpdateCard })}
         />
         <DeleteModal
           deleteCallback={deleteCard}
@@ -108,6 +133,7 @@ export const DeckPage = () => {
             cards={cards?.items}
             sort={sort}
             setSort={setSort}
+            editCallback={setIdUpdateCard}
             deleteCallback={setIdDeleteCard}
           />
         )}

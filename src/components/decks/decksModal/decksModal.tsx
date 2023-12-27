@@ -33,7 +33,7 @@ const DeckSchema = z.object({
     .string()
     .min(3, 'name must be longer than or equal to 3 characters')
     .max(30, 'name must be shorter than or equal to 30 characters'),
-  isPrivate: z.boolean(),
+  isPrivate: z.boolean().optional().default(false),
 })
 
 type DeckSchemaType = z.infer<typeof DeckSchema>

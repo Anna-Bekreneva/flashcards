@@ -62,7 +62,7 @@ export type GetCardsResponseType = {
   pagination: PaginationType
 }
 
-export type CreateCardParamsType = {
+export type CardSmallType = {
   id: string
   question: string
   answer: string
