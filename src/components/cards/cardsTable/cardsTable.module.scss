@@ -1,5 +1,11 @@
 @import '../../../styles/mixins';
 
+.table {
+  &:not(:last-child) {
+    margin-bottom: 24px;
+  }
+}
+
 .ratings,
 .manage,
 .preview {

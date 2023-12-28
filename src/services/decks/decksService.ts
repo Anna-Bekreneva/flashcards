@@ -81,7 +81,10 @@ export const DecksService = baseApi.injectEndpoints({
             params: rest,
           }
         },
-        providesTags: ['Cards'],
+        providesTags: res =>
+          res
+            ? [...res.items.map(card => ({ type: 'Cards' as const, id: card.id })), 'Cards']
+            : ['Cards'],
       }),
       createCard: builder.mutation<CardType, CardSmallType>({
         query: body => {
@@ -112,6 +115,8 @@ export const {
   useDeleteDeckMutation,
   useUpdateDeckMutation,
   useGetDeckQuery,
+  useLazyGetDeckQuery,
   useGetCardsQuery,
+  useLazyGetCardsQuery,
   useCreateCardMutation,
 } = DecksService

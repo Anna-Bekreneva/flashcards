@@ -64,6 +64,33 @@
   @include flex($justify-content: flex-start);
 
   gap: 6px;
+  transition: color 0.3s, border-radius 0.3s, box-shadow 0.3s;
+
+  svg {
+    transition: stroke 0.3s;
+  }
+
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 0;
+    box-shadow: 0 0 0 2px var(--color-accent-500);
+  }
+
+  &:hover {
+    color: var(--color-accent-500);
+
+    svg {
+      stroke: var(--color-accent-500);
+    }
+  }
+
+  &:disabled {
+    color: var(--color-dark-300);
+
+    svg {
+      stroke: var(--color-dark-300);
+    }
+  }
 }
 
 .search {

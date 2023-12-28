@@ -25,11 +25,19 @@ type Props = {
   cards: CardType[] | undefined
   deleteCallback: (id: string) => void
   editCallback: (id: string) => void
+  disabled?: boolean
   sort: Sort
   setSort: (value: Sort) => void
 }
 
-export const CardsTable: FC<Props> = ({ cards, sort, setSort, deleteCallback, editCallback }) => {
+export const CardsTable: FC<Props> = ({
+  cards,
+  sort,
+  setSort,
+  deleteCallback,
+  editCallback,
+  disabled = false,
+}) => {
   const columns: Array<Column> = [
     { key: 'question', title: 'Question' },
     { key: 'answer', title: 'Answer' },
@@ -41,7 +49,7 @@ export const CardsTable: FC<Props> = ({ cards, sort, setSort, deleteCallback, ed
   return (
     <>
       {cards?.length ? (
-        <Table>
+        <Table className={s.table}>
           <TableHeader columns={columns} sort={sort} onSort={setSort} />
           <TableBody>
             {cards.map(card => {
@@ -82,6 +90,7 @@ export const CardsTable: FC<Props> = ({ cards, sort, setSort, deleteCallback, ed
                           onClick={() => editCallback(card.id)}
                           type="button"
                           aria-label={'Edit card'}
+                          disabled={disabled}
                         >
                           <EditIcon />
                         </button>
@@ -90,6 +99,7 @@ export const CardsTable: FC<Props> = ({ cards, sort, setSort, deleteCallback, ed
                           onClick={() => deleteCallback(card.id)}
                           type="button"
                           aria-label={'Delete card'}
+                          disabled={disabled}
                         >
                           <DeleteIcon />
                         </button>

@@ -8,7 +8,6 @@ import { TypographyVariant } from '@/common'
 import { Button, Typography } from '@/components'
 
 type Props = {
-  isOpenAddModal: boolean
   setIsOpenAddModal: (isOpen: boolean) => void
   count: number | undefined
   title?: string
@@ -19,10 +18,10 @@ type Props = {
   as?: 'button' | 'link'
   to?: string
   isShowButton?: boolean
+  disabled?: boolean
 }
 export const DecksHeader: FC<Props> = ({
   setIsOpenAddModal,
-  isOpenAddModal,
   count,
   title,
   buttonText,
@@ -32,6 +31,7 @@ export const DecksHeader: FC<Props> = ({
   as = 'button',
   to,
   isShowButton = true,
+  disabled = false,
 }) => {
   return (
     <div className={`${s.header} ${className}`}>
@@ -48,7 +48,7 @@ export const DecksHeader: FC<Props> = ({
           {children}
         </div>
         {isShowButton && as === 'button' && (
-          <Button onClick={() => setIsOpenAddModal(!isOpenAddModal)} type={'button'}>
+          <Button onClick={() => setIsOpenAddModal(true)} type={'button'} disabled={disabled}>
             {buttonText || 'Add New Pack'}
           </Button>
         )}

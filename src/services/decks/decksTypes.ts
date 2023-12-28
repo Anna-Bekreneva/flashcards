@@ -53,8 +53,8 @@ export type GetCardParamsType = {
   question?: string
   answer?: string
   orderBy?: string
-  currentPage?: string
-  itemsPerPage?: string
+  currentPage?: number
+  itemsPerPage?: number
 }
 
 export type GetCardsResponseType = {

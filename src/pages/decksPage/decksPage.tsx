@@ -134,11 +134,7 @@ export const DecksPage = () => {
           agreeText={'Save Changes'}
         />
 
-        <DecksHeader
-          isOpenAddModal={isOpenAddModal}
-          setIsOpenAddModal={setIsOpenAddModal}
-          count={data?.pagination.totalItems}
-        />
+        <DecksHeader setIsOpenAddModal={setIsOpenAddModal} count={data?.pagination.totalItems} />
 
         <div className={s.settings}>
           <TextField

@@ -15,7 +15,7 @@ export const CardsServices = baseApi.injectEndpoints({
         invalidatesTags: ['Cards'],
       }),
       updateCard: builder.mutation<CardType, CardSmallType>({
-        query: ({ id, ...body }) => {
+        query: body => {
           const formData = addFieldWIthFormData([
             { name: 'answer', something: body.answer },
             { name: 'question', something: body.question },
@@ -26,13 +26,12 @@ export const CardsServices = baseApi.injectEndpoints({
           ])
 
           return {
-            url: `v1/cards/${id}`,
+            url: `v1/cards/${body.id}`,
             method: 'PATCH',
             body: formData,
           }
         },
-
-        invalidatesTags: ['Cards'],
+        invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.id }],
       }),
     }
   },
