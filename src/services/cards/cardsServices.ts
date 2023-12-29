@@ -1,4 +1,4 @@
-import { CardType, CardSmallType } from '@/services'
+import { CardType, CardSmallType, GetLearnCardParamsType, SaveGradeParamsType } from '@/services'
 import { baseApi } from '@/services/baseApi.ts'
 import { addFieldWIthFormData } from '@/utils'
 
@@ -33,8 +33,31 @@ export const CardsServices = baseApi.injectEndpoints({
         },
         invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.id }],
       }),
+      getLearnCard: builder.query<CardType, GetLearnCardParamsType>({
+        query: body => {
+          return {
+            url: `v1/decks/${body.id}/learn`,
+          }
+        },
+      }),
+      saveGrade: builder.mutation<CardType, SaveGradeParamsType>({
+        query: ({ id, ...body }) => {
+          return {
+            url: `v1/decks/${id}/learn`,
+            method: 'POST',
+            body: body,
+          }
+        },
+        invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.id }],
+      }),
     }
   },
 })
 
-export const { useDeleteCardMutation, useUpdateCardMutation } = CardsServices
+export const {
+  useDeleteCardMutation,
+  useUpdateCardMutation,
+  useGetLearnCardQuery,
+  useLazyGetLearnCardQuery,
+  useSaveGradeMutation,
+} = CardsServices

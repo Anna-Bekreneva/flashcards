@@ -6,7 +6,7 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
-import { DeckPage, DecksPage, ErrorPage } from '@/pages'
+import { DeckPage, DecksPage, ErrorPage, LearnPage } from '@/pages'
 
 const publicRoutes: RouteObject[] = [
   {
@@ -27,6 +27,10 @@ const privateRoutes: RouteObject[] = [
   {
     path: '/decks/deck/:id',
     element: <DeckPage />,
+  },
+  {
+    path: '/learn/:id',
+    element: <LearnPage />,
   },
 ]
 

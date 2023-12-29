@@ -19,6 +19,7 @@ import {
   Typography,
   DeckModal,
   DecksPagination,
+  ReturnBack,
 } from '@/components'
 import { Preloader } from '@/components/ui/preloader'
 import { ProgressBar } from '@/components/ui/progressBar'
@@ -62,7 +63,7 @@ export const DeckPage = () => {
 
   // Навигация
   const navigate = useNavigate()
-  const goBack = () => navigate(-1)
+  const goBack = () => navigate('/')
 
   // Модалки
   const [isOpenAddModal, setIsOpenAddModal] = useState(false)
@@ -153,10 +154,7 @@ export const DeckPage = () => {
           isOpen={!!idUpdateDeck}
           agreeText={'Save Changes'}
         />
-
-        <button className={'back'} onClick={goBack}>
-          Back to Packs List
-        </button>
+        <ReturnBack text={'Back to Packs List'} clickHandler={goBack} />
         <DecksHeader
           className={s.header}
           disabled={isFetching}
@@ -165,12 +163,13 @@ export const DeckPage = () => {
           title={deck?.name}
           buttonText={deck?.userId === MY_ID ? 'Add new Card' : 'Learn to Pack'}
           cover={deck?.cover}
-          to={deck?.userId === MY_ID ? '' : 'Learn to Pack'}
+          as={deck?.userId === MY_ID ? 'button' : 'link'}
+          to={`/learn/${deck?.id}`}
           isShowButton={!!cards?.items.length}
         >
           {deck?.userId === MY_ID ? (
             <DeckPageHeaderDropDown
-              id={deck.userId}
+              deckId={deck.id}
               learn={!!cards?.items.length}
               disabled={isFetching}
               deleteCallback={() => setIdDeleteDeck(deckId ?? '')}
@@ -223,14 +222,14 @@ export const DeckPage = () => {
 }
 
 type DeckPageHeaderDropDownProps = {
-  id: string
+  deckId: string
   learn: boolean
   disabled?: boolean
   deleteCallback: () => void
   editCallback: () => void
 }
 const DeckPageHeaderDropDown: FC<DeckPageHeaderDropDownProps> = ({
-  id,
+  deckId,
   learn,
   deleteCallback,
   editCallback,
@@ -254,7 +253,7 @@ const DeckPageHeaderDropDown: FC<DeckPageHeaderDropDownProps> = ({
       <ul>
         {learn && (
           <li className={s.dropdownItem}>
-            <NavLink className={s.dropdownAction} to={`/decks/deck/cards/${id}`}>
+            <NavLink className={s.dropdownAction} to={`/learn/${deckId}`}>
               <PlayIcon width={16} height={16} /> Learn
             </NavLink>
           </li>

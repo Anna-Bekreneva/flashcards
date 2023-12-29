@@ -13,3 +13,14 @@ export type CardType = {
   created: string
   updated: string
 }
+
+export type GetLearnCardParamsType = {
+  id: string
+  previousCardId?: string
+}
+
+export type SaveGradeParamsType = {
+  id: string
+  cardId: string
+  grade: number
+}
