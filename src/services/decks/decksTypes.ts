@@ -37,7 +37,7 @@ export type GetParamsType = {
   authorId: string
   currentPage: number
   itemsPerPage: number
-  orderBy?: string
+  orderBy?: string | null
 }
 
 export type CreateParamsType = {

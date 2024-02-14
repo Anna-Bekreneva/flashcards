@@ -39,33 +39,47 @@ export const CardsService = baseApi.injectEndpoints({
       }),
       createCard: builder.mutation<any, CreateCardRequestType>({
         query: card => {
+          const formData = new FormData()
+
+          formData.append('question', card.question)
+          formData.append('answer', card.answer)
+          card.questionImg && formData.append('questionImg', card.questionImg)
+          card.answerImg && formData.append('answerImg', card.answerImg)
+          card.questionVideo && formData.append('questionVideo', card.questionVideo)
+          card.answerVideo && formData.append('answerVideo', card.answerVideo)
+
           return {
             method: 'POST',
-            url: `/v1/decks/${card.deckId}/cards`,
-            body: {
-              card,
-            },
+            url: `/v1/decks/${card.id}/cards`,
+            body: formData,
           }
         },
         invalidatesTags: ['Cards'],
       }),
       updateCard: builder.mutation<CardsResponseType, UpdateCardRequestType>({
         query: card => {
+          const formData = new FormData()
+
+          card.question && formData.append('question', card.question)
+          card.answer && formData.append('answer', card.answer)
+          card.questionImg && formData.append('questionImg', card.questionImg)
+          card.answerImg && formData.append('answerImg', card.answerImg)
+          card.questionVideo && formData.append('questionVideo', card.questionVideo)
+          card.answerVideo && formData.append('answerVideo', card.answerVideo)
+
           return {
             method: 'PATCH',
             url: `/v1/cards/${card.id}`,
-            body: {
-              card,
-            },
+            body: formData,
           }
         },
         invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.id }],
       }),
-      deleteCard: builder.mutation<void, string>({
-        query: id => {
+      deleteCard: builder.mutation<void, { id: string }>({
+        query: body => {
           return {
             method: 'DELETE',
-            url: `/v1/cards/${id}`,
+            url: `/v1/cards/${body.id}`,
           }
         },
         invalidatesTags: ['Cards'],
@@ -74,7 +88,7 @@ export const CardsService = baseApi.injectEndpoints({
         query: params => {
           return {
             url: `/v1/decks/${params.id}/learn`,
-            params,
+            params: { previousCardId: params.previousCardId },
           }
         },
       }),
@@ -82,11 +96,14 @@ export const CardsService = baseApi.injectEndpoints({
         query: params => {
           return {
             method: 'POST',
-            url: `/v1/decks/${params.id}/learn`,
-            body: params,
+            url: `/v1/decks/${params.deckId}/learn`,
+            body: {
+              cardId: params.cardId,
+              grade: params.grade,
+            },
           }
         },
-        invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.id }],
+        invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.cardId }],
       }),
     }
   },
@@ -94,10 +111,10 @@ export const CardsService = baseApi.injectEndpoints({
 
 export const {
   useGetCardsQuery,
-  useGetCardByIdQuery,
   useUpdateCardMutation,
   useDeleteCardMutation,
   useCreateCardMutation,
   useGetRandomCardQuery,
   useSaveGradeOfCardMutation,
+  useLazyGetRandomCardQuery,
 } = CardsService

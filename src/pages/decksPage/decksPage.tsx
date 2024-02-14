@@ -24,7 +24,7 @@ import { Preloader } from '@/components/ui/preloader'
 import { ProgressBar } from '@/components/ui/progressBar'
 import { useGetDecksQuery } from '@/services'
 
-const MY_ID = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
+export const MY_ID = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
 const DEFAULT_MAX_CARDS_COUNT = 100
 
 export const DecksPage = () => {
@@ -46,7 +46,7 @@ export const DecksPage = () => {
     currentPage,
     itemsPerPage: perPage,
     authorId,
-    orderBy: sort ? `${sort?.key}-${sort?.direction}` : '',
+    orderBy: sort ? `${sort?.key}-${sort?.direction}` : null,
   })
 
   useEffect(() => {

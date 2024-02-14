@@ -1,5 +1,9 @@
 @import '../../styles/mixins';
 
+.wrapper {
+  padding: 0 15px;
+}
+
 .header {
   margin-bottom: 25px;
 }
@@ -8,11 +12,14 @@
   position: relative;
   width: 24px;
   height: 24px;
-  transition: box-shadow 0.3s, border-radius 0.3s, opacity 0.3s;
+  transition:
+    box-shadow 0.3s,
+    border-radius 0.3s,
+    opacity 0.3s;
 
   &::before,
   &::after {
-    content: "";
+    content: '';
 
     position: absolute;
     top: 50%;
@@ -68,4 +75,8 @@
 
 .search {
   margin-bottom: 24px;
+}
+
+.visual {
+  max-width: 150px;
 }

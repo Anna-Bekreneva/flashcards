@@ -19,7 +19,7 @@ export const EditProfileDefault: Story = {
     prevName: 'Ivan',
 
     onSubmit: data => {
-      console.info(data)
+      // console.info(data)
     },
   },
 }

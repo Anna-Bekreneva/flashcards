@@ -1,15 +1,12 @@
 .modal {
   max-width: 542px;
+  max-height: 100vh;
   margin: 0 auto;
 }
 
-.modalWrapper {
-  padding: 24px 34px;
-}
-
-.modalContent {
+.form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin-bottom: 24px;
+  gap: 17px;
+  padding: 24px 34px;
 }

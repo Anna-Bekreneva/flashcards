@@ -1,4 +1,4 @@
-type CardRatingType = 1 | 2 | 3 | 4 | 5
+export type CardRatingType = 1 | 2 | 3 | 4 | 5
 
 export type CardsResponseType = {
   id: string
@@ -7,42 +7,42 @@ export type CardsResponseType = {
   question: string
   answer: string
   shots: number
-  answerImg: string
-  questionImg: string
-  questionVideo: string
-  answerVideo: string
-  rating: CardRatingType
+  answerImg: string | null
+  questionImg: string | null
+  questionVideo: string | null
+  answerVideo: string | null
+  grade: CardRatingType
   created: string
   updated: string
 }
 
 export type CardRequestCommonType = {
-  questionImg?: string
-  answerImg?: string
+  questionImg?: string | File
+  answerImg?: string | File
   question: string
   answer: string
-  questionVideo?: string
-  answerVideo?: string
+  questionVideo?: string | File
+  answerVideo?: string | File
 }
 
 export type UpdateCardRequestType = Partial<CardRequestCommonType> & { id: string }
 
-export type CreateCardRequestType = CardRequestCommonType & { deckId: string }
+export type CreateCardRequestType = CardRequestCommonType & { id: string }
 
 export type GetCardsRequestType = {
   id: string
   question?: string
   answer?: string
-  orderBy?: string
-  currentPage?: string
+  orderBy?: string | null
+  currentPage?: number
   itemsPerPage?: number
 }
 
 export type GetCardsResponseType = {
-  items: ItemsType[]
+  items: CardsResponseType[]
   pagination: PaginationType
 }
-export type ItemsType = Omit<CardsResponseType, 'rating'>
+
 export type PaginationType = {
   currentPage: number
   itemsPerPage: number
@@ -56,6 +56,7 @@ export type GetRandomCardRequestType = {
 }
 
 export type SaveGradeOfCardType = {
-  id: string
+  deckId: string
+  cardId: string
   grade: CardRatingType
 }
