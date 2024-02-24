@@ -8,6 +8,7 @@ import {
   SaveGradeOfCardType,
   UpdateCardRequestType,
 } from '@/services/cards/cardsTypes.ts'
+import { addFieldToFormData } from '@/utils/addFieldToFormData.ts'
 
 export const CardsService = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -37,16 +38,16 @@ export const CardsService = baseApi.injectEndpoints({
           }
         },
       }),
-      createCard: builder.mutation<any, CreateCardRequestType>({
+      createCard: builder.mutation<CardsResponseType, CreateCardRequestType>({
         query: card => {
-          const formData = new FormData()
-
-          formData.append('question', card.question)
-          formData.append('answer', card.answer)
-          card.questionImg && formData.append('questionImg', card.questionImg)
-          card.answerImg && formData.append('answerImg', card.answerImg)
-          card.questionVideo && formData.append('questionVideo', card.questionVideo)
-          card.answerVideo && formData.append('answerVideo', card.answerVideo)
+          const formData = addFieldToFormData([
+            { name: 'question', value: card.question },
+            { name: 'answer', value: card.answer },
+            { name: 'questionImg', value: card.questionImg },
+            { name: 'answerImg', value: card.answerImg },
+            { name: 'questionVideo', value: card.questionVideo },
+            { name: 'answerVideo', value: card.answerVideo },
+          ])
 
           return {
             method: 'POST',
@@ -58,14 +59,14 @@ export const CardsService = baseApi.injectEndpoints({
       }),
       updateCard: builder.mutation<CardsResponseType, UpdateCardRequestType>({
         query: card => {
-          const formData = new FormData()
-
-          card.question && formData.append('question', card.question)
-          card.answer && formData.append('answer', card.answer)
-          card.questionImg && formData.append('questionImg', card.questionImg)
-          card.answerImg && formData.append('answerImg', card.answerImg)
-          card.questionVideo && formData.append('questionVideo', card.questionVideo)
-          card.answerVideo && formData.append('answerVideo', card.answerVideo)
+          const formData = addFieldToFormData([
+            { name: 'question', value: card.question },
+            { name: 'answer', value: card.answer },
+            { name: 'questionImg', value: card.questionImg },
+            { name: 'answerImg', value: card.answerImg },
+            { name: 'questionVideo', value: card.questionVideo },
+            { name: 'answerVideo', value: card.answerVideo },
+          ])
 
           return {
             method: 'PATCH',
@@ -92,7 +93,7 @@ export const CardsService = baseApi.injectEndpoints({
           }
         },
       }),
-      saveGradeOfCard: builder.mutation<{}, SaveGradeOfCardType>({
+      saveGradeOfCard: builder.mutation<CardsResponseType, SaveGradeOfCardType>({
         query: params => {
           return {
             method: 'POST',

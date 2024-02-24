@@ -88,9 +88,13 @@ export const DecksTable: FC<Props> = ({
                 <TableCell>{getDate(item.updated)}</TableCell>
                 <TableCell>{item.author.name}</TableCell>
                 <TableCell>
-                  <a className={s.button} href="#" aria-label={'Learn deck'}>
+                  <NavLink
+                    className={s.button}
+                    to={`decks/deck/cards/${item.id}`}
+                    aria-label={'Learn deck'}
+                  >
                     <PlayIcon />
-                  </a>
+                  </NavLink>
                   {item.author.id === id ? (
                     <>
                       <button

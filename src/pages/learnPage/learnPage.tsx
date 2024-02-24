@@ -6,17 +6,23 @@ import { useNavigate, useParams } from 'react-router-dom'
 import s from './learnPage.module.scss'
 
 import { TypographyVariant } from '@/common'
-import { Button, Card, ControlledRadioGroup, RadioItem, Typography } from '@/components'
-import { GoBack } from '@/components/ui/goBack'
-import { Preloader } from '@/components/ui/preloader'
-import { ProgressBar } from '@/components/ui/progressBar'
-import { useGetDeckQuery } from '@/services'
 import {
+  Button,
+  Card,
+  ControlledRadioGroup,
+  RadioItem,
+  Typography,
+  GoBack,
+  Preloader,
+  ProgressBar,
+} from '@/components'
+import {
+  useGetDeckQuery,
   CardRatingType,
   useGetRandomCardQuery,
   useLazyGetRandomCardQuery,
   useSaveGradeOfCardMutation,
-} from '@/services/cards'
+} from '@/services'
 
 export const LearnPage = () => {
   const { id: deckId } = useParams()
@@ -71,13 +77,13 @@ export const LearnPage = () => {
           {card?.questionImg && (
             <img src={card.questionImg} alt={'question'} className={s.cardImg} />
           )}
-          {card?.questionVideo && <video src={card.questionImg} className={s.cardImg} />}
+          {/*{card?.questionVideo && <video src={card.questionImg} className={s.cardImg} />}*/}
           <Typography variant={TypographyVariant.body1} className={s.attempts}>
             Number of attempts to answer the question: {card?.shots}
           </Typography>
           {!isShowAnswer && (
             <Button fullWidth onClick={() => setIsShowAnswer(true)}>
-              <>Show answer</>
+              Show answer
             </Button>
           )}
           {isShowAnswer && (
@@ -86,13 +92,13 @@ export const LearnPage = () => {
                 <b>Answer:</b> {card?.answer}
               </Typography>
               {card?.answerImg && <img src={card.answerImg} alt={'answer'} className={s.cardImg} />}
-              {card?.answerVideo && <video src={card.answerVideo} className={s.cardImg} />}
+              {/*{card?.answerVideo && <video src={card.answerVideo} className={s.cardImg} />}*/}
               <Typography variant={TypographyVariant.subtitle1} className={s.rate}>
                 Rate yourself:{' '}
               </Typography>
               <form onSubmit={handleSubmit(submitHandler)}>
                 <ControlledRadioGroup name={'rate'} control={control} className={s.rateRadioGroup}>
-                  <RadioItem label={'Did not know'} value={'1'}></RadioItem>
+                  <RadioItem label={'Did not know'} value={'1'} checked></RadioItem>
                   <RadioItem label={'Forgot'} value={'2'}></RadioItem>
                   <RadioItem label={'A lot of thought'} value={'3'}></RadioItem>
                   <RadioItem label={'Confused'} value={'4'}></RadioItem>

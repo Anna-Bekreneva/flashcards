@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import { nanoid } from '@reduxjs/toolkit'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 
 import s from './deckPage.module.scss'
@@ -17,27 +16,26 @@ import {
   Sort,
   TextField,
   Typography,
+  CardModal,
+  CardsTable,
+  DeckModal,
+  DeleteModal,
+  GoBack,
+  Preloader,
+  ProgressBar,
+  CurrentDeckType,
 } from '@/components'
-import { CardModal } from '@/components/cards/cardModal'
-import { CardsTable } from '@/components/cards/cardsTable/cardsTable.tsx'
-import { DeckModal } from '@/components/decks/decksModals/deckModal'
-import { DeleteModal } from '@/components/ui/deleteModal'
-import { GoBack } from '@/components/ui/goBack'
-import { Preloader } from '@/components/ui/preloader'
-import { ProgressBar } from '@/components/ui/progressBar'
 import { MY_ID } from '@/pages'
 import {
   useDeleteDeckMutation,
   useGetDeckQuery,
   useLazyGetDeckQuery,
   useUpdateDeckMutation,
-} from '@/services'
-import {
   useCreateCardMutation,
   useDeleteCardMutation,
   useGetCardsQuery,
   useUpdateCardMutation,
-} from '@/services/cards'
+} from '@/services'
 
 export const DeckPage = () => {
   const { id } = useParams()
@@ -72,7 +70,7 @@ export const DeckPage = () => {
     deleteDeck(arg.id)
     goBack()
   }
-  const currentDeck = {
+  const currentDeck: CurrentDeckType = {
     name: deck?.name,
     isPrivate: deck?.isPrivate,
     cover: deck?.cover ?? '',
@@ -98,10 +96,9 @@ export const DeckPage = () => {
   return (
     <>
       {isFetching && <ProgressBar />}
-      <section className={`container section ${s.wrapper}`}>
+      <section className={`container section`}>
         {/*add card modal: */}
         <CardModal
-          key={nanoid()}
           onOpenChange={() => setIsOpenAddModal(!isOpenAddModal)}
           isOpen={isOpenAddModal}
           callback={createCard}
@@ -110,7 +107,6 @@ export const DeckPage = () => {
         />
         {/*update card modal*/}
         <CardModal
-          key={idUpdateCard}
           onOpenChange={() => setIdUpdateCard('')}
           isOpen={!!idUpdateCard}
           callback={data => updateCard({ ...data, id: idUpdateCard })}
@@ -120,7 +116,6 @@ export const DeckPage = () => {
         />
         {/*delete card modal*/}
         <DeleteModal
-          key={idDeleteCard}
           idDelete={idDeleteCard}
           nameDelete={nameDeleteCard || ''}
           title={'Delete Card'}
@@ -130,7 +125,6 @@ export const DeckPage = () => {
         />
         {/*delete deck modal*/}
         <DeleteModal
-          key={idDeleteDeck}
           idDelete={idDeleteDeck}
           deleteCallback={deleteDeckHandler}
           onOpenChange={() => setIdDeleteDeck('')}
@@ -140,7 +134,6 @@ export const DeckPage = () => {
         />
         {/*update deck modal*/}
         <DeckModal
-          key={idUpdateDeck}
           title={'Edit Pack'}
           isOpen={!!idUpdateDeck}
           onOpenChange={() => setIdUpdateDeck('')}
@@ -158,9 +151,10 @@ export const DeckPage = () => {
           setIsOpenAddModal={setIsOpenAddModal}
           count={deck?.cardsCount}
           title={deck?.name}
-          buttonText={'Add new card'}
+          as={deck?.userId === MY_ID ? 'button' : 'link'}
+          buttonText={deck?.userId === MY_ID ? 'Add new card' : 'Learn to Deck'}
           cover={deck?.cover}
-          to={'Learn pack'}
+          to={`/decks/deck/cards/${deck?.id}`}
         >
           {deck?.userId === MY_ID ? (
             <DeckPageHeaderDropDown
@@ -169,7 +163,6 @@ export const DeckPage = () => {
               disabled={isFetching}
               deleteCallBack={() => setIdDeleteDeck(deck.id)}
               editCallBack={() => setIdUpdateDeck(deck.id)}
-              isModalOpen={!!idUpdateDeck || !!idDeleteDeck}
             />
           ) : null}
         </DecksHeader>
@@ -179,6 +172,7 @@ export const DeckPage = () => {
           placeholder={'Input search'}
           value={search}
           onValueChange={value => setSearch(value)}
+          name={'search'}
         />
         {!cards?.items.length && deck?.userId === MY_ID && (
           <NotFound className={s.notFound}>
@@ -206,12 +200,11 @@ export const DeckPage = () => {
             <Typography variant={TypographyVariant.h3}> Decks not found </Typography>
           </NotFound>
         )}
-        {!cards?.items.length && (
-          <Typography variant={TypographyVariant.body1}>
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
-            Didn't find any card with such question
-          </Typography>
-        )}
+        {/*{!cards?.items.length && (*/}
+        {/*  <Typography variant={TypographyVariant.body1}>*/}
+        {/*    Didn&apos;t find any card with such question*/}
+        {/*  </Typography>*/}
+        {/*)}*/}
         {cards?.pagination.totalPages && cards?.pagination.totalPages > 1 ? (
           <DecksPagination
             totalPages={cards.pagination.totalPages}
@@ -232,7 +225,6 @@ type DeckPageHeaderDropDownProps = {
   disabled?: boolean
   deleteCallBack: () => void
   editCallBack: () => void
-  isModalOpen: boolean
 }
 const DeckPageHeaderDropDown = ({
   deckId,
@@ -240,13 +232,15 @@ const DeckPageHeaderDropDown = ({
   editCallBack,
   disabled = false,
   learn,
-  isModalOpen,
 }: DeckPageHeaderDropDownProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <DropDownMenu
+      open={isOpen}
+      onOpenChange={setIsOpen}
       className={s.dropdown}
       trigger={<button className={s.trigger} aria-label={'manage deck'} />}
-      hidden={isModalOpen}
     >
       <ul>
         {learn && (
@@ -257,12 +251,26 @@ const DeckPageHeaderDropDown = ({
           </li>
         )}
         <li className={s.dropdownItem}>
-          <button className={s.dropdownAction} onClick={() => editCallBack()} disabled={disabled}>
+          <button
+            className={s.dropdownAction}
+            onClick={() => {
+              editCallBack()
+              setIsOpen(false)
+            }}
+            disabled={disabled}
+          >
             <EditIcon width={16} height={16} /> Edit
           </button>
         </li>
         <li className={s.dropdownItem}>
-          <button className={s.dropdownAction} onClick={() => deleteCallBack()} disabled={disabled}>
+          <button
+            className={s.dropdownAction}
+            onClick={() => {
+              deleteCallBack()
+              setIsOpen(false)
+            }}
+            disabled={disabled}
+          >
             <DeleteIcon width={16} height={16} /> Delete
           </button>
         </li>

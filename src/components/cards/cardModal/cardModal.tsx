@@ -1,6 +1,7 @@
 import { ChangeEvent, useRef, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { nanoid } from '@reduxjs/toolkit'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { z } from 'zod'
@@ -77,10 +78,26 @@ export const CardModal = ({
   })
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} title={title} className={c.modal}>
+    <Modal
+      key={nanoid()}
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      title={title}
+      className={c.modal}
+    >
       <form onSubmit={handleSubmit(onSubmit)} className={c.form}>
-        <ControlledTextField control={control} name={'question'} label={'Question'} />
-        <ControlledTextField control={control} name={'answer'} label={'Answer'} />
+        <ControlledTextField
+          control={control}
+          name={'question'}
+          label={'Question'}
+          defaultValue={currentCard?.question}
+        />
+        <ControlledTextField
+          control={control}
+          name={'answer'}
+          label={'Answer'}
+          defaultValue={currentCard?.answer}
+        />
         <Uploading
           text={'Image Question'}
           setCover={setImgQuestionCover}
@@ -91,18 +108,18 @@ export const CardModal = ({
           setCover={setImgAnswerCover}
           defaultLocalCover={currentCard?.answerImg}
         />
-        <Uploading
-          text={'Video Question'}
-          setCover={setVideoQuestionCover}
-          accept={'video'}
-          defaultLocalCover={currentCard?.questionVideo}
-        />
-        <Uploading
-          text={'Video Answer'}
-          setCover={setVideoAnswerCover}
-          accept={'video'}
-          defaultLocalCover={currentCard?.answerVideo}
-        />
+        {/*<Uploading*/}
+        {/*  text={'Video Question'}*/}
+        {/*  setCover={setVideoQuestionCover}*/}
+        {/*  accept={'video'}*/}
+        {/*  defaultLocalCover={currentCard?.questionVideo}*/}
+        {/*/>*/}
+        {/*<Uploading*/}
+        {/*  text={'Video Answer'}*/}
+        {/*  setCover={setVideoAnswerCover}*/}
+        {/*  accept={'video'}*/}
+        {/*  defaultLocalCover={currentCard?.answerVideo}*/}
+        {/*/>*/}
         <DialogButtons
           agreeHandler={() => handleSubmit(onSubmit)}
           cancelHandler={onOpenChange}

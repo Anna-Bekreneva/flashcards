@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { nanoid } from '@reduxjs/toolkit'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -18,13 +19,18 @@ type DataType = {
   isPrivate: boolean
   cover: File | undefined
 }
+export type CurrentDeckType = {
+  name?: string
+  isPrivate?: boolean
+  cover?: string
+}
 
 type Props = {
   title: string
   isOpen: boolean
   agreeText: string
   onOpenChange: () => void
-  currentDeck?: { name?: string; isPrivate?: boolean; cover?: string }
+  currentDeck?: CurrentDeckType
   callBack: (data: DataType) => void
 }
 
@@ -59,7 +65,13 @@ export const DeckModal: FC<Props> = ({
   })
 
   return (
-    <Modal className={s.modal} title={title} isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal
+      key={nanoid()}
+      className={s.modal}
+      title={title}
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+    >
       <form className={s.modalWrapper} onSubmit={handleSubmit(submitHandler)}>
         <div className={s.modalContent}>
           <ControlledTextField
