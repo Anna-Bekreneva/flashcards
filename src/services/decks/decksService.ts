@@ -60,6 +60,7 @@ export const DecksService = baseApi.injectEndpoints({
           }
         },
         invalidatesTags: ['Decks'],
+        // invalidatesTags: (res, error, deck) => [{ type: 'Decks', id: deck.id }],
       }),
     }
   },

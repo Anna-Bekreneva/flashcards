@@ -36,16 +36,23 @@ export const AddDeckModal: FC<Props> = ({ title, isOpen, onOpenChange }) => {
   const submitHandler = (data: AddDeckSchemaType) => {
     createPack({ ...data, cover })
     onOpenChange()
+    reset()
   }
 
   const [cover, setCover] = useState<File | undefined>(undefined)
 
-  const { control, handleSubmit, formState } = useForm<AddDeckSchemaType>({
+  const { control, handleSubmit, reset, formState } = useForm<AddDeckSchemaType>({
     resolver: zodResolver(AddDeckSchema),
   })
 
   return (
-    <Modal className={s.modal} title={title} isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal
+      key={title}
+      className={s.modal}
+      title={title}
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+    >
       <form className={s.modalWrapper} onSubmit={handleSubmit(submitHandler)}>
         <div className={s.modalContent}>
           <ControlledTextField

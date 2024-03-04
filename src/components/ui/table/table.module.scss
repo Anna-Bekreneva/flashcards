@@ -19,7 +19,6 @@
       margin-right: 10px;
     }
   }
-
 }
 
 .row {
@@ -38,7 +37,7 @@
   &::before {
     @include bg;
 
-    content: "";
+    content: '';
 
     position: absolute;
     top: 1px;
@@ -51,7 +50,9 @@
     opacity: 0;
     background-image: url('../../../assets/images/icons/arrowStraight.svg');
 
-    transition: opacity 0.3s, transform 0.3s;
+    transition:
+      opacity 0.3s,
+      transform 0.3s;
   }
 }
 

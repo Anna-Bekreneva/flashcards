@@ -23,7 +23,13 @@ export const DeleteDeckModal: FC<Props> = ({
   const [deleteDeck] = useDeleteDeckMutation()
 
   return (
-    <Modal title={title} isOpen={isOpen} className={s.modal} onOpenChange={onOpenChange}>
+    <Modal
+      key={idDeleteDeck}
+      title={title}
+      isOpen={isOpen}
+      className={s.modal}
+      onOpenChange={onOpenChange}
+    >
       <div className={s.modalWrapper}>
         <div className={s.modalContent}>
           <Typography>

@@ -51,7 +51,13 @@ export const UpdateDeckModal: FC<Props> = ({
   }
 
   return (
-    <Modal className={s.modal} title={title} isOpen={!!id} onOpenChange={openChangeHandler}>
+    <Modal
+      key={id}
+      className={s.modal}
+      title={title}
+      isOpen={!!id}
+      onOpenChange={openChangeHandler}
+    >
       <form className={s.modalWrapper} onSubmit={handleSubmit(submitHandler)}>
         <div className={s.modalContent}>
           <ControlledTextField

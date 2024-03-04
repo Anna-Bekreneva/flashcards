@@ -55,7 +55,7 @@ export const DecksPage = () => {
   }, [data?.maxCardsCount])
 
   // update modal
-  const [idUpdateDeck, setIdUpdateDeck] = useState<string | null>(null)
+  const [idUpdateDeck, setIdUpdateDeck] = useState<string>('')
   const updateDeck = data?.items.find(item => item.id === idUpdateDeck)
 
   // delete modal
@@ -93,7 +93,6 @@ export const DecksPage = () => {
       {isFetching && <ProgressBar />}
       <section className={'container section'}>
         <DeleteDeckModal
-          key={idDeleteDeck}
           nameDeleteDeck={nameDeleteDeck ?? ''}
           idDeleteDeck={idDeleteDeck}
           title={'Delete Pack'}

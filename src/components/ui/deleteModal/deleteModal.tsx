@@ -1,7 +1,5 @@
 import { FC } from 'react'
 
-import { nanoid } from '@reduxjs/toolkit'
-
 import { TypographyVariant } from '@/common'
 import { DialogButtons, Modal, Typography } from '@/components'
 import s from '@/components/decks/decksModals/decksModals.module.scss'
@@ -24,7 +22,7 @@ export const DeleteModal: FC<Props> = ({
 }) => {
   return (
     <Modal
-      key={nanoid()}
+      key={idDelete}
       title={title}
       isOpen={isOpen}
       className={s.modal}

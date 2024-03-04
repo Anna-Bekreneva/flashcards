@@ -48,12 +48,17 @@ export const LearnPage = () => {
       cardId: card?.id ?? '',
       grade: (+data.rate as CardRatingType) || 1,
     })
+    // todo: we need to use then / catch
     getNewCard({ id: deckId || '' })
     setIsShowAnswer(false)
+    reset()
   }
 
-  const { control, handleSubmit } = useForm<RateFormType>()
+  const { control, handleSubmit, reset } = useForm<RateFormType>({
+    defaultValues: { rate: '1' },
+  })
 
+  // todo: i'm not sure
   type RateFormType = {
     rate: string
   }
@@ -98,11 +103,11 @@ export const LearnPage = () => {
               </Typography>
               <form onSubmit={handleSubmit(submitHandler)}>
                 <ControlledRadioGroup name={'rate'} control={control} className={s.rateRadioGroup}>
-                  <RadioItem label={'Did not know'} value={'1'} checked></RadioItem>
-                  <RadioItem label={'Forgot'} value={'2'}></RadioItem>
-                  <RadioItem label={'A lot of thought'} value={'3'}></RadioItem>
-                  <RadioItem label={'Confused'} value={'4'}></RadioItem>
-                  <RadioItem label={'Knew the answer'} value={'5'}></RadioItem>
+                  <RadioItem label={'Did not know'} value={'1'} />
+                  <RadioItem label={'Forgot'} value={'2'} />
+                  <RadioItem label={'A lot of thought'} value={'3'} />
+                  <RadioItem label={'Confused'} value={'4'} />
+                  <RadioItem label={'Knew the answer'} value={'5'} />
                 </ControlledRadioGroup>
                 <Button fullWidth>
                   <>Next Question</>

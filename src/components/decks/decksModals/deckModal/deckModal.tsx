@@ -1,7 +1,6 @@
 import { FC, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { nanoid } from '@reduxjs/toolkit'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -14,7 +13,7 @@ import {
 } from '@/components'
 import s from '@/components/decks/decksModals/decksModals.module.scss'
 
-type DataType = {
+export type UpdateDeckType = {
   name: string
   isPrivate: boolean
   cover: File | undefined
@@ -31,7 +30,8 @@ type Props = {
   agreeText: string
   onOpenChange: () => void
   currentDeck?: CurrentDeckType
-  callBack: (data: DataType) => void
+  callBack: (data: UpdateDeckType) => void
+  myKey: string
 }
 
 const DeckSchema = z.object({
@@ -51,6 +51,7 @@ export const DeckModal: FC<Props> = ({
   onOpenChange,
   currentDeck,
   callBack,
+  myKey,
 }) => {
   const submitHandler = (data: DeckSchemaType) => {
     callBack({ ...data, cover })
@@ -66,7 +67,7 @@ export const DeckModal: FC<Props> = ({
 
   return (
     <Modal
-      key={nanoid()}
+      key={myKey}
       className={s.modal}
       title={title}
       isOpen={isOpen}

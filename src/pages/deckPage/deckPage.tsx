@@ -5,10 +5,8 @@ import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import s from './deckPage.module.scss'
 
 import { DeleteIcon, EditIcon, PlayIcon } from '@/assets/iconsComponents'
-import notFoundImg from '@/assets/images/not-found.png'
 import { TypographyVariant } from '@/common'
 import {
-  Button,
   DecksHeader,
   DecksPagination,
   DropDownMenu,
@@ -24,6 +22,7 @@ import {
   Preloader,
   ProgressBar,
   CurrentDeckType,
+  UpdateDeckType,
 } from '@/components'
 import { MY_ID } from '@/pages'
 import {
@@ -85,6 +84,12 @@ export const DeckPage = () => {
   const [idDeleteDeck, setIdDeleteDeck] = useState('')
   const [idUpdateDeck, setIdUpdateDeck] = useState('')
 
+  const updateDeckHandler = (data: UpdateDeckType) => {
+    updateDeck({ ...data, id: idUpdateDeck || '' }).then(() =>
+      updateGetDeck({ id: idUpdateDeck || '' })
+    )
+  }
+
   //navigation:
   const navigate = useNavigate()
   const goBack = () => navigate('/')
@@ -107,6 +112,7 @@ export const DeckPage = () => {
         />
         {/*update card modal*/}
         <CardModal
+          key={idUpdateCard}
           onOpenChange={() => setIdUpdateCard('')}
           isOpen={!!idUpdateCard}
           callback={data => updateCard({ ...data, id: idUpdateCard })}
@@ -125,6 +131,7 @@ export const DeckPage = () => {
         />
         {/*delete deck modal*/}
         <DeleteModal
+          key={idDeleteDeck}
           idDelete={idDeleteDeck}
           deleteCallback={deleteDeckHandler}
           onOpenChange={() => setIdDeleteDeck('')}
@@ -134,14 +141,12 @@ export const DeckPage = () => {
         />
         {/*update deck modal*/}
         <DeckModal
+          myKey={idUpdateDeck}
           title={'Edit Pack'}
           isOpen={!!idUpdateDeck}
           onOpenChange={() => setIdUpdateDeck('')}
           agreeText={'Save Changes'}
-          callBack={data => {
-            updateDeck({ ...data, id: idUpdateDeck || '' })
-            updateGetDeck({ id: idUpdateDeck || '' })
-          }}
+          callBack={updateDeckHandler}
           currentDeck={currentDeck}
         />
         <GoBack text={'Back to Packs List'} clickHandler={goBack} />
@@ -174,17 +179,6 @@ export const DeckPage = () => {
           onValueChange={value => setSearch(value)}
           name={'search'}
         />
-        {!cards?.items.length && deck?.userId === MY_ID && (
-          <NotFound className={s.notFound}>
-            <Typography variant={TypographyVariant.body1}>
-              This pack is empty. Click add new card to fill this pack
-            </Typography>
-            <Button onClick={() => setIsOpenAddModal(true)} disabled={isFetching}>
-              Add New Card
-            </Button>
-          </NotFound>
-        )}
-
         {cards?.items.length ? (
           <CardsTable
             cards={cards?.items}
@@ -195,16 +189,12 @@ export const DeckPage = () => {
             disabled={isFetching}
           />
         ) : (
-          <NotFound className={s.notFound}>
-            <img src={notFoundImg} alt="Not found" width={400} height={200} />
-            <Typography variant={TypographyVariant.h3}> Decks not found </Typography>
+          <NotFound>
+            <Typography variant={TypographyVariant.body1}>
+              This pack is empty. Click add new card to fill this pack
+            </Typography>
           </NotFound>
         )}
-        {/*{!cards?.items.length && (*/}
-        {/*  <Typography variant={TypographyVariant.body1}>*/}
-        {/*    Didn&apos;t find any card with such question*/}
-        {/*  </Typography>*/}
-        {/*)}*/}
         {cards?.pagination.totalPages && cards?.pagination.totalPages > 1 ? (
           <DecksPagination
             totalPages={cards.pagination.totalPages}

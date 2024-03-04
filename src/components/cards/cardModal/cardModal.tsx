@@ -1,7 +1,6 @@
 import { ChangeEvent, useRef, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { nanoid } from '@reduxjs/toolkit'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { z } from 'zod'
@@ -25,8 +24,8 @@ const schema = z.object({
     .max(500, 'answer must be shorter than 500 characters'),
   questionImg: z.string().nullable().optional(),
   answerImg: z.string().nullable().optional(),
-  questionVideo: z.string().nullable().optional(),
-  answerVideo: z.string().nullable().optional(),
+  // questionVideo: z.string().nullable().optional(),
+  // answerVideo: z.string().nullable().optional(),
 })
 
 type SchemaType = z.infer<typeof schema>
@@ -50,8 +49,8 @@ export const CardModal = ({
   const { id } = useParams()
   const [imgQuestionCover, setImgQuestionCover] = useState<File | undefined>(undefined)
   const [imgAnswerCover, setImgAnswerCover] = useState<File | undefined>(undefined)
-  const [videoQuestionCover, setVideoQuestionCover] = useState<File | undefined>(undefined)
-  const [videoAnswerCover, setVideoAnswerCover] = useState<File | undefined>(undefined)
+  // const [videoQuestionCover, setVideoQuestionCover] = useState<File | undefined>(undefined)
+  // const [videoAnswerCover, setVideoAnswerCover] = useState<File | undefined>(undefined)
 
   const onSubmit = (data: SchemaType) => {
     callback({
@@ -59,45 +58,28 @@ export const CardModal = ({
       id: id ? id : '',
       questionImg: imgQuestionCover,
       answerImg: imgAnswerCover,
-      questionVideo: videoQuestionCover,
-      answerVideo: videoAnswerCover,
+      // questionVideo: videoQuestionCover,
+      // answerVideo: videoAnswerCover,
     })
     onOpenChange()
+    reset()
   }
 
-  const { control, handleSubmit, formState } = useForm<SchemaType>({
+  const { control, handleSubmit, reset, formState } = useForm<SchemaType>({
     defaultValues: {
       question: currentCard?.question,
       answer: currentCard?.answer,
       questionImg: currentCard?.questionImg,
       answerImg: currentCard?.answerImg,
-      questionVideo: currentCard?.questionVideo,
-      answerVideo: currentCard?.answerVideo,
     },
     resolver: zodResolver(schema),
   })
 
   return (
-    <Modal
-      key={nanoid()}
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      title={title}
-      className={c.modal}
-    >
+    <Modal key={id} isOpen={isOpen} onOpenChange={onOpenChange} title={title} className={c.modal}>
       <form onSubmit={handleSubmit(onSubmit)} className={c.form}>
-        <ControlledTextField
-          control={control}
-          name={'question'}
-          label={'Question'}
-          defaultValue={currentCard?.question}
-        />
-        <ControlledTextField
-          control={control}
-          name={'answer'}
-          label={'Answer'}
-          defaultValue={currentCard?.answer}
-        />
+        <ControlledTextField type={'text'} control={control} name={'question'} label={'Question'} />
+        <ControlledTextField type={'text'} control={control} name={'answer'} label={'Answer'} />
         <Uploading
           text={'Image Question'}
           setCover={setImgQuestionCover}
@@ -112,13 +94,11 @@ export const CardModal = ({
         {/*  text={'Video Question'}*/}
         {/*  setCover={setVideoQuestionCover}*/}
         {/*  accept={'video'}*/}
-        {/*  defaultLocalCover={currentCard?.questionVideo}*/}
         {/*/>*/}
         {/*<Uploading*/}
         {/*  text={'Video Answer'}*/}
         {/*  setCover={setVideoAnswerCover}*/}
         {/*  accept={'video'}*/}
-        {/*  defaultLocalCover={currentCard?.answerVideo}*/}
         {/*/>*/}
         <DialogButtons
           agreeHandler={() => handleSubmit(onSubmit)}

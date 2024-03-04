@@ -1,4 +1,3 @@
-import { baseApi } from '@/services/baseApi.ts'
 import {
   CardsResponseType,
   CreateCardRequestType,
@@ -7,23 +6,18 @@ import {
   GetRandomCardRequestType,
   SaveGradeOfCardType,
   UpdateCardRequestType,
-} from '@/services/cards/cardsTypes.ts'
+} from '@/services'
+import { baseApi } from '@/services/baseApi.ts'
 import { addFieldToFormData } from '@/utils/addFieldToFormData.ts'
 
 export const CardsService = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
       getCards: builder.query<GetCardsResponseType, GetCardsRequestType>({
-        query: card => {
+        query: ({ id, ...params }) => {
           return {
-            url: `/v1/decks/${card.id}/cards`,
-            params: {
-              question: card.question,
-              answer: card.answer,
-              orderBy: card.orderBy,
-              currentPage: card.currentPage,
-              itemsPerPage: card.itemsPerPage,
-            },
+            url: `/v1/decks/${id}/cards`,
+            params,
           }
         },
         providesTags: res =>
