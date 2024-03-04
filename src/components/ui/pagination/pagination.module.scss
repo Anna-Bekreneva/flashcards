@@ -13,7 +13,10 @@
 
 .button {
   border-radius: 2px;
-  transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    box-shadow 0.3s,
+    color 0.3s;
 
   &:focus-visible {
     box-shadow: 0 0 0 2px var(--color-info-900);
@@ -74,5 +77,5 @@
 }
 
 .prev {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }

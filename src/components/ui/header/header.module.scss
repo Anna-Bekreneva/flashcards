@@ -6,7 +6,7 @@
 }
 
 .wrapper {
-  @include flex(center, space-between)
+  @include flex(center, space-between);
 }
 
 .logo {

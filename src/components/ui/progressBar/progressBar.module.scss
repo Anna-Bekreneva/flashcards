@@ -8,7 +8,7 @@
   margin: 0 auto;
 
   &::before {
-    content: "";
+    content: '';
 
     position: absolute;
     left: 0;
@@ -20,7 +20,6 @@
 
     animation: lineLoading 4s forwards infinite linear;
   }
-
 }
 
 @keyframes lineLoading {

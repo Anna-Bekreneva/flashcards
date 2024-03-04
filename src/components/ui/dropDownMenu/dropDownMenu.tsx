@@ -9,16 +9,18 @@ type DropDownMenuPropsType = DropdownMenuContentProps & {
   trigger: ReactNode
   align?: 'center' | 'start' | 'end'
   className?: string
+  open?: boolean
+  onOpenChange?: (value: boolean) => void
 }
 
 export const DropDownMenu = forwardRef<
   ElementRef<typeof RadixDropDownMenu.Root>,
   DropDownMenuPropsType
->(({ className, align = 'center', trigger, children, ...props }, ref?) => {
+>(({ className, align = 'center', trigger, open, onOpenChange, children, ...props }, ref?) => {
   const contentClassName = `${s.content} ${s[align]} ${className ? className : ''}`
 
   return (
-    <RadixDropDownMenu.Root>
+    <RadixDropDownMenu.Root open={open} onOpenChange={onOpenChange}>
       <RadixDropDownMenu.Trigger asChild>{trigger}</RadixDropDownMenu.Trigger>
       {/*<RadixDropDownMenu.Portal>*/}
       <RadixDropDownMenu.Content className={contentClassName} align={align} ref={ref} {...props}>

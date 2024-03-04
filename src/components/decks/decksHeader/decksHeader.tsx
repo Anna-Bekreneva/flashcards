@@ -51,7 +51,7 @@ export const DecksHeader: FC<Props> = ({
           </Button>
         ) : (
           <Button as={NavLink} to={to ?? ''}>
-            {buttonText || 'Add New Pack'}
+            {buttonText || 'Learn to Deck'}
           </Button>
         )}
       </div>

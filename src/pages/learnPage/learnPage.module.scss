@@ -1,0 +1,31 @@
+.card {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 33px 36px 48px;
+}
+
+.cardName {
+  margin-bottom: 45px;
+  text-align: center;
+}
+
+.cardImg {
+  display: inline-block;
+  width: 100%;
+  margin: 6px 0;
+}
+
+.attempts {
+  margin-bottom: 41px;
+  color: var(--color-dark-100);
+}
+
+.rate {
+  display: inline-block;
+  margin: 13px 0;
+}
+
+.rateRadioGroup {
+  margin-bottom: 30px;
+}

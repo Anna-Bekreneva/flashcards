@@ -16,17 +16,20 @@
   padding-left: 22px;
   position: relative;
   display: inline-block;
-  transition: border-radius 0.3s, box-shadow 0.3s, opacity 0.3s;
+  transition:
+    border-radius 0.3s,
+    box-shadow 0.3s,
+    opacity 0.3s;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     width: 16px;
     height: 16px;
     @include bg;
     top: 3px;
     left: 0;
-    background-image: url('../assets/images/icons/back.svg')
+    background-image: url('../assets/images/icons/back.svg');
   }
 
   &:focus-visible {
