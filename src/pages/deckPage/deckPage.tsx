@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { undefined } from 'zod'
 
 import s from './deckPage.module.scss'
 
@@ -112,7 +113,7 @@ export const DeckPage = () => {
         />
         {/*/!*update card modal*!/*/}
         <CardModal
-          key={idUpdateCard}
+          key={idUpdateCard ? idUpdateCard : 'update-card-modal'}
           onOpenChange={() => setIdUpdateCard('')}
           isOpen={!!idUpdateCard}
           callback={data => updateCard({ ...data, id: idUpdateCard })}
@@ -127,6 +128,7 @@ export const DeckPage = () => {
         />
         {/*/!*delete card modal*!/*/}
         <DeleteModal
+          key={idDeleteCard ? idDeleteCard : 'delete-card-modal'}
           idDelete={idDeleteCard}
           nameDelete={nameDeleteCard || ''}
           title={'Delete Card'}
@@ -136,6 +138,7 @@ export const DeckPage = () => {
         />
         {/*/!*delete deck modal*!/*/}
         <DeleteModal
+          key={idDeleteDeck ? idDeleteDeck : 'delete-deck-modal'}
           idDelete={idDeleteDeck}
           deleteCallback={deleteDeckHandler}
           onOpenChange={() => setIdDeleteDeck('')}
@@ -145,6 +148,7 @@ export const DeckPage = () => {
         />
         {/*/!*update deck modal*!/*/}
         <DeckModal
+          key={idUpdateDeck ? idUpdateDeck : 'update-deck-modal'}
           title={'Edit Pack'}
           isOpen={!!idUpdateDeck}
           onOpenChange={() => setIdUpdateDeck('')}

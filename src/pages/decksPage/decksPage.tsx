@@ -22,7 +22,6 @@ import {
 import { Preloader } from '@/components/ui/preloader'
 import { ProgressBar } from '@/components/ui/progressBar'
 import {
-  CreateParamsType,
   useCreateDeckMutation,
   useDeleteDeckMutation,
   useGetDecksQuery,
@@ -100,6 +99,7 @@ export const DecksPage = () => {
       {isFetching && <ProgressBar />}
       <section className={'container section'}>
         <DeleteModal
+          key={idDeleteDeck ? idDeleteDeck : 'delete-deck-modal'}
           nameDelete={nameDeleteDeck ?? ''}
           idDelete={idDeleteDeck}
           title={'Delete Pack'}
@@ -119,7 +119,7 @@ export const DecksPage = () => {
 
         {/* update */}
         <DeckModal
-          key={idUpdateDeck}
+          key={idUpdateDeck ? idUpdateDeck : 'update-deck-modal'}
           callBack={data => updateDeck({ ...data, id: idUpdateDeck })}
           agreeText={'Save Changes'}
           currentDeck={{

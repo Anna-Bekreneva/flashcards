@@ -35,14 +35,16 @@ export const CardModal = ({
         <ControlledTextField type={'text'} control={control} name={'question'} label={'Question'} />
         <ControlledTextField type={'text'} control={control} name={'answer'} label={'Answer'} />
         <UploadFile
+          name={'image-question'}
           text={'Image Question'}
           setCover={setImgQuestionCover}
           defaultLocalCover={currentCard?.questionImg ?? ''}
         />
         <UploadFile
+          name={'image-answer'}
           text={'Image Answer'}
           setCover={setImgAnswerCover}
-          defaultLocalCover={currentCard?.questionImg ?? ''}
+          defaultLocalCover={currentCard?.answerImg ?? ''}
         />
         <DialogButtons
           agreeHandler={() => handleSubmit(onSubmit)}
