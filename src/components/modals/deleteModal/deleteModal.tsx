@@ -1,13 +1,14 @@
 import { FC } from 'react'
 
+import s from '../modals.module.scss'
+
 import { TypographyVariant } from '@/common'
 import { DialogButtons, Modal, Typography } from '@/components'
-import s from '@/components/decks/decksModals/decksModals.module.scss'
 
 type Props = {
   isOpen: boolean
   onOpenChange: () => void
-  deleteCallback: ({}: { id: string }) => void
+  deleteCallback: (id: string) => void
   title: string
   nameDelete: string
   idDelete: string
@@ -42,7 +43,7 @@ export const DeleteModal: FC<Props> = ({
           cancelHandler={onOpenChange}
           agreeText={title}
           agreeHandler={() => {
-            deleteCallback({ id: idDelete })
+            deleteCallback(idDelete)
             onOpenChange()
           }}
         />
