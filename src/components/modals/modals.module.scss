@@ -1,0 +1,22 @@
+.modal {
+  max-width: 542px;
+  margin: 0 auto;
+}
+
+.modalWrapper {
+  padding: 24px 34px;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  padding: 24px 34px;
+}

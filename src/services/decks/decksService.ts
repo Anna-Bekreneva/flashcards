@@ -1,5 +1,11 @@
-import { CreateParamsType, DeckType, GetDecksResponseType, GetParamsType } from '@/services'
-import { baseApi } from '@/services/baseApi.ts'
+import {
+  CreateParamsType,
+  DeckType,
+  GetDecksResponseType,
+  GetParamsType,
+  baseApi,
+} from '@/services'
+import { addFieldToFormData } from '@/utils'
 
 export const DecksService = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -22,11 +28,11 @@ export const DecksService = baseApi.injectEndpoints({
       }),
       createDeck: builder.mutation<DeckType, CreateParamsType>({
         query: body => {
-          const formData = new FormData()
-
-          formData.append('name', body.name)
-          body.cover && formData.append('cover', body.cover)
-          formData.append('isPrivate', body.isPrivate.toString())
+          const formData = addFieldToFormData([
+            { name: 'name', value: body.name },
+            { name: 'cover', value: body.cover },
+            { name: 'isPrivate', value: body.isPrivate },
+          ])
 
           return {
             method: 'POST',
@@ -47,11 +53,11 @@ export const DecksService = baseApi.injectEndpoints({
       }),
       updateDeck: builder.mutation<DeckType, CreateParamsType & { id: string }>({
         query: body => {
-          const formData = new FormData()
-
-          body.cover && formData.append('cover', body.cover)
-          formData.append('name', body.name)
-          body.isPrivate && formData.append('isPrivate', body.isPrivate.toString())
+          const formData = addFieldToFormData([
+            { name: 'name', value: body.name },
+            { name: 'cover', value: body.cover },
+            { name: 'isPrivate', value: body.isPrivate },
+          ])
 
           return {
             method: 'PATCH',

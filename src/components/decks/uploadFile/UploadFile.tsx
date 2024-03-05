@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useRef, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
 
 import s from './uploadFile.module.scss'
 
@@ -7,10 +7,21 @@ import { ButtonVariant } from '@/common'
 import { Button, TextField } from '@/components'
 
 type Props = {
-  setCover: (cover: File) => void
+  text?: string
+  setCover: (cover: File | undefined) => void
   defaultLocalCover?: string
 }
-export const UploadFile: FC<Props> = ({ setCover, defaultLocalCover = '' }) => {
+
+export const UploadFile: FC<Props> = ({
+  setCover,
+  defaultLocalCover = '',
+  text = 'Upload cover',
+}) => {
+  useEffect(() => {
+    return () => {
+      setCover(undefined)
+    }
+  }, [])
   const inputRef = useRef<HTMLDivElement>(null)
 
   const selectFileHandler = () => {
@@ -55,9 +66,10 @@ export const UploadFile: FC<Props> = ({ setCover, defaultLocalCover = '' }) => {
       )}
       <Button variant={ButtonVariant.secondary} onClick={selectFileHandler} type={'button'}>
         <ImageIcon />
-        Upload Cover
+        {text}
       </Button>
       <TextField
+        name={'file'}
         className={s.imageField}
         ref={inputRef}
         type="file"
