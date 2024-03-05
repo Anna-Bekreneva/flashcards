@@ -10,12 +10,14 @@ type Props = {
   text?: string
   setCover: (cover: File | undefined) => void
   defaultLocalCover?: string
+  name?: string
 }
 
 export const UploadFile: FC<Props> = ({
   setCover,
   defaultLocalCover = '',
   text = 'Upload cover',
+  name = 'image file',
 }) => {
   useEffect(() => {
     return () => {
@@ -69,7 +71,7 @@ export const UploadFile: FC<Props> = ({
         {text}
       </Button>
       <TextField
-        name={'file'}
+        name={name}
         className={s.imageField}
         ref={inputRef}
         type="file"
