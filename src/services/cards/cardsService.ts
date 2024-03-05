@@ -6,9 +6,9 @@ import {
   GetRandomCardRequestType,
   SaveGradeOfCardType,
   UpdateCardRequestType,
+  baseApi,
 } from '@/services'
-import { baseApi } from '@/services/baseApi.ts'
-import { addFieldToFormData } from '@/utils/addFieldToFormData.ts'
+import { addFieldToFormData } from '@/utils'
 
 export const CardsService = baseApi.injectEndpoints({
   endpoints: builder => {

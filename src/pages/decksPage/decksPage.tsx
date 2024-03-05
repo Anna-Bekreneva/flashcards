@@ -5,12 +5,12 @@ import s from './decksPage.module.scss'
 import { DeleteIcon } from '@/assets/iconsComponents'
 import { ButtonVariant } from '@/common'
 import {
-  AddDeckModal,
   Button,
+  DeckModal,
   DecksHeader,
   DecksPagination,
   DecksTable,
-  DeleteDeckModal,
+  DeleteModal,
   SliderCustom,
   Sort,
   Tabs,
@@ -18,23 +18,30 @@ import {
   TabsTrigger,
   TextField,
   Typography,
-  UpdateDeckModal,
 } from '@/components'
 import { Preloader } from '@/components/ui/preloader'
 import { ProgressBar } from '@/components/ui/progressBar'
-import { useGetDecksQuery } from '@/services'
+import {
+  CreateParamsType,
+  useCreateDeckMutation,
+  useDeleteDeckMutation,
+  useGetDecksQuery,
+  useUpdateDeckMutation,
+} from '@/services'
 
 export const MY_ID = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
 const DEFAULT_MAX_CARDS_COUNT = 100
 
 export const DecksPage = () => {
+  const [deleteDeck] = useDeleteDeckMutation()
   const [currentPage, setCurrentPage] = useState(1)
   const [perPage, setPerPage] = useState(10)
 
+  const [addDeck] = useCreateDeckMutation()
   const [cardsCountLocal, setCardsCountLocal] = useState([0, DEFAULT_MAX_CARDS_COUNT])
   const [cardsCount, setCardsCount] = useState([cardsCountLocal[0], cardsCountLocal[1]])
   const [name, setName] = useState('')
-
+  const [updateDeck] = useUpdateDeckMutation()
   // tabs
   const [tabsValue, setTabsValue] = useState<TabsVariantType>(TabsVariant.allCards)
   const authorId = tabsValue === 'my' ? MY_ID : ''
@@ -56,7 +63,7 @@ export const DecksPage = () => {
 
   // update modal
   const [idUpdateDeck, setIdUpdateDeck] = useState<string>('')
-  const updateDeck = data?.items.find(item => item.id === idUpdateDeck)
+  const deckForUpdate = data?.items.find(item => item.id === idUpdateDeck)
 
   // delete modal
   const [idDeleteDeck, setIdDeleteDeck] = useState('')
@@ -92,30 +99,37 @@ export const DecksPage = () => {
     <>
       {isFetching && <ProgressBar />}
       <section className={'container section'}>
-        <DeleteDeckModal
-          nameDeleteDeck={nameDeleteDeck ?? ''}
-          idDeleteDeck={idDeleteDeck}
+        <DeleteModal
+          nameDelete={nameDeleteDeck ?? ''}
+          idDelete={idDeleteDeck}
           title={'Delete Pack'}
           isOpen={!!idDeleteDeck}
           onOpenChange={() => setIdDeleteDeck('')}
+          deleteCallback={id => deleteDeck(id)}
         />
 
-        <AddDeckModal
+        {/* add */}
+        <DeckModal
+          callBack={data => addDeck(data)}
+          agreeText={'Add New Pack'}
           title={'Add New Pack'}
           isOpen={isOpenAddModal}
           onOpenChange={() => setIsOpenAddModal(!isOpenAddModal)}
         />
 
-        <UpdateDeckModal
+        {/* update */}
+        <DeckModal
           key={idUpdateDeck}
+          callBack={data => updateDeck({ ...data, id: idUpdateDeck })}
+          agreeText={'Save Changes'}
           currentDeck={{
-            name: updateDeck?.name,
-            isPrivate: updateDeck?.isPrivate,
-            cover: updateDeck?.cover ?? '',
+            name: deckForUpdate?.name,
+            isPrivate: deckForUpdate?.isPrivate,
+            cover: deckForUpdate?.cover ?? '',
           }}
+          isOpen={!!idUpdateDeck}
           title={'Edit Pack'}
-          openChangeHandler={() => setIdUpdateDeck('')}
-          id={idUpdateDeck ?? ''}
+          onOpenChange={() => setIdUpdateDeck('')}
         />
         <DecksHeader
           isOpenAddModal={isOpenAddModal}

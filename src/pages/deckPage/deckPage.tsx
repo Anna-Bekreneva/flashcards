@@ -14,15 +14,15 @@ import {
   Sort,
   TextField,
   Typography,
-  CardModal,
   CardsTable,
   DeckModal,
-  DeleteModal,
   GoBack,
   Preloader,
   ProgressBar,
   CurrentDeckType,
   UpdateDeckType,
+  DeleteModal,
+  CardModal,
 } from '@/components'
 import { MY_ID } from '@/pages'
 import {
@@ -65,8 +65,8 @@ export const DeckPage = () => {
   const [deleteDeck] = useDeleteDeckMutation()
   const [updateGetDeck] = useLazyGetDeckQuery()
 
-  const deleteDeckHandler = (arg: { id: string }): void => {
-    deleteDeck(arg.id)
+  const deleteDeckHandler = (id: string): void => {
+    deleteDeck(id)
     goBack()
   }
   const currentDeck: CurrentDeckType = {
@@ -110,7 +110,7 @@ export const DeckPage = () => {
           title={'Add New Card'}
           submitBtnCaption={'Add New Card'}
         />
-        {/*update card modal*/}
+        {/*/!*update card modal*!/*/}
         <CardModal
           key={idUpdateCard}
           onOpenChange={() => setIdUpdateCard('')}
@@ -118,20 +118,24 @@ export const DeckPage = () => {
           callback={data => updateCard({ ...data, id: idUpdateCard })}
           title={'Edit Card'}
           submitBtnCaption={'Save Changes'}
-          currentCard={currentCard}
+          currentCard={{
+            answerImg: currentCard?.answerImg ?? '',
+            questionImg: currentCard?.questionImg ?? '',
+            answer: currentCard?.answer ?? '',
+            question: currentCard?.question ?? '',
+          }}
         />
-        {/*delete card modal*/}
+        {/*/!*delete card modal*!/*/}
         <DeleteModal
           idDelete={idDeleteCard}
           nameDelete={nameDeleteCard || ''}
           title={'Delete Card'}
           isOpen={!!idDeleteCard}
           onOpenChange={() => setIdDeleteCard('')}
-          deleteCallback={deleteCard}
+          deleteCallback={id => deleteCard({ id })}
         />
-        {/*delete deck modal*/}
+        {/*/!*delete deck modal*!/*/}
         <DeleteModal
-          key={idDeleteDeck}
           idDelete={idDeleteDeck}
           deleteCallback={deleteDeckHandler}
           onOpenChange={() => setIdDeleteDeck('')}
@@ -139,9 +143,8 @@ export const DeckPage = () => {
           title={'Delete Pack'}
           nameDelete={deck?.name ?? ''}
         />
-        {/*update deck modal*/}
+        {/*/!*update deck modal*!/*/}
         <DeckModal
-          myKey={idUpdateDeck}
           title={'Edit Pack'}
           isOpen={!!idUpdateDeck}
           onOpenChange={() => setIdUpdateDeck('')}
