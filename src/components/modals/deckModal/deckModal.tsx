@@ -4,6 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import s from '../modals.module.scss'
+
 import {
   ControlledCheckbox,
   ControlledTextField,
@@ -11,18 +13,14 @@ import {
   Modal,
   UploadFile,
 } from '@/components'
-import s from '@/components/decks/decksModals/decksModals.module.scss'
 
 export type UpdateDeckType = {
   name: string
   isPrivate: boolean
   cover: File | undefined
 }
-export type CurrentDeckType = {
-  name?: string
-  isPrivate?: boolean
-  cover?: string
-}
+
+export type CurrentDeckType = Partial<Omit<UpdateDeckType, 'cover'> & { cover: string }>
 
 type Props = {
   title: string
@@ -31,7 +29,6 @@ type Props = {
   onOpenChange: () => void
   currentDeck?: CurrentDeckType
   callBack: (data: UpdateDeckType) => void
-  myKey: string
 }
 
 const DeckSchema = z.object({
@@ -51,28 +48,22 @@ export const DeckModal: FC<Props> = ({
   onOpenChange,
   currentDeck,
   callBack,
-  myKey,
 }) => {
   const submitHandler = (data: DeckSchemaType) => {
     callBack({ ...data, cover })
     onOpenChange()
+    reset()
   }
 
   const [cover, setCover] = useState<File | undefined>(undefined)
 
-  const { control, handleSubmit, formState } = useForm<DeckSchemaType>({
+  const { control, reset, handleSubmit, formState } = useForm<DeckSchemaType>({
     defaultValues: { name: currentDeck?.name, isPrivate: currentDeck?.isPrivate },
     resolver: zodResolver(DeckSchema),
   })
 
   return (
-    <Modal
-      key={myKey}
-      className={s.modal}
-      title={title}
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-    >
+    <Modal className={s.modal} title={title} isOpen={isOpen} onOpenChange={onOpenChange}>
       <form className={s.modalWrapper} onSubmit={handleSubmit(submitHandler)}>
         <div className={s.modalContent}>
           <ControlledTextField
