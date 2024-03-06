@@ -1,1 +1,2 @@
-export * from './uploadFile.tsx'
+export * from './uploadFile'
+export * from './hooks'
