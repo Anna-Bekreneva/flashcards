@@ -31,6 +31,32 @@ type Props = {
   setSort: (value: Sort) => void
   disabled?: boolean
 }
+
+// todo: i'm not sure, that we need to save this data here
+const columns: Array<Column> = [
+  {
+    key: 'name',
+    title: 'Name',
+  },
+  {
+    key: 'cardsCount',
+    title: 'Cards',
+  },
+  {
+    key: 'updated',
+    title: 'Last Updated',
+    sortable: true,
+  },
+  {
+    key: 'createdBy',
+    title: 'Created by',
+  },
+  {
+    key: 'buttons',
+    title: '',
+  },
+]
+
 export const DecksTable: FC<Props> = ({
   id,
   items,
@@ -40,30 +66,6 @@ export const DecksTable: FC<Props> = ({
   setSort,
   disabled,
 }) => {
-  const columns: Array<Column> = [
-    {
-      key: 'name',
-      title: 'Name',
-    },
-    {
-      key: 'cardsCount',
-      title: 'Cards',
-    },
-    {
-      key: 'updated',
-      title: 'Last Updated',
-      sortable: true,
-    },
-    {
-      key: 'createdBy',
-      title: 'Created by',
-    },
-    {
-      key: 'buttons',
-      title: '',
-    },
-  ]
-
   return (
     <>
       {items?.length ? (

@@ -4,9 +4,8 @@ import * as RadixDialog from '@radix-ui/react-dialog'
 
 import s from './modal.module.scss'
 
-import { TypographyVariant } from '@/common/types/types.ts'
-import { Card } from '@/components/ui/card'
-import { Typography } from '@/components/ui/typography'
+import { TypographyVariant } from '@/common'
+import { Card, Typography } from '@/components'
 
 type Props = {
   className?: string
