@@ -1,46 +1,30 @@
 import { FC } from 'react'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
 import s from './signUp.module.scss'
 
 import { TypographyVariant } from '@/common'
-import { Button, Card, ControlledTextField, Typography } from '@/components'
-
-const signUpSchema = z
-  .object({
-    email: z.string().email('Invalid email'),
-    password: z.string(),
-    confirmPassword: z.string(),
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'],
-  })
-
-type FormValues = z.infer<typeof signUpSchema>
+import {
+  Button,
+  Card,
+  ControlledTextField,
+  SignUpFormValues,
+  Typography,
+  useSignUp,
+} from '@/components'
 
 type Props = {
-  onSubmit: (data: FormValues) => void
+  onSubmit: (data: SignUpFormValues) => void
 }
 
-export const SignUp: FC<Props> = props => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<FormValues>({ resolver: zodResolver(signUpSchema) })
-
-  const onSubmit = (data: FormValues) => props.onSubmit(data)
+export const SignUp: FC<Props> = ({ onSubmit }) => {
+  const { handleFormSubmitted, control, errors } = useSignUp(onSubmit)
 
   return (
     <Card className={s.card}>
       <Typography className={s.title} as={'span'} variant={TypographyVariant.large}>
         Sign Up
       </Typography>
-      <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+      <form className={s.form} onSubmit={handleFormSubmitted}>
         <div className={s.items}>
           <ControlledTextField
             control={control}
