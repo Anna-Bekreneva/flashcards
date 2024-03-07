@@ -1,7 +1,8 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
+export type TypeSetCover = File | undefined | 'empty'
 export const useUploadFile = (
-  setCover: (cover: File | undefined) => void,
+  setCover: (cover: TypeSetCover) => void,
   defaultLocalCover?: string
 ) => {
   useEffect(() => {
@@ -9,13 +10,20 @@ export const useUploadFile = (
       setCover(undefined)
     }
   }, [])
+
   const inputRef = useRef<HTMLDivElement>(null)
 
   const selectFileHandler = () => {
     inputRef && inputRef.current?.querySelector('input')?.click()
   }
 
+  const deleteCoverHandler = () => {
+    setCover('empty')
+    setLocalCover(undefined)
+  }
+
   const [localCover, setLocalCover] = useState(defaultLocalCover)
+
   const [coverErrorMessage, setCoverErrorMessage] = useState<string | undefined>(undefined)
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -41,5 +49,13 @@ export const useUploadFile = (
 
   const errorHandler = () => setCoverErrorMessage('The file is broken')
 
-  return { localCover, coverErrorMessage, errorHandler, selectFileHandler, inputRef, uploadHandler }
+  return {
+    localCover,
+    coverErrorMessage,
+    errorHandler,
+    selectFileHandler,
+    inputRef,
+    uploadHandler,
+    deleteCoverHandler,
+  }
 }

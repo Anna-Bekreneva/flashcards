@@ -2,22 +2,22 @@ import { FC } from 'react'
 
 import s from './uploadFile.module.scss'
 
-import { ImageIcon } from '@/assets/iconsComponents'
+import { DeleteIcon, ImageIcon } from '@/assets/iconsComponents'
 import { ButtonVariant } from '@/common'
-import { Button, TextField, useUploadFile } from '@/components'
+import { Button, TextField, TypeSetCover, useUploadFile } from '@/components'
 
 type Props = {
   text?: string
-  setCover: (cover: File | undefined) => void
+  setCover: (cover: TypeSetCover) => void
   defaultLocalCover?: string
   name?: string
 }
 
 export const UploadFile: FC<Props> = ({
   setCover,
-  defaultLocalCover = '',
-  text = 'Upload cover',
-  name = 'image file',
+  defaultLocalCover,
+  text = 'cover',
+  name = 'image-file',
 }) => {
   const {
     localCover,
@@ -26,22 +26,46 @@ export const UploadFile: FC<Props> = ({
     selectFileHandler,
     inputRef,
     uploadHandler,
+    deleteCoverHandler,
   } = useUploadFile(setCover, defaultLocalCover)
 
   return (
     <div className={s.content}>
-      {localCover && (
-        <img
-          className={`${coverErrorMessage ? '' : s.img}`}
-          src={localCover}
-          onError={errorHandler}
-          alt="cover"
-        />
+      {localCover ? (
+        <>
+          <img
+            className={`${coverErrorMessage ? '' : s.img}`}
+            src={localCover}
+            onError={errorHandler}
+            alt="cover"
+          />
+          <div className={s.buttons}>
+            <Button
+              className={s.button}
+              variant={ButtonVariant.secondary}
+              onClick={deleteCoverHandler}
+              type={'button'}
+            >
+              <DeleteIcon />
+              Remove {text}
+            </Button>
+            <Button
+              className={s.button}
+              variant={ButtonVariant.secondary}
+              onClick={selectFileHandler}
+              type={'button'}
+            >
+              <ImageIcon />
+              Change {text}
+            </Button>
+          </div>
+        </>
+      ) : (
+        <Button variant={ButtonVariant.secondary} onClick={selectFileHandler} type={'button'}>
+          <ImageIcon />
+          Upload {text}
+        </Button>
       )}
-      <Button variant={ButtonVariant.secondary} onClick={selectFileHandler} type={'button'}>
-        <ImageIcon />
-        {text}
-      </Button>
       <TextField
         name={name}
         className={s.imageField}
