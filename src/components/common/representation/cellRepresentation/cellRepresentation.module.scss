@@ -1,0 +1,11 @@
+.preview {
+  display: flex;
+  gap: 10px;
+}
+
+.image {
+  flex-shrink: 0;
+  width: 118px;
+  height: 48px;
+  object-fit: cover;
+}
