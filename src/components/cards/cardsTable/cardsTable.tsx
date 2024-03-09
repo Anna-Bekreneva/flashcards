@@ -1,10 +1,17 @@
-import { useState } from 'react'
-
 import s from './cardsTable.module.scss'
 
 import { DeleteIcon, EditIcon } from '@/assets/iconsComponents'
 import { StarIcon } from '@/assets/iconsComponents/star.tsx'
-import { Column, Sort, Table, TableBody, TableCell, TableHeader, TableRow } from '@/components'
+import {
+  CellRepresentation,
+  Column,
+  Sort,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from '@/components'
 import { MY_ID } from '@/pages'
 import { CardsResponseType } from '@/services/cards'
 import { getDate } from '@/utils'
@@ -49,21 +56,11 @@ export const CardsTable = ({ cards, editCard, deleteCard, disabled, sort, setSor
           {cards?.map(card => {
             return (
               <TableRow key={card.id}>
-                <TableCell>
-                  <QuestionAnswerRepresentation
-                    text={card.question}
-                    img={card.questionImg}
-                    video={card.questionVideo}
-                    isQuestion={true}
-                  />
+                <TableCell className={s.representation}>
+                  <CellRepresentation text={card.question} img={card.questionImg} />
                 </TableCell>
-                <TableCell>
-                  <QuestionAnswerRepresentation
-                    text={card.answer}
-                    img={card.answerImg}
-                    video={card.answerVideo}
-                    isQuestion={false}
-                  />
+                <TableCell className={s.representation}>
+                  <CellRepresentation text={card.answer} img={card.answerImg} />
                 </TableCell>
                 <TableCell>{getDate(card.updated)}</TableCell>
                 <TableCell>{getStars(card)}</TableCell>
@@ -96,68 +93,4 @@ export const CardsTable = ({ cards, editCard, deleteCard, disabled, sort, setSor
       </Table>
     </>
   )
-}
-
-type RepresentProps = {
-  text: string | null
-  img: string | null
-  video: string | null
-  isQuestion: boolean
-}
-const QuestionAnswerRepresentation = ({ text, img, video, isQuestion }: RepresentProps) => {
-  return (
-    <>
-      {video && (
-        <div className={s.preview}>
-          <video className={s.video} src={video} width={118} height={48} controls muted />
-          <TextRepresentation text={text || ''} />
-        </div>
-      )}
-      {img && !video && (
-        <div className={s.preview}>
-          <img
-            className={s.image}
-            src={img}
-            alt={isQuestion ? 'Question preview' : 'Answer preview'}
-            width={118}
-            height={48}
-            loading={'lazy'}
-          />
-          <TextRepresentation text={text || ''} />
-        </div>
-      )}
-      {!video && !img && <TextRepresentation text={text || ''} />}
-    </>
-  )
-}
-
-type TextProps = { text: string }
-const TextRepresentation = ({ text }: TextProps) => {
-  const [isShowWholeText, setIsShowWholeText] = useState<boolean>(text.length <= 15)
-  const isTextTooLarge = text.length >= 15
-  const textStart = text.slice(0, 15)
-
-  if (!isTextTooLarge) {
-    return <p>{text}</p>
-  } else {
-    return (
-      <p>
-        {isShowWholeText ? (
-          <>
-            {text}{' '}
-            <button className={s.linkBtn} onClick={() => setIsShowWholeText(!isShowWholeText)}>
-              Hide
-            </button>
-          </>
-        ) : (
-          <>
-            {textStart}...
-            <button className={s.linkBtn} onClick={() => setIsShowWholeText(!isShowWholeText)}>
-              More
-            </button>
-          </>
-        )}
-      </p>
-    )
-  }
 }

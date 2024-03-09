@@ -7,8 +7,7 @@
 }
 
 .ratings,
-.manage,
-.preview {
+.manage {
   display: flex;
   gap: 10px;
 }
@@ -23,18 +22,12 @@
   }
 }
 
-.preview {
-  display: flex;
-  flex-direction: column;
-}
+.representation {
+  width: 28%;
+  vertical-align: top;
 
-.preview {
-  img,
-  video {
-    width: 118px;
-    height: 48px;
-    margin-right: 0;
-    object-fit: cover;
+  div {
+    flex-direction: column-reverse;
   }
 }
 
@@ -69,20 +62,4 @@
       stroke: var(--color-dark-300);
     }
   }
-}
-
-.linkBtn {
-  all: unset;
-
-  cursor: pointer;
-
-  display: inline-block;
-
-  margin-left: 5px;
-
-  font-size: inherit;
-  font-weight: 400;
-  line-height: inherit;
-  color: var(--color-info-300);
-  text-decoration: underline;
 }
