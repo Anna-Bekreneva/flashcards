@@ -4,11 +4,11 @@ import s from './uploadFile.module.scss'
 
 import { DeleteIcon, ImageIcon } from '@/assets/iconsComponents'
 import { ButtonVariant } from '@/common'
-import { Button, TextField, TypeSetCover, useUploadFile } from '@/components'
+import { Button, TextField, CoverType, useUploadFile } from '@/components'
 
 type Props = {
   text?: string
-  setCover: (cover: TypeSetCover) => void
+  setCover: (cover: CoverType) => void
   defaultLocalCover?: string
   name?: string
 }

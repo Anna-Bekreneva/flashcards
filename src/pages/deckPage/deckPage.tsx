@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
-import { undefined } from 'zod'
 
 import s from './deckPage.module.scss'
 

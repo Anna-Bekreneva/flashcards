@@ -11,14 +11,14 @@ import {
   ControlledTextField,
   DialogButtons,
   Modal,
-  TypeSetCover,
+  CoverType,
   UploadFile,
 } from '@/components'
 
 export type UpdateDeckType = {
   name: string
   isPrivate: boolean
-  cover: TypeSetCover
+  cover: CoverType
 }
 
 export type CurrentDeckType = Partial<Omit<UpdateDeckType, 'cover'> & { cover: string }>
@@ -56,12 +56,15 @@ export const DeckModal: FC<Props> = ({
     reset()
   }
 
-  const [cover, setCover] = useState<TypeSetCover>(undefined)
+  const [cover, setCover] = useState<CoverType>(undefined)
 
   const { control, reset, handleSubmit, formState } = useForm<DeckSchemaType>({
     defaultValues: { name: currentDeck?.name, isPrivate: currentDeck?.isPrivate },
     resolver: zodResolver(DeckSchema),
   })
+
+  const agreeButtonDisabled =
+    !!Object.keys(formState.errors).length || (!formState.isDirty && cover === undefined)
 
   return (
     <Modal className={s.modal} title={title} isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -87,7 +90,7 @@ export const DeckModal: FC<Props> = ({
           cancelHandler={onOpenChange}
           agreeText={agreeText}
           agreeButtonType={'submit'}
-          agreeButtonDisabled={!!Object.keys(formState.errors).length}
+          agreeButtonDisabled={agreeButtonDisabled}
           agreeHandler={handleSubmit(submitHandler)}
         />
       </form>

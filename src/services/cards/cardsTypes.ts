@@ -1,3 +1,5 @@
+import { CoverType } from '@/components'
+
 export type CardRatingType = 1 | 2 | 3 | 4 | 5
 
 export type CardsResponseType = {
@@ -17,12 +19,10 @@ export type CardsResponseType = {
 }
 
 export type CardRequestCommonType = {
-  questionImg?: string | File
-  answerImg?: string | File
+  questionImg?: CoverType
+  answerImg?: CoverType
   question: string
   answer: string
-  questionVideo?: string | File
-  answerVideo?: string | File
 }
 
 export type UpdateCardRequestType = Partial<CardRequestCommonType> & { id: string }

@@ -1,10 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
-export type TypeSetCover = File | undefined | 'empty'
-export const useUploadFile = (
-  setCover: (cover: TypeSetCover) => void,
-  defaultLocalCover?: string
-) => {
+export type CoverType = File | undefined | 'empty'
+export const useUploadFile = (setCover: (cover: CoverType) => void, defaultLocalCover?: string) => {
   useEffect(() => {
     return () => {
       setCover(undefined)
@@ -30,9 +27,6 @@ export const useUploadFile = (
       const file = e.target.files[0]
 
       if (file.size < 4000000) {
-        const formData = new FormData()
-
-        formData.append('cover', file)
         setCover(file)
 
         const blob = new Blob([file], { type: file.type })
