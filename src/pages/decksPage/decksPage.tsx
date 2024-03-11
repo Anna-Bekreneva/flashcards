@@ -103,8 +103,7 @@ export const DecksPage = () => {
             type={'search'}
             placeholder={'Input search'}
             value={name}
-            onValueChange={value => setName(value)}
-            disabled={isFetching}
+            onValueChange={setName}
           />
           <div className={s.setting}>
             <Typography as={'span'}>Show packs cards</Typography>
