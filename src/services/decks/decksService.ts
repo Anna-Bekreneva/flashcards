@@ -55,8 +55,7 @@ export const DecksService = baseApi.injectEndpoints({
         query: body => {
           const formData = addFieldToFormData([
             { name: 'name', value: body.name },
-            { name: 'cover', value: body.cover, checkIsUndefined: true },
-            // { name: 'cover', value: prepareField(body.cover) },
+            { name: 'cover', value: body.cover },
             { name: 'isPrivate', value: body.isPrivate },
           ])
 

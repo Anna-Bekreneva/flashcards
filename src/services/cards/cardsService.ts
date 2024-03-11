@@ -56,8 +56,8 @@ export const CardsService = baseApi.injectEndpoints({
           const formData = addFieldToFormData([
             { name: 'question', value: card.question },
             { name: 'answer', value: card.answer },
-            { name: 'questionImg', value: card.questionImg, checkIsUndefined: true },
-            { name: 'answerImg', value: card.answerImg, checkIsUndefined: true },
+            { name: 'questionImg', value: card.questionImg },
+            { name: 'answerImg', value: card.answerImg },
             // { name: 'questionVideo', value: card.questionVideo },
             // { name: 'answerVideo', value: card.answerVideo },
           ])
