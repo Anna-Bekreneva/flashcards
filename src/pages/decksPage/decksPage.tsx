@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 import s from './decksPage.module.scss'
 
 import { DeleteIcon } from '@/assets/iconsComponents'
@@ -11,84 +9,51 @@ import {
   DecksPagination,
   DecksTable,
   DeleteModal,
+  Preloader,
+  ProgressBar,
   SliderCustom,
-  Sort,
   Tabs,
   TabsList,
   TabsTrigger,
   TextField,
   Typography,
 } from '@/components'
-import { Preloader } from '@/components/ui/preloader'
-import { ProgressBar } from '@/components/ui/progressBar'
-import {
-  useCreateDeckMutation,
-  useDeleteDeckMutation,
-  useGetDecksQuery,
-  useUpdateDeckMutation,
-} from '@/services'
+import { TabsVariant, TabsVariantType, useDecksPage } from '@/pages'
 
 export const MY_ID = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
 const DEFAULT_MAX_CARDS_COUNT = 100
 
 export const DecksPage = () => {
-  const [deleteDeck] = useDeleteDeckMutation()
-  const [currentPage, setCurrentPage] = useState(1)
-  const [perPage, setPerPage] = useState(10)
-
-  const [addDeck] = useCreateDeckMutation()
-  const [cardsCountLocal, setCardsCountLocal] = useState([0, DEFAULT_MAX_CARDS_COUNT])
-  const [cardsCount, setCardsCount] = useState([cardsCountLocal[0], cardsCountLocal[1]])
-  const [name, setName] = useState('')
-  const [updateDeck] = useUpdateDeckMutation()
-  // tabs
-  const [tabsValue, setTabsValue] = useState<TabsVariantType>(TabsVariant.allCards)
-  const authorId = tabsValue === 'my' ? MY_ID : ''
-  const [sort, setSort] = useState<Sort>(null)
-  const { data, isLoading, isFetching, error } = useGetDecksQuery({
-    minCardsCount: cardsCount[0],
-    maxCardsCount: cardsCount[1],
-    name,
+  const {
+    isLoading,
+    isFetching,
+    idDeleteDeck,
+    nameDeleteDeck,
+    setIdDeleteDeck,
+    deleteDeck,
+    addDeck,
+    isOpenAddModal,
+    setIsOpenAddModal,
+    idUpdateDeck,
+    updateDeck,
+    currentDeck,
+    setIdUpdateDeck,
+    data,
+    setName,
+    setTabsValue,
+    tabsValue,
+    cardsCountLocal,
+    setCardsCount,
+    clearSettingsHandler,
+    changeValueSliderHandler,
+    sort,
+    setSort,
     currentPage,
-    itemsPerPage: perPage,
-    authorId,
-    orderBy: sort ? `${sort?.key}-${sort?.direction}` : null,
-  })
-
-  useEffect(() => {
-    if (!data || !data.maxCardsCount) return
-    setCardsCountLocal([cardsCountLocal[0], data?.maxCardsCount ?? DEFAULT_MAX_CARDS_COUNT])
-  }, [data?.maxCardsCount])
-
-  // update modal
-  const [idUpdateDeck, setIdUpdateDeck] = useState<string>('')
-  const deckForUpdate = data?.items.find(item => item.id === idUpdateDeck)
-
-  // delete modal
-  const [idDeleteDeck, setIdDeleteDeck] = useState('')
-  const nameDeleteDeck = data?.items.find(item => item.id === idDeleteDeck)?.name
-
-  // add modal
-  const [isOpenAddModal, setIsOpenAddModal] = useState(false)
-  const clearSettingsHandler = () => {
-    setName('')
-    setTabsValue(TabsVariant.allCards)
-    setCardsCountLocal([0, data?.maxCardsCount ?? 100])
-    setCardsCount([0, data?.maxCardsCount ?? 100])
-  }
-  const changeValueSliderHandler = (values: number[]) => setCardsCountLocal([values[0], values[1]])
-
-  if (error) {
-    if ('data' in error) {
-      const errMsg = error.data as ErrorDataType
-
-      if ('error' in errMsg) {
-        return <h1>{errMsg.error}</h1>
-      }
-    } else if ('error' in error) {
-      return <h1>{error.error}</h1>
-    }
-  }
+    setCurrentPage,
+    perPage,
+    setPerPage,
+    name,
+  } = useDecksPage(DEFAULT_MAX_CARDS_COUNT)
 
   if (isLoading) {
     return <Preloader />
@@ -122,11 +87,7 @@ export const DecksPage = () => {
           key={idUpdateDeck ? idUpdateDeck : 'update-deck-modal'}
           callBack={data => updateDeck({ ...data, id: idUpdateDeck })}
           agreeText={'Save Changes'}
-          currentDeck={{
-            name: deckForUpdate?.name,
-            isPrivate: deckForUpdate?.isPrivate,
-            cover: deckForUpdate?.cover ?? '',
-          }}
+          currentDeck={currentDeck}
           isOpen={!!idUpdateDeck}
           title={'Edit Pack'}
           onOpenChange={() => setIdUpdateDeck('')}
@@ -142,8 +103,7 @@ export const DecksPage = () => {
             type={'search'}
             placeholder={'Input search'}
             value={name}
-            onValueChange={value => setName(value)}
-            disabled={isFetching}
+            onValueChange={setName}
           />
           <div className={s.setting}>
             <Typography as={'span'}>Show packs cards</Typography>
@@ -204,17 +164,3 @@ export const DecksPage = () => {
     </>
   )
 }
-
-const TabsVariant = {
-  myCards: 'my',
-  allCards: 'all',
-} as const
-
-type ErrorDataType = {
-  error: string
-  errorObject: Object
-  in: string
-  info: string
-}
-
-type TabsVariantType = (typeof TabsVariant)[keyof typeof TabsVariant]

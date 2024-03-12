@@ -1,7 +1,7 @@
 import s from './personalInformation.module.scss'
 
 import { EditIcon, Logout } from '@/assets/iconsComponents'
-import { Button, Card, Typography } from '@/components/ui'
+import { Button, Card, Typography } from '@/components'
 
 type Props = {
   avatar: string
@@ -19,6 +19,7 @@ export const PersonalInformation = ({
   onLogout,
   onNameChange,
 }: Props) => {
+  // todo: might we don't need to create separate functions
   const handleAvatarChanged = () => {
     onAvatarChange('another avatar')
   }

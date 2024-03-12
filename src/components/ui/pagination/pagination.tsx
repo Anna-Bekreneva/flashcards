@@ -3,7 +3,7 @@ import { FC, forwardRef } from 'react'
 import s from './pagination.module.scss'
 
 import { TypographyVariant } from '@/common'
-import { Select, Typography } from '@/components'
+import { MiddlePaginationType, Select, Typography, usePagination } from '@/components'
 
 type Props = {
   className?: string
@@ -15,48 +15,19 @@ type Props = {
   currentPage: number
 }
 
-type MiddlePaginationType = number | '...'
 export const Pagination = forwardRef<HTMLDivElement, Props>(
   (
     { onChangePage, onChangePerPage, perPageOptions, totalPages, perPage, currentPage, className },
     ref?
   ) => {
-    const onPageClick = (currentPage: number) => onChangePage(currentPage)
-
-    const paginationRange = (currentPage: number, totalPages: number): MiddlePaginationType[] => {
-      let middle: MiddlePaginationType[] = []
-
-      if (totalPages <= 5) {
-        for (let i = 1; i < totalPages + 1; i++) {
-          middle.push(i)
-        }
-
-        return middle
-      } else {
-        if (currentPage <= 4) {
-          for (let i = 2; i < 5 + 1; i++) {
-            middle.push(i)
-          }
-          middle.push('...')
-        } else if (currentPage >= totalPages - 3) {
-          middle.push('...')
-          for (let i = totalPages - 4; i < totalPages; i++) {
-            middle.push(i)
-          }
-        } else {
-          middle = ['...', currentPage - 1, currentPage, currentPage + 1, '...']
-        }
-
-        return [1, ...middle, totalPages]
-      }
-    }
-
-    const selectCallBack = (value: string) => onChangePerPage(Number(value))
-    const handlePrevClick = () => onChangePage(currentPage - 1)
-
-    const handleNextClick = () => onChangePage(currentPage + 1)
-
-    const optionsForSelect = perPageOptions.map(el => ({ value: String(el), label: String(el) }))
+    const {
+      selectCallBack,
+      handlePrevClick,
+      handleNextClick,
+      optionsForSelect,
+      paginationRange,
+      onPageClick,
+    } = usePagination(onChangePage, onChangePerPage, currentPage, perPageOptions)
 
     return (
       <div className={`${s.paginator} ${className}`} ref={ref}>

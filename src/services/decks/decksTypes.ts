@@ -1,3 +1,5 @@
+import { CoverType } from '@/components'
+
 export type GetDecksResponseType = {
   items: DeckType[]
   pagination: PaginationType
@@ -40,8 +42,8 @@ export type GetParamsType = {
   orderBy?: string | null
 }
 
-export type CreateParamsType = {
-  cover: File | undefined
+export type CreateDeckParamsType = {
+  cover: CoverType
   name: string
   isPrivate: boolean
 }

@@ -1,2 +1,3 @@
 export * from './getDate'
-export * from './addFieldToFormData.ts'
+export * from './addFieldToFormData'
+export * from './setKey'

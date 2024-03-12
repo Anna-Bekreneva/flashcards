@@ -1,41 +1,31 @@
 import { FC } from 'react'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
 import s from './signIn.module.scss'
 
 import { TypographyVariant } from '@/common'
-import { Button, Card, ControlledCheckbox, ControlledTextField, Typography } from '@/components'
-
-const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email'),
-  password: z.string().min(3, 'Password must be at least 3 characters'),
-  rememberMe: z.boolean().optional().default(false),
-})
-
-type FormValues = z.infer<typeof loginSchema>
+import {
+  Button,
+  Card,
+  ControlledCheckbox,
+  ControlledTextField,
+  SignInFormValues,
+  Typography,
+  useSignIn,
+} from '@/components'
 
 type Props = {
-  onSubmit: (data: FormValues) => void
+  onSubmit: (data: SignInFormValues) => void
 }
 
-export const SignIn: FC<Props> = props => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<FormValues>({ resolver: zodResolver(loginSchema) })
-
-  const onSubmit = (data: FormValues) => props.onSubmit(data)
+export const SignIn: FC<Props> = ({ onSubmit }) => {
+  const { control, errors, handleFormSubmitted } = useSignIn(onSubmit)
 
   return (
     <Card className={s.card}>
       <Typography className={s.title} as={'span'} variant={TypographyVariant.large}>
         Sign In
       </Typography>
-      <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+      <form className={s.form} onSubmit={handleFormSubmitted}>
         <div className={s.items}>
           <ControlledTextField
             control={control}
@@ -70,8 +60,7 @@ export const SignIn: FC<Props> = props => {
         </Button>
         <div className={s.footer}>
           <Typography as={'span'} variant={TypographyVariant.body2}>
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
-            Don't have an account?
+            Don&apos;t have an account?
           </Typography>
           <Typography
             className={s.signup}

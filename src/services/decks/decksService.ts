@@ -1,5 +1,5 @@
 import {
-  CreateParamsType,
+  CreateDeckParamsType,
   DeckType,
   GetDecksResponseType,
   GetParamsType,
@@ -26,7 +26,7 @@ export const DecksService = baseApi.injectEndpoints({
           }
         },
       }),
-      createDeck: builder.mutation<DeckType, CreateParamsType>({
+      createDeck: builder.mutation<DeckType, CreateDeckParamsType>({
         query: body => {
           const formData = addFieldToFormData([
             { name: 'name', value: body.name },
@@ -51,7 +51,7 @@ export const DecksService = baseApi.injectEndpoints({
         },
         invalidatesTags: ['Decks'],
       }),
-      updateDeck: builder.mutation<DeckType, CreateParamsType & { id: string }>({
+      updateDeck: builder.mutation<DeckType, CreateDeckParamsType & { id: string }>({
         query: body => {
           const formData = addFieldToFormData([
             { name: 'name', value: body.name },

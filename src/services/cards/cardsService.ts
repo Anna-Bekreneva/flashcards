@@ -39,8 +39,8 @@ export const CardsService = baseApi.injectEndpoints({
             { name: 'answer', value: card.answer },
             { name: 'questionImg', value: card.questionImg },
             { name: 'answerImg', value: card.answerImg },
-            { name: 'questionVideo', value: card.questionVideo },
-            { name: 'answerVideo', value: card.answerVideo },
+            // { name: 'questionVideo', value: card.questionVideo },
+            // { name: 'answerVideo', value: card.answerVideo },
           ])
 
           return {
@@ -58,8 +58,8 @@ export const CardsService = baseApi.injectEndpoints({
             { name: 'answer', value: card.answer },
             { name: 'questionImg', value: card.questionImg },
             { name: 'answerImg', value: card.answerImg },
-            { name: 'questionVideo', value: card.questionVideo },
-            { name: 'answerVideo', value: card.answerVideo },
+            // { name: 'questionVideo', value: card.questionVideo },
+            // { name: 'answerVideo', value: card.answerVideo },
           ])
 
           return {

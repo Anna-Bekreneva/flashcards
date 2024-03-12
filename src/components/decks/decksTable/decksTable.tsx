@@ -9,6 +9,7 @@ import s from './decksTable.module.scss'
 import { DeleteIcon, EditIcon, PlayIcon } from '@/assets/iconsComponents'
 import { TypographyVariant } from '@/common'
 import {
+  CellRepresentation,
   Column,
   NotFound,
   Sort,
@@ -31,6 +32,32 @@ type Props = {
   setSort: (value: Sort) => void
   disabled?: boolean
 }
+
+// todo: i'm not sure, that we need to save this data here
+const columns: Array<Column> = [
+  {
+    key: 'name',
+    title: 'Name',
+  },
+  {
+    key: 'cardsCount',
+    title: 'Cards',
+  },
+  {
+    key: 'updated',
+    title: 'Last Updated',
+    sortable: true,
+  },
+  {
+    key: 'createdBy',
+    title: 'Created by',
+  },
+  {
+    key: 'buttons',
+    title: '',
+  },
+]
+
 export const DecksTable: FC<Props> = ({
   id,
   items,
@@ -40,30 +67,6 @@ export const DecksTable: FC<Props> = ({
   setSort,
   disabled,
 }) => {
-  const columns: Array<Column> = [
-    {
-      key: 'name',
-      title: 'Name',
-    },
-    {
-      key: 'cardsCount',
-      title: 'Cards',
-    },
-    {
-      key: 'updated',
-      title: 'Last Updated',
-      sortable: true,
-    },
-    {
-      key: 'createdBy',
-      title: 'Created by',
-    },
-    {
-      key: 'buttons',
-      title: '',
-    },
-  ]
-
   return (
     <>
       {items?.length ? (
@@ -72,16 +75,9 @@ export const DecksTable: FC<Props> = ({
           <TableBody>
             {items.map(item => (
               <TableRow key={item.id}>
-                <TableCell>
+                <TableCell width={'35%'}>
                   <NavLink className={s.deck} to={`decks/deck/${item.id}`}>
-                    {item.cover ? (
-                      <div className={s.preview}>
-                        <img className={s.image} src={item.cover} alt={'Preview'} />
-                        <span>{item.name}</span>
-                      </div>
-                    ) : (
-                      <span>{item.name}</span>
-                    )}
+                    <CellRepresentation text={item.name} img={item.cover} />
                   </NavLink>
                 </TableCell>
                 <TableCell>{item.cardsCount}</TableCell>

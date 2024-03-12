@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { z } from 'zod'
 
-import { CurrentCardType } from '@/components'
+import { CurrentCardType, CoverType } from '@/components'
 import { CreateCardRequestType } from '@/services'
 
 // todo: do we need create common file for shema?
@@ -28,8 +28,8 @@ export const useCardModal = (
   currentCard: CurrentCardType | undefined
 ) => {
   const { id } = useParams()
-  const [imgQuestionCover, setImgQuestionCover] = useState<File | undefined>(undefined)
-  const [imgAnswerCover, setImgAnswerCover] = useState<File | undefined>(undefined)
+  const [imgQuestionCover, setImgQuestionCover] = useState<CoverType>(undefined)
+  const [imgAnswerCover, setImgAnswerCover] = useState<CoverType>(undefined)
 
   const onSubmit = (data: SchemaType) => {
     callback({
