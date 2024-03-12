@@ -19,6 +19,10 @@ export const useUploadFile = (setCover: (cover: CoverType) => void, defaultLocal
     setLocalCover(undefined)
   }
 
+  const [isOpenPicture, setIsOpenPicture] = useState(false)
+
+  const changeIsOpenPicture = () => setIsOpenPicture(!isOpenPicture)
+
   const [localCover, setLocalCover] = useState(defaultLocalCover)
 
   const [coverErrorMessage, setCoverErrorMessage] = useState<string | undefined>(undefined)
@@ -51,5 +55,7 @@ export const useUploadFile = (setCover: (cover: CoverType) => void, defaultLocal
     inputRef,
     uploadHandler,
     deleteCoverHandler,
+    isOpenPicture,
+    changeIsOpenPicture,
   }
 }

@@ -4,7 +4,7 @@ import s from './uploadFile.module.scss'
 
 import { DeleteIcon, ImageIcon } from '@/assets/iconsComponents'
 import { ButtonVariant } from '@/common'
-import { Button, TextField, CoverType, useUploadFile } from '@/components'
+import { Button, TextField, CoverType, useUploadFile, PictureModal } from '@/components'
 
 type Props = {
   text?: string
@@ -27,18 +27,36 @@ export const UploadFile: FC<Props> = ({
     inputRef,
     uploadHandler,
     deleteCoverHandler,
+    isOpenPicture,
+    changeIsOpenPicture,
   } = useUploadFile(setCover, defaultLocalCover)
 
   return (
     <div className={s.content}>
       {localCover ? (
         <>
-          <img
-            className={`${coverErrorMessage ? '' : s.img}`}
-            src={localCover}
-            onError={errorHandler}
-            alt="cover"
-          />
+          <div className={s.picture}>
+            <img
+              className={`${coverErrorMessage ? '' : s.img}`}
+              src={localCover}
+              onError={errorHandler}
+              alt="cover"
+            />
+            <button
+              className={s.buttonOpen}
+              onClick={changeIsOpenPicture}
+              aria-label={'open image'}
+              type={'button'}
+              aria-hidden
+            />
+          </div>
+          {isOpenPicture && (
+            <PictureModal
+              src={localCover}
+              isOpenPicture={isOpenPicture}
+              callback={changeIsOpenPicture}
+            />
+          )}
           <div className={s.buttons}>
             <Button
               className={s.button}
