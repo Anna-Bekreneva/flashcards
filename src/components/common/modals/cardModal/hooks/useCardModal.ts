@@ -50,5 +50,16 @@ export const useCardModal = (
     resolver: zodResolver(schema),
   })
 
-  return { setImgQuestionCover, setImgAnswerCover, onSubmit, control, handleSubmit, formState }
+  const agreeButtonDisabled =
+    !!Object.keys(formState.errors).length ||
+    (!formState.isDirty && imgQuestionCover === undefined && imgAnswerCover === undefined)
+
+  return {
+    setImgQuestionCover,
+    setImgAnswerCover,
+    onSubmit,
+    control,
+    handleSubmit,
+    agreeButtonDisabled,
+  }
 }
