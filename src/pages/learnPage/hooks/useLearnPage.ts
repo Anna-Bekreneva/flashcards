@@ -13,6 +13,10 @@ import {
 
 export const useLearnPage = () => {
   const { id: deckId } = useParams()
+  const [isOpenQuestionPicture, setIsOpenQuestionPicture] = useState(false)
+  const changeIsOpenQuestionPicture = () => setIsOpenQuestionPicture(!isOpenQuestionPicture)
+  const [isOpenAnswerPicture, setIsOpenAnswerPicture] = useState(false)
+  const changeIsOpenAnswerPicture = () => setIsOpenAnswerPicture(!isOpenAnswerPicture)
   const [previousCardId, setPreviousCardId] = useState('')
   const [isShowAnswer, setIsShowAnswer] = useState(false)
   const { data: deckData } = useGetDeckQuery({ id: deckId || '' })
@@ -63,5 +67,9 @@ export const useLearnPage = () => {
     submitHandler,
     control,
     handleSubmit,
+    isOpenQuestionPicture,
+    changeIsOpenQuestionPicture,
+    isOpenAnswerPicture,
+    changeIsOpenAnswerPicture,
   }
 }

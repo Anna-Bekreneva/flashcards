@@ -6,6 +6,7 @@ import {
   Card,
   ControlledRadioGroup,
   GoBack,
+  PictureModal,
   Preloader,
   ProgressBar,
   RadioItem,
@@ -27,6 +28,10 @@ export const LearnPage = () => {
     submitHandler,
     control,
     handleSubmit,
+    isOpenQuestionPicture,
+    changeIsOpenQuestionPicture,
+    isOpenAnswerPicture,
+    changeIsOpenAnswerPicture,
   } = useLearnPage()
 
   if (isLoading || isSaveGradeLoading) {
@@ -46,7 +51,23 @@ export const LearnPage = () => {
             <b>Question:</b> {card?.question}
           </Typography>
           {card?.questionImg && (
-            <img src={card.questionImg} alt={'question'} className={s.cardImg} />
+            <div className={s.cardImgContainer}>
+              <img src={card.questionImg} alt={'question'} className={s.cardImg} />
+              <button
+                className={s.buttonOpen}
+                onClick={changeIsOpenQuestionPicture}
+                aria-label={'open image'}
+                type={'button'}
+                aria-hidden
+              />
+            </div>
+          )}
+          {card?.questionImg && isOpenQuestionPicture && (
+            <PictureModal
+              src={card.questionImg}
+              isOpenPicture={isOpenQuestionPicture}
+              callback={changeIsOpenQuestionPicture}
+            />
           )}
           {/*{card?.questionVideo && <video src={card.questionImg} className={s.cardImg} />}*/}
           <Typography variant={TypographyVariant.body1} className={s.attempts}>
@@ -62,7 +83,25 @@ export const LearnPage = () => {
               <Typography variant={TypographyVariant.body1}>
                 <b>Answer:</b> {card?.answer}
               </Typography>
-              {card?.answerImg && <img src={card.answerImg} alt={'answer'} className={s.cardImg} />}
+              {card?.answerImg && (
+                <div className={s.cardImgContainer}>
+                  <img src={card.answerImg} alt={'answer'} className={s.cardImg} />
+                  <button
+                    className={s.buttonOpen}
+                    onClick={changeIsOpenAnswerPicture}
+                    aria-label={'open image'}
+                    type={'button'}
+                    aria-hidden
+                  />
+                </div>
+              )}
+              {card?.answerImg && isOpenAnswerPicture && (
+                <PictureModal
+                  src={card.answerImg}
+                  isOpenPicture={isOpenAnswerPicture}
+                  callback={changeIsOpenAnswerPicture}
+                />
+              )}
               {/*{card?.answerVideo && <video src={card.answerVideo} className={s.cardImg} />}*/}
               <Typography variant={TypographyVariant.subtitle1} className={s.rate}>
                 Rate yourself:{' '}
