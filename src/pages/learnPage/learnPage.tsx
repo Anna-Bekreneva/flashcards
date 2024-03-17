@@ -1,8 +1,3 @@
-import { useState } from 'react'
-
-import { useForm } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router-dom'
-
 import s from './learnPage.module.scss'
 
 import { TypographyVariant } from '@/common'
@@ -10,58 +5,29 @@ import {
   Button,
   Card,
   ControlledRadioGroup,
-  RadioItem,
-  Typography,
   GoBack,
   Preloader,
   ProgressBar,
+  RadioItem,
+  Typography,
 } from '@/components'
-import {
-  useGetDeckQuery,
-  CardRatingType,
-  useGetRandomCardQuery,
-  useLazyGetRandomCardQuery,
-  useSaveGradeOfCardMutation,
-} from '@/services'
+import { useLearnPage } from '@/pages/learnPage/hooks'
 
 export const LearnPage = () => {
-  const { id: deckId } = useParams()
-  const [previousCardId, setPreviousCardId] = useState('')
-  const [isShowAnswer, setIsShowAnswer] = useState(false)
-  const { data: deckData } = useGetDeckQuery({ id: deckId || '' })
-  const [getNewCard, { isFetching: isCardFetchingLazy }] = useLazyGetRandomCardQuery()
-  const [saveGrade, { isLoading: isSaveGradeLoading }] = useSaveGradeOfCardMutation()
-
   const {
-    data: card,
+    isShowAnswer,
+    setIsShowAnswer,
+    deckData,
+    isCardFetchingLazy,
+    isSaveGradeLoading,
+    card,
     isLoading,
     isFetching,
-  } = useGetRandomCardQuery({ id: deckId || '', previousCardId })
-
-  const navigate = useNavigate()
-  const goBackHandler = () => navigate(`/decks/deck/${deckId}`)
-
-  const submitHandler = (data: RateFormType) => {
-    setPreviousCardId(card?.id ?? '')
-    saveGrade({
-      deckId: deckId ?? '',
-      cardId: card?.id ?? '',
-      grade: (+data.rate as CardRatingType) || 1,
-    })
-    // todo: we need to use then / catch
-    getNewCard({ id: deckId || '' })
-    setIsShowAnswer(false)
-    reset()
-  }
-
-  const { control, handleSubmit, reset } = useForm<RateFormType>({
-    defaultValues: { rate: '1' },
-  })
-
-  // todo: i'm not sure
-  type RateFormType = {
-    rate: string
-  }
+    goBackHandler,
+    submitHandler,
+    control,
+    handleSubmit,
+  } = useLearnPage()
 
   if (isLoading || isSaveGradeLoading) {
     return <Preloader />
