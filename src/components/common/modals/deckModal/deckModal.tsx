@@ -1,27 +1,17 @@
-import { FC, useState } from 'react'
-
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { FC } from 'react'
 
 import s from '../modals.module.scss'
 
 import {
   ControlledCheckbox,
   ControlledTextField,
+  CurrentDeckType,
   DialogButtons,
   Modal,
-  CoverType,
+  UpdateDeckType,
   UploadFile,
+  useDeckModal,
 } from '@/components'
-
-export type UpdateDeckType = {
-  name: string
-  isPrivate: boolean
-  cover: CoverType
-}
-
-export type CurrentDeckType = Partial<Omit<UpdateDeckType, 'cover'> & { cover: string }>
 
 type Props = {
   title: string
@@ -31,17 +21,6 @@ type Props = {
   currentDeck?: CurrentDeckType
   callBack: (data: UpdateDeckType) => void
 }
-
-const DeckSchema = z.object({
-  name: z
-    .string()
-    .min(3, 'name must be longer than or equal to 3 characters')
-    .max(30, 'name must be shorter than or equal to 30 characters'),
-  isPrivate: z.boolean().optional().default(false),
-})
-
-type DeckSchemaType = z.infer<typeof DeckSchema>
-
 export const DeckModal: FC<Props> = ({
   title,
   isOpen,
@@ -50,21 +29,11 @@ export const DeckModal: FC<Props> = ({
   currentDeck,
   callBack,
 }) => {
-  const submitHandler = (data: DeckSchemaType) => {
-    callBack({ ...data, cover })
-    onOpenChange()
-    reset()
-  }
-
-  const [cover, setCover] = useState<CoverType>(undefined)
-
-  const { control, reset, handleSubmit, formState } = useForm<DeckSchemaType>({
-    defaultValues: { name: currentDeck?.name, isPrivate: currentDeck?.isPrivate },
-    resolver: zodResolver(DeckSchema),
+  const { submitHandler, setCover, control, handleSubmit, agreeButtonDisabled } = useDeckModal({
+    currentDeck,
+    onOpenChange,
+    callBack,
   })
-
-  const agreeButtonDisabled =
-    !!Object.keys(formState.errors).length || (!formState.isDirty && cover === undefined)
 
   return (
     <Modal className={s.modal} title={title} isOpen={isOpen} onOpenChange={onOpenChange}>
