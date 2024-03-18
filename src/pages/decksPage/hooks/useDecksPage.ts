@@ -26,7 +26,7 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
   const [cardsCountLocal, setCardsCountLocal] = useState([0, DEFAULT_MAX_CARDS_COUNT])
   const [cardsCount, setCardsCount] = useState([cardsCountLocal[0], cardsCountLocal[1]])
   const [name, setName] = useState('')
-  const [search] = useDebounce(name, 1000)
+  const [searchWithDebounce] = useDebounce(name, 1000)
 
   const [updateDeck] = useUpdateDeckMutation()
   // tabs
@@ -36,7 +36,7 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
   const { data, isLoading, isFetching } = useGetDecksQuery({
     minCardsCount: cardsCount[0],
     maxCardsCount: cardsCount[1],
-    name: search,
+    name: searchWithDebounce,
     currentPage,
     itemsPerPage: perPage,
     authorId,

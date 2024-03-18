@@ -1,4 +1,4 @@
-import { forwardRef, useEffect } from 'react'
+import { forwardRef } from 'react'
 
 import * as RadixSlider from '@radix-ui/react-slider'
 import { SliderProps } from '@radix-ui/react-slider'
@@ -19,21 +19,8 @@ type Props = {
 
 export const Slider = forwardRef<HTMLFormElement, Props>(
   ({ min = 0, max = 100, step = 1, value, className, ...props }, ref?) => {
-    const {
-      minValue,
-      maxValue,
-      setValue,
-      handleSubmit,
-      control,
-      onSubmit,
-      onBlurHandler,
-      buttonRef,
-    } = useSliderHook({ value, min, step, max, onSubmit: props.onSubmit })
-
-    useEffect(() => {
-      setValue('min', minValue)
-      setValue('max', maxValue)
-    }, [minValue, maxValue])
+    const { minValue, maxValue, handleSubmit, control, onSubmit, onBlurHandler, buttonRef } =
+      useSliderHook({ value, min, step, max, onSubmit: props.onSubmit })
 
     return (
       <form

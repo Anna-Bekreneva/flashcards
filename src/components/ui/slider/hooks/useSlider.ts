@@ -1,4 +1,4 @@
-import { createRef } from 'react'
+import { createRef, useEffect } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -45,5 +45,10 @@ export const useSliderHook = ({ value, min, max, step, onSubmit: onSubmitFromPro
   const onBlurHandler = () => buttonRef.current?.click()
   const buttonRef = createRef<HTMLButtonElement>()
 
-  return { minValue, maxValue, setValue, handleSubmit, control, onSubmit, onBlurHandler, buttonRef }
+  useEffect(() => {
+    setValue('min', minValue)
+    setValue('max', maxValue)
+  }, [minValue, maxValue])
+
+  return { minValue, maxValue, handleSubmit, control, onSubmit, onBlurHandler, buttonRef }
 }
