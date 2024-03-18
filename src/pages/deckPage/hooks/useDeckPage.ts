@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { useNavigate, useParams } from 'react-router-dom'
+import { useDebounce } from 'use-debounce'
 
 import { CurrentDeckType, Sort, UpdateDeckType } from '@/components'
 import {
@@ -21,6 +22,7 @@ export const useDeckPage = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10)
 
   const [search, setSearch] = useState('')
+  const [searchWithDebounce] = useDebounce(search, 1000)
   const [sort, setSort] = useState<Sort>(null)
 
   const { data: deck } = useGetDeckQuery({ id: id ?? '' })
@@ -31,7 +33,7 @@ export const useDeckPage = () => {
   } = useGetCardsQuery({
     id: id || '',
     orderBy: sort && `${sort.key}-${sort.direction}`,
-    question: search,
+    question: searchWithDebounce,
     itemsPerPage,
     currentPage,
   })
