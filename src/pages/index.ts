@@ -1,4 +1,5 @@
 export * from './decksPage'
 export * from './deckPage'
+export * from './loginPage'
 export * from './errorPage'
 export * from './learnPage'

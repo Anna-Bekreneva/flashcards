@@ -1,12 +1,13 @@
-import { Provider } from 'react-redux'
-
+import { Preloader } from '@/components'
 import { Router } from '@/router.tsx'
-import { store } from '@/services'
+import { useMeQuery } from '@/services'
 
 export function App() {
-  return (
-    <Provider store={store}>
-      <Router />
-    </Provider>
-  )
+  const { isLoading } = useMeQuery()
+
+  if (isLoading) {
+    return <Preloader />
+  }
+
+  return <Router />
 }

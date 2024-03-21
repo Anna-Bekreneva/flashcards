@@ -6,13 +6,14 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
-import { DeckPage, DecksPage, ErrorPage } from '@/pages'
+import { DeckPage, DecksPage, ErrorPage, LoginPage } from '@/pages'
 import { LearnPage } from '@/pages/learnPage/learnPage.tsx'
+import { useMeQuery } from '@/services'
 
 const publicRoutes: RouteObject[] = [
   {
     path: '/login',
-    element: <div>login</div>,
+    element: <LoginPage />,
   },
   {
     path: '*',
@@ -37,11 +38,13 @@ const privateRoutes: RouteObject[] = [
 
 export const Router = () => {
   return <RouterProvider router={router} />
-  //return <LearnPage deckId={'clpk0d0mc06w9wv2qt47hi1h9'} deckName={'pack name'} />
 }
 
 function PrivateRoutes() {
-  const isAuthenticated = true
+  // to app
+  const { isError } = useMeQuery()
+
+  const isAuthenticated = !isError
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />
 }
