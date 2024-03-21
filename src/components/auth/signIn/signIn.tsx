@@ -15,13 +15,14 @@ import {
 
 type Props = {
   onSubmit: (data: SignInFormValues) => void
+  className?: string
 }
 
-export const SignIn: FC<Props> = ({ onSubmit }) => {
+export const SignIn: FC<Props> = ({ onSubmit, className }) => {
   const { control, errors, handleFormSubmitted } = useSignIn(onSubmit)
 
   return (
-    <Card className={s.card}>
+    <Card className={`${s.card} ${className}`}>
       <Typography className={s.title} as={'span'} variant={TypographyVariant.large}>
         Sign In
       </Typography>
