@@ -23,10 +23,10 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
   const [perPage, setPerPage] = useState(10)
 
   const [addDeck] = useCreateDeckMutation()
-  const [cardsCountLocal, setCardsCountLocal] = useState([0, DEFAULT_MAX_CARDS_COUNT])
-  const [cardsCount, setCardsCount] = useState([cardsCountLocal[0], cardsCountLocal[1]])
-  const [name, setName] = useState('')
-  const [search] = useDebounce(name, 1000)
+  const [cardsCount, setCardsCount] = useState([0, DEFAULT_MAX_CARDS_COUNT])
+  const [cardsCountWithDebounce] = useDebounce(cardsCount, 1000)
+  const [search, setName] = useState('')
+  const [searchWithDebounce] = useDebounce(search, 1000)
 
   const [updateDeck] = useUpdateDeckMutation()
   // tabs
@@ -34,9 +34,9 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
   const authorId = tabsValue === 'my' ? MY_ID : ''
   const [sort, setSort] = useState<Sort>(null)
   const { data, isLoading, isFetching } = useGetDecksQuery({
-    minCardsCount: cardsCount[0],
-    maxCardsCount: cardsCount[1],
-    name: search,
+    minCardsCount: cardsCountWithDebounce[0],
+    maxCardsCount: cardsCountWithDebounce[1],
+    name: searchWithDebounce,
     currentPage,
     itemsPerPage: perPage,
     authorId,
@@ -45,7 +45,7 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
 
   useEffect(() => {
     if (!data || !data.maxCardsCount) return
-    setCardsCountLocal([cardsCountLocal[0], data?.maxCardsCount ?? DEFAULT_MAX_CARDS_COUNT])
+    setCardsCount([cardsCount[0], data?.maxCardsCount ?? DEFAULT_MAX_CARDS_COUNT])
   }, [data?.maxCardsCount])
 
   // update modal
@@ -61,10 +61,9 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
   const clearSettingsHandler = () => {
     setName('')
     setTabsValue(TabsVariant.allCards)
-    setCardsCountLocal([0, data?.maxCardsCount ?? 100])
     setCardsCount([0, data?.maxCardsCount ?? 100])
   }
-  const changeValueSliderHandler = (values: number[]) => setCardsCountLocal([values[0], values[1]])
+  const changeValueSliderHandler = (values: number[]) => setCardsCount([values[0], values[1]])
 
   const currentDeck = {
     name: deckForUpdate?.name,
@@ -90,7 +89,7 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
     setName,
     setTabsValue,
     tabsValue,
-    cardsCountLocal,
+    cardsCount,
     setCardsCount,
     clearSettingsHandler,
     changeValueSliderHandler,
@@ -100,6 +99,6 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
     setCurrentPage,
     perPage,
     setPerPage,
-    name,
+    search,
   }
 }

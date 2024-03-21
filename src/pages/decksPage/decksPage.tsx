@@ -42,7 +42,7 @@ export const DecksPage = () => {
     setName,
     setTabsValue,
     tabsValue,
-    cardsCountLocal,
+    cardsCount,
     setCardsCount,
     clearSettingsHandler,
     changeValueSliderHandler,
@@ -52,7 +52,7 @@ export const DecksPage = () => {
     setCurrentPage,
     perPage,
     setPerPage,
-    name,
+    search,
   } = useDecksPage(DEFAULT_MAX_CARDS_COUNT)
 
   if (isLoading) {
@@ -102,7 +102,7 @@ export const DecksPage = () => {
           <TextField
             type={'search'}
             placeholder={'Input search'}
-            value={name}
+            value={search}
             onValueChange={setName}
           />
           <div className={s.setting}>
@@ -122,7 +122,7 @@ export const DecksPage = () => {
             <Typography as={'span'}>Number of cards</Typography>
             <SliderCustom
               max={data?.maxCardsCount}
-              value={[cardsCountLocal[0], cardsCountLocal[1]]}
+              value={[cardsCount[0], cardsCount[1]]}
               onValueChange={changeValueSliderHandler}
               onValueCommit={values => {
                 changeValueSliderHandler(values)

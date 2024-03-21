@@ -13,7 +13,7 @@ const meta = {
     label: { type: 'string' },
     id: { type: 'string' },
     disabled: { type: 'boolean' },
-    placeholder: { type: 'boolean' },
+    placeholder: { type: 'string' },
     type: {
       options: ['text', 'search', 'password'],
       control: { type: 'radio' },
@@ -33,6 +33,13 @@ export const Text: Story = {
       action(value)()
     }
 
-    return <TextField {...args} value={value} onValueChange={changeHandler} />
+    return (
+      <TextField
+        {...args}
+        value={value}
+        onValueChange={changeHandler}
+        placeholder={'placeholder'}
+      />
+    )
   },
 }
