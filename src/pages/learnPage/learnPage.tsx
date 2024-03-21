@@ -1,8 +1,3 @@
-import { useState } from 'react'
-
-import { useForm } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router-dom'
-
 import s from './learnPage.module.scss'
 
 import { TypographyVariant } from '@/common'
@@ -10,58 +5,34 @@ import {
   Button,
   Card,
   ControlledRadioGroup,
-  RadioItem,
-  Typography,
   GoBack,
+  PictureModal,
   Preloader,
   ProgressBar,
+  RadioItem,
+  Typography,
 } from '@/components'
-import {
-  useGetDeckQuery,
-  CardRatingType,
-  useGetRandomCardQuery,
-  useLazyGetRandomCardQuery,
-  useSaveGradeOfCardMutation,
-} from '@/services'
+import { useLearnPage } from '@/pages/learnPage/hooks'
 
 export const LearnPage = () => {
-  const { id: deckId } = useParams()
-  const [previousCardId, setPreviousCardId] = useState('')
-  const [isShowAnswer, setIsShowAnswer] = useState(false)
-  const { data: deckData } = useGetDeckQuery({ id: deckId || '' })
-  const [getNewCard, { isFetching: isCardFetchingLazy }] = useLazyGetRandomCardQuery()
-  const [saveGrade, { isLoading: isSaveGradeLoading }] = useSaveGradeOfCardMutation()
-
   const {
-    data: card,
+    isShowAnswer,
+    setIsShowAnswer,
+    deckData,
+    isCardFetchingLazy,
+    isSaveGradeLoading,
+    card,
     isLoading,
     isFetching,
-  } = useGetRandomCardQuery({ id: deckId || '', previousCardId })
-
-  const navigate = useNavigate()
-  const goBackHandler = () => navigate(`/decks/deck/${deckId}`)
-
-  const submitHandler = (data: RateFormType) => {
-    setPreviousCardId(card?.id ?? '')
-    saveGrade({
-      deckId: deckId ?? '',
-      cardId: card?.id ?? '',
-      grade: (+data.rate as CardRatingType) || 1,
-    })
-    // todo: we need to use then / catch
-    getNewCard({ id: deckId || '' })
-    setIsShowAnswer(false)
-    reset()
-  }
-
-  const { control, handleSubmit, reset } = useForm<RateFormType>({
-    defaultValues: { rate: '1' },
-  })
-
-  // todo: i'm not sure
-  type RateFormType = {
-    rate: string
-  }
+    goBackHandler,
+    submitHandler,
+    control,
+    handleSubmit,
+    isOpenQuestionPicture,
+    changeIsOpenQuestionPicture,
+    isOpenAnswerPicture,
+    changeIsOpenAnswerPicture,
+  } = useLearnPage()
 
   if (isLoading || isSaveGradeLoading) {
     return <Preloader />
@@ -80,7 +51,23 @@ export const LearnPage = () => {
             <b>Question:</b> {card?.question}
           </Typography>
           {card?.questionImg && (
-            <img src={card.questionImg} alt={'question'} className={s.cardImg} />
+            <div className={s.cardImgContainer}>
+              <img src={card.questionImg} alt={'question'} className={s.cardImg} />
+              <button
+                className={s.buttonOpen}
+                onClick={changeIsOpenQuestionPicture}
+                aria-label={'open image'}
+                type={'button'}
+                aria-hidden
+              />
+            </div>
+          )}
+          {card?.questionImg && isOpenQuestionPicture && (
+            <PictureModal
+              src={card.questionImg}
+              isOpenPicture={isOpenQuestionPicture}
+              callback={changeIsOpenQuestionPicture}
+            />
           )}
           {/*{card?.questionVideo && <video src={card.questionImg} className={s.cardImg} />}*/}
           <Typography variant={TypographyVariant.body1} className={s.attempts}>
@@ -96,7 +83,25 @@ export const LearnPage = () => {
               <Typography variant={TypographyVariant.body1}>
                 <b>Answer:</b> {card?.answer}
               </Typography>
-              {card?.answerImg && <img src={card.answerImg} alt={'answer'} className={s.cardImg} />}
+              {card?.answerImg && (
+                <div className={s.cardImgContainer}>
+                  <img src={card.answerImg} alt={'answer'} className={s.cardImg} />
+                  <button
+                    className={s.buttonOpen}
+                    onClick={changeIsOpenAnswerPicture}
+                    aria-label={'open image'}
+                    type={'button'}
+                    aria-hidden
+                  />
+                </div>
+              )}
+              {card?.answerImg && isOpenAnswerPicture && (
+                <PictureModal
+                  src={card.answerImg}
+                  isOpenPicture={isOpenAnswerPicture}
+                  callback={changeIsOpenAnswerPicture}
+                />
+              )}
               {/*{card?.answerVideo && <video src={card.answerVideo} className={s.cardImg} />}*/}
               <Typography variant={TypographyVariant.subtitle1} className={s.rate}>
                 Rate yourself:{' '}

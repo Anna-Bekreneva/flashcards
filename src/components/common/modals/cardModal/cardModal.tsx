@@ -26,8 +26,14 @@ export const CardModal = ({
   callback,
   currentCard,
 }: Props) => {
-  const { setImgQuestionCover, setImgAnswerCover, onSubmit, control, handleSubmit, formState } =
-    useCardModal(callback, onOpenChange, currentCard)
+  const {
+    setImgQuestionCover,
+    setImgAnswerCover,
+    onSubmit,
+    control,
+    handleSubmit,
+    agreeButtonDisabled,
+  } = useCardModal(callback, onOpenChange, currentCard)
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} title={title} className={s.modal}>
@@ -53,7 +59,7 @@ export const CardModal = ({
           cancelHandler={onOpenChange}
           agreeText={submitBtnCaption}
           agreeButtonType={'submit'}
-          agreeButtonDisabled={!!Object.keys(formState.errors).length}
+          agreeButtonDisabled={agreeButtonDisabled}
         />
       </form>
     </Modal>

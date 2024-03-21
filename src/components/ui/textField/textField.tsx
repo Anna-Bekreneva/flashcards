@@ -1,10 +1,10 @@
-import { ComponentProps, ComponentPropsWithoutRef, forwardRef, useState } from 'react'
+import { ComponentPropsWithoutRef, forwardRef } from 'react'
 
 import s from './textField.module.scss'
 
 import { EyeOff, EyeOn } from '@/assets/iconsComponents'
 import { TypographyVariant } from '@/common'
-import { Typography } from '@/components'
+import { Typography, useTextField } from '@/components'
 
 export type TextFieldOwnProps = {
   label?: string
@@ -28,15 +28,8 @@ export const TextField = forwardRef<HTMLDivElement, TextFieldProps>((props, ref?
     onValueChange,
     ...restProps
   } = props
-  const [showPassword, setShowPassword] = useState(false)
-  const isPassword = type === 'password'
-  const isSearch = type === 'search'
-
-  const wrapperClassName = `${isSearch ? s.searchWrapper : ''} ${
-    errorMessage ? s.errorWrapper : ''
-  } ${props.disabled ? s.disabledWrapper : ''} ${s.wrapper}`
-  const inputClassName = `${isSearch ? s.searchField : ''} ${s.field}`
-  const finalType = getFinalType(type, showPassword)
+  const { showPassword, setShowPassword, isPassword, wrapperClassName, inputClassName, finalType } =
+    useTextField({ type, disabled, errorMessage })
 
   return (
     <div className={props.className}>
@@ -72,6 +65,3 @@ export const TextField = forwardRef<HTMLDivElement, TextFieldProps>((props, ref?
     </div>
   )
 })
-
-const getFinalType = (type: ComponentProps<'input'>['type'], showPassword: boolean) =>
-  type === 'password' && showPassword ? 'text' : type

@@ -1,98 +1,56 @@
-import { useState } from 'react'
-
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
-
 import s from './deckPage.module.scss'
 
-import { DeleteIcon, EditIcon, PlayIcon } from '@/assets/iconsComponents'
 import { TypographyVariant } from '@/common'
 import {
-  DecksHeader,
-  DecksPagination,
-  DropDownMenu,
-  NotFound,
-  Sort,
-  TextField,
-  Typography,
+  CardModal,
   CardsTable,
   DeckModal,
+  DecksHeader,
+  DecksPagination,
+  DeleteModal,
   GoBack,
+  NotFound,
   Preloader,
   ProgressBar,
-  CurrentDeckType,
-  UpdateDeckType,
-  DeleteModal,
-  CardModal,
+  TextField,
+  Typography,
 } from '@/components'
-import { MY_ID } from '@/pages'
-import {
-  useDeleteDeckMutation,
-  useGetDeckQuery,
-  useLazyGetDeckQuery,
-  useUpdateDeckMutation,
-  useCreateCardMutation,
-  useDeleteCardMutation,
-  useGetCardsQuery,
-  useUpdateCardMutation,
-} from '@/services'
+import { DeckPageHeaderDropDown, MY_ID, useDeckPage } from '@/pages'
 
 export const DeckPage = () => {
-  const { id } = useParams()
-
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(10)
-
-  const [search, setSearch] = useState('')
-  const [sort, setSort] = useState<Sort>(null)
-
-  const { data: deck } = useGetDeckQuery({ id: id ?? '' })
   const {
-    data: cards,
     isLoading,
     isFetching,
-  } = useGetCardsQuery({
-    id: id || '',
-    orderBy: sort && `${sort.key}-${sort.direction}`,
-    question: search,
-    itemsPerPage,
+    idDeleteDeck,
+    setIdDeleteDeck,
+    deck,
+    setIdUpdateDeck,
+    idUpdateDeck,
+    currentDeck,
+    deleteDeckHandler,
+    setCurrentPage,
     currentPage,
-  })
-
-  const [createCard] = useCreateCardMutation()
-  const [updateCard] = useUpdateCardMutation()
-  const [deleteCard] = useDeleteCardMutation()
-  const [updateDeck] = useUpdateDeckMutation()
-  const [deleteDeck] = useDeleteDeckMutation()
-  const [updateGetDeck] = useLazyGetDeckQuery()
-
-  const deleteDeckHandler = (id: string): void => {
-    deleteDeck(id)
-    goBack()
-  }
-  const currentDeck: CurrentDeckType = {
-    name: deck?.name,
-    isPrivate: deck?.isPrivate,
-    cover: deck?.cover ?? '',
-  }
-
-  //modals:
-  const [isOpenAddModal, setIsOpenAddModal] = useState(false)
-  const [idDeleteCard, setIdDeleteCard] = useState('')
-  const nameDeleteCard = cards?.items.find(card => card.id === idDeleteCard)?.question
-  const [idUpdateCard, setIdUpdateCard] = useState('')
-  const currentCard = cards?.items.find(card => card.id === idUpdateCard)
-  const [idDeleteDeck, setIdDeleteDeck] = useState('')
-  const [idUpdateDeck, setIdUpdateDeck] = useState('')
-
-  const updateDeckHandler = (data: UpdateDeckType) => {
-    updateDeck({ ...data, id: idUpdateDeck || '' }).then(() =>
-      updateGetDeck({ id: idUpdateDeck || '' })
-    )
-  }
-
-  //navigation:
-  const navigate = useNavigate()
-  const goBack = () => navigate('/')
+    deleteCard,
+    setIdDeleteCard,
+    setIdUpdateCard,
+    nameDeleteCard,
+    updateDeckHandler,
+    idUpdateCard,
+    currentCard,
+    idDeleteCard,
+    cards,
+    createCard,
+    updateCard,
+    setItemsPerPage,
+    itemsPerPage,
+    setIsOpenAddModal,
+    isOpenAddModal,
+    sort,
+    setSort,
+    search,
+    setSearch,
+    goBack,
+  } = useDeckPage()
 
   if (isLoading) {
     return <Preloader />
@@ -212,65 +170,5 @@ export const DeckPage = () => {
         ) : null}
       </section>
     </>
-  )
-}
-
-type DeckPageHeaderDropDownProps = {
-  deckId: string
-  learn: boolean
-  disabled?: boolean
-  deleteCallBack: () => void
-  editCallBack: () => void
-}
-const DeckPageHeaderDropDown = ({
-  deckId,
-  deleteCallBack,
-  editCallBack,
-  disabled = false,
-  learn,
-}: DeckPageHeaderDropDownProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-
-  return (
-    <DropDownMenu
-      open={isOpen}
-      onOpenChange={setIsOpen}
-      className={s.dropdown}
-      trigger={<button className={s.trigger} aria-label={'manage deck'} />}
-    >
-      <ul>
-        {learn && (
-          <li className={s.dropdownItem}>
-            <NavLink className={s.dropdownAction} to={`/decks/deck/cards/${deckId}`}>
-              <PlayIcon width={16} height={16} /> Learn
-            </NavLink>
-          </li>
-        )}
-        <li className={s.dropdownItem}>
-          <button
-            className={s.dropdownAction}
-            onClick={() => {
-              editCallBack()
-              setIsOpen(false)
-            }}
-            disabled={disabled}
-          >
-            <EditIcon width={16} height={16} /> Edit
-          </button>
-        </li>
-        <li className={s.dropdownItem}>
-          <button
-            className={s.dropdownAction}
-            onClick={() => {
-              deleteCallBack()
-              setIsOpen(false)
-            }}
-            disabled={disabled}
-          >
-            <DeleteIcon width={16} height={16} /> Delete
-          </button>
-        </li>
-      </ul>
-    </DropDownMenu>
   )
 }
