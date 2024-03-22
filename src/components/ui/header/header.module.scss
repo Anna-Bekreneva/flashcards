@@ -12,13 +12,9 @@
 .logo {
   width: 156px;
   height: 36px;
-
-  .img {
-    object-fit: contain;
-  }
 }
 
-.userInfo {
+.trigger {
   display: flex;
   gap: 10px;
   align-items: center;

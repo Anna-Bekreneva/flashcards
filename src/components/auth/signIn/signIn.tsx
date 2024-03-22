@@ -32,6 +32,7 @@ export const SignIn: FC<Props> = ({ onSubmit, className }) => {
             control={control}
             name={'email'}
             label={'Email'}
+            placeholder={'Enter your email'}
             errorMessage={errors.email?.message}
           />
           <ControlledTextField
@@ -39,6 +40,7 @@ export const SignIn: FC<Props> = ({ onSubmit, className }) => {
             control={control}
             name={'password'}
             label={'Password'}
+            placeholder={'Your password'}
             errorMessage={errors.password?.message}
           />
         </div>

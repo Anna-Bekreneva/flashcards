@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 
-import s from './loginPage.module.scss'
-
 import { SignIn, SignInFormValues } from '@/components'
 import { useLoginMutation } from '@/services'
 
@@ -17,8 +15,8 @@ export const LoginPage = () => {
   }
 
   return (
-    <div className={s.page}>
-      <SignIn className={s.form} onSubmit={handleLogin}></SignIn>
+    <div className={'page-modal'}>
+      <SignIn onSubmit={handleLogin} />
     </div>
   )
 }

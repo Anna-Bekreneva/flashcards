@@ -1,10 +1,12 @@
 import { forwardRef } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import s from './header.module.scss'
 
 import { Logo, PersonIcon, SignOutIcon } from '@/assets/iconsComponents'
 import userPhoto from '@/assets/images/user.png'
-import { TypographyVariant } from '@/common'
+import { ButtonVariant, TypographyVariant } from '@/common'
 import { Button, DropDownMenu, Typography, DropDownItem } from '@/components'
 
 type Props = {
@@ -18,20 +20,22 @@ export const Header = forwardRef<HTMLHeadElement, Props>(
     return (
       <header ref={ref} className={`${s.header} ${className ? className : ''}`}>
         <div className={`container ${s.wrapper}`}>
-          <a className={s.logo} href={'#'}>
+          <Link className={s.logo} to={'/'}>
             <Logo />
-          </a>
+          </Link>
           {userName ? (
-            <span className={s.userInfo}>
-              {userName && (
-                <Typography className={s.name} variant={TypographyVariant.subtitle1} as={'span'}>
-                  {userName}
-                </Typography>
-              )}
+            <div className={s.userInfo}>
               <DropDownMenu
                 className={s.dropdown}
                 trigger={
-                  <button type="button">
+                  <button className={s.trigger} type="button">
+                    <Typography
+                      className={s.name}
+                      variant={TypographyVariant.subtitle1}
+                      as={'span'}
+                    >
+                      {userName}
+                    </Typography>
                     <img className={s.ava} src={userPhoto} alt={userName} width={36} height={36} />
                   </button>
                 }
@@ -60,9 +64,11 @@ export const Header = forwardRef<HTMLHeadElement, Props>(
                   <SignOutIcon /> Sign Out
                 </DropDownItem>
               </DropDownMenu>
-            </span>
+            </div>
           ) : (
-            <Button>{'Sign In'}</Button>
+            <Button as={Link} to={'/login'} variant={ButtonVariant.secondary}>
+              {'Sign In'}
+            </Button>
           )}
         </div>
       </header>

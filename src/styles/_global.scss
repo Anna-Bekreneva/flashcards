@@ -42,3 +42,10 @@
     opacity: 0.7;
   }
 }
+
+.page-modal {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 50px 0;
+}

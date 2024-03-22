@@ -6,6 +6,7 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
+import { Header } from '@/components'
 import { DeckPage, DecksPage, ErrorPage, LoginPage } from '@/pages'
 import { LearnPage } from '@/pages/learnPage/learnPage.tsx'
 import { useMeQuery } from '@/services'
@@ -41,12 +42,18 @@ export const Router = () => {
 }
 
 function PrivateRoutes() {
-  // to app
-  const { isError } = useMeQuery()
+  const { isError, data } = useMeQuery()
 
   const isAuthenticated = !isError
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />
+  return isAuthenticated ? (
+    <>
+      <Header userEmail={data?.email} userName={data?.name} />
+      <Outlet />
+    </>
+  ) : (
+    <Navigate to="/login" />
+  )
 }
 
 const router = createBrowserRouter([
