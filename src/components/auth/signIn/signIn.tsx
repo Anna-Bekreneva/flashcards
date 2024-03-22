@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import s from './signIn.module.scss'
 
 import { TypographyVariant } from '@/common'
@@ -52,8 +54,8 @@ export const SignIn: FC<Props> = ({ onSubmit, className }) => {
         />
         <Typography
           className={s.forgot}
-          as={'button'}
-          type={'button'}
+          as={Link}
+          to={'/forgot-password'}
           variant={TypographyVariant.body2}
         >
           Forgot Password?

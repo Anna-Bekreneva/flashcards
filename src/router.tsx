@@ -7,7 +7,14 @@ import {
 } from 'react-router-dom'
 
 import { Header } from '@/components'
-import { DeckPage, DecksPage, ErrorPage, LoginPage } from '@/pages'
+import {
+  DeckPage,
+  DecksPage,
+  ErrorPage,
+  ForgotPasswordPage,
+  LoginPage,
+  CheckEmailPage,
+} from '@/pages'
 import { LearnPage } from '@/pages/learnPage/learnPage.tsx'
 import { useMeQuery } from '@/services'
 
@@ -15,6 +22,14 @@ const publicRoutes: RouteObject[] = [
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: '/check-email',
+    element: <CheckEmailPage />,
   },
   {
     path: '*',

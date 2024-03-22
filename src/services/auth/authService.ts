@@ -17,8 +17,19 @@ export const authService = baseApi.injectEndpoints({
           body,
         }),
       }),
+      recoverPassword: builder.mutation<void, { email: string }>({
+        query: body => ({
+          url: '/v1/auth/recover-password',
+          method: 'POST',
+          body: {
+            html: '<h1>Hi, ##name##</h1><p>Click <a href="##token##">here</a> to recover your password</p>',
+            email: body.email,
+            subject: 'Password recovery',
+          },
+        }),
+      }),
     }
   },
 })
 
-export const { useMeQuery, useLoginMutation } = authService
+export const { useMeQuery, useLoginMutation, useRecoverPasswordMutation } = authService
