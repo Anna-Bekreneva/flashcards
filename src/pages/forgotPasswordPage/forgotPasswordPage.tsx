@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 
-import { ForgotPassword } from '@/components'
+import { ForgotPassword, ProgressBar } from '@/components'
 import { useRecoverPasswordMutation } from '@/services'
 
 export const ForgotPasswordPage = () => {
   const navigate = useNavigate()
-  const [verifyEmail] = useRecoverPasswordMutation()
+  const [verifyEmail, { isLoading }] = useRecoverPasswordMutation()
 
   const submitHandler = (args: { email: string }) => {
     verifyEmail(args)
@@ -15,9 +15,11 @@ export const ForgotPasswordPage = () => {
       })
   }
 
+  if (isLoading) return <ProgressBar />
+
   return (
-    <div className={'page-modal'}>
+    <section className={'page-modal'}>
       <ForgotPassword onSubmit={submitHandler} />
-    </div>
+    </section>
   )
 }

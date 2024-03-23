@@ -30,7 +30,7 @@ export const ForgotPassword: FC<Props> = props => {
 
   return (
     <Card className={s.card}>
-      <Typography className={s.title} as={'span'} variant={TypographyVariant.large}>
+      <Typography className={s.title} as={'h1'} variant={TypographyVariant.large}>
         Forgot your password?
       </Typography>
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
@@ -45,7 +45,7 @@ export const ForgotPassword: FC<Props> = props => {
         <Typography className={s.text} as={'p'} variant={TypographyVariant.body2}>
           Enter your email address and we will send you further instructions
         </Typography>
-        <Button className={s.button} type="submit">
+        <Button className={s.button} disabled={!!Object.keys(errors).length} type="submit">
           Send Instructions
         </Button>
       </form>

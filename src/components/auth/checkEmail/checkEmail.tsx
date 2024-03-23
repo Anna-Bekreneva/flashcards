@@ -15,14 +15,14 @@ type Props = {
 export const CheckEmail: FC<Props> = ({ email }) => {
   return (
     <Card className={s.card}>
-      <Typography className={s.title} as={'span'} variant={TypographyVariant.large}>
+      <Typography className={s.title} as={'h1'} variant={TypographyVariant.large}>
         Check Email
       </Typography>
       <span className={s.img} style={{ backgroundImage: `url(${sendEmail})` }} aria-hidden />
       <Typography className={s.text} variant={TypographyVariant.body2}>
         We’ve sent an Email with instructions to {email}
       </Typography>
-      <Button className={s.button} as={Link} to={'/login'} type="button">
+      <Button as={Link} to={'/login'} fullWidth>
         Back to Sign In
       </Button>
     </Card>

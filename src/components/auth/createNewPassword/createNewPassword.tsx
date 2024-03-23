@@ -44,7 +44,7 @@ export const CreateNewPassword = (props: Props) => {
         <Typography className={s.info} variant={'caption'}>
           Create new password and we will send you further instructions to email
         </Typography>
-        <Button fullWidth type={'submit'}>
+        <Button type={'submit'} fullWidth>
           Create new password
         </Button>
       </form>

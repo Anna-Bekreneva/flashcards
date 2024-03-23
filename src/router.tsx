@@ -59,9 +59,7 @@ export const Router = () => {
 function PrivateRoutes() {
   const { isError, data } = useMeQuery()
 
-  const isAuthenticated = !isError
-
-  return isAuthenticated ? (
+  return !isError ? (
     <>
       <Header userEmail={data?.email} userName={data?.name} />
       <Outlet />

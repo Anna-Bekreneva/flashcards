@@ -25,7 +25,7 @@ export const SignIn: FC<Props> = ({ onSubmit, className }) => {
 
   return (
     <Card className={`${s.card} ${className}`}>
-      <Typography className={s.title} as={'span'} variant={TypographyVariant.large}>
+      <Typography className={s.title} as={'h1'} variant={TypographyVariant.large}>
         Sign In
       </Typography>
       <form className={s.form} onSubmit={handleFormSubmitted}>
@@ -60,7 +60,7 @@ export const SignIn: FC<Props> = ({ onSubmit, className }) => {
         >
           Forgot Password?
         </Typography>
-        <Button className={s.button} type="submit">
+        <Button className={s.button} disabled={!!Object.keys(errors).length} type="submit">
           Sign In
         </Button>
         <div className={s.footer}>

@@ -41,10 +41,14 @@ export const Header = forwardRef<HTMLHeadElement, Props>(
                 }
               >
                 <DropDownItem className={s.dropdownItem}>
-                  <div className={s.dropdownItem}>
+                  <Link className={s.dropdownItem} to={'/profile'}>
                     <img className={s.ava} src={userPhoto} alt={userName} width={36} height={36} />
                     <div className={s.dropdownInfo}>
-                      <Typography variant={TypographyVariant.subtitle2} as={'span'}>
+                      <Typography
+                        className={s.dropdownName}
+                        variant={TypographyVariant.subtitle2}
+                        as={'span'}
+                      >
                         {userName}
                       </Typography>
                       <Typography
@@ -55,13 +59,27 @@ export const Header = forwardRef<HTMLHeadElement, Props>(
                         {userEmail}
                       </Typography>
                     </div>
-                  </div>
+                  </Link>
                 </DropDownItem>
-                <DropDownItem className={s.dropdownItem}>
-                  <PersonIcon /> My Profile
+                <DropDownItem>
+                  <Typography
+                    className={s.dropdownItem}
+                    variant={TypographyVariant.caption}
+                    as={Link}
+                    to={'/profile'}
+                  >
+                    <PersonIcon /> My Profile
+                  </Typography>
                 </DropDownItem>
-                <DropDownItem className={s.dropdownItem}>
-                  <SignOutIcon /> Sign Out
+                <DropDownItem>
+                  <Typography
+                    className={s.dropdownItem}
+                    variant={TypographyVariant.caption}
+                    as={'button'}
+                    type={'button'}
+                  >
+                    <SignOutIcon /> Sign Out
+                  </Typography>
                 </DropDownItem>
               </DropDownMenu>
             </div>

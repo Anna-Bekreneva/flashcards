@@ -4,8 +4,8 @@ import { CheckEmail, Props } from '@/components'
 
 export const CheckEmailPage: FC<Props> = () => {
   return (
-    <div className={'page-modal'}>
+    <section className={'page-modal'}>
       <CheckEmail email={'email'} />
-    </div>
+    </section>
   )
 }

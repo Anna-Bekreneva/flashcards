@@ -1,5 +1,22 @@
 @import './mixins';
 
+.sr-only {
+  position: absolute;
+
+  overflow: hidden;
+
+  width: 1px;
+  height: 1px;
+  margin: 1px;
+  padding: 0;
+
+  white-space: nowrap;
+
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  border: 0;
+}
+
 .container {
   max-width: 1026px;
   width: 100%;
