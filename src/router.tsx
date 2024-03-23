@@ -6,7 +6,15 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
-import { DeckPage, DecksPage, ErrorPage, LoginPage } from '@/pages'
+import { Header } from '@/components'
+import {
+  DeckPage,
+  DecksPage,
+  ErrorPage,
+  ForgotPasswordPage,
+  LoginPage,
+  CheckEmailPage,
+} from '@/pages'
 import { LearnPage } from '@/pages/learnPage/learnPage.tsx'
 import { useMeQuery } from '@/services'
 
@@ -14,6 +22,14 @@ const publicRoutes: RouteObject[] = [
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: '/check-email',
+    element: <CheckEmailPage />,
   },
   {
     path: '*',
@@ -41,12 +57,16 @@ export const Router = () => {
 }
 
 function PrivateRoutes() {
-  // to app
-  const { isError } = useMeQuery()
+  const { isError, data } = useMeQuery()
 
-  const isAuthenticated = !isError
-
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />
+  return !isError ? (
+    <>
+      <Header userEmail={data?.email} userName={data?.name} />
+      <Outlet />
+    </>
+  ) : (
+    <Navigate to="/login" />
+  )
 }
 
 const router = createBrowserRouter([
