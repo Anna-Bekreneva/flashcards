@@ -14,6 +14,7 @@ import {
   ForgotPasswordPage,
   LoginPage,
   CheckEmailPage,
+  SignUpPage,
 } from '@/pages'
 import { LearnPage } from '@/pages/learnPage/learnPage.tsx'
 import { PersonalInformationPage } from '@/pages/personalInformationPage/personalInformationPage.tsx'
@@ -23,6 +24,10 @@ const publicRoutes: RouteObject[] = [
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/sign-up',
+    element: <SignUpPage />,
   },
   {
     path: '/forgot-password',
