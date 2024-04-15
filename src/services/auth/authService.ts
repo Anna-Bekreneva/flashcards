@@ -1,11 +1,12 @@
 import { SignInFormValues, SignUpFormValues } from '@/components'
 import { baseApi } from '@/services'
-import { meResponseType } from '@/services/auth/authTypes.ts'
+import { MeParamsType, MeResponseType } from '@/services/auth/authTypes.ts'
+import { addFieldToFormData } from '@/utils'
 
 export const authService = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      me: builder.query<meResponseType, void>({
+      me: builder.query<MeResponseType, void>({
         query: () => ({
           url: '/v1/auth/me',
         }),
@@ -31,14 +32,22 @@ export const authService = baseApi.injectEndpoints({
         }),
         invalidatesTags: ['Me'],
       }),
-      updateUserData: builder.mutation<meResponseType, { avatar: string; name: string }>({
-        query: body => ({
-          url: '/v1/auth/me',
-          method: 'PATCH',
-          body,
-        }),
+      updateMe: builder.mutation<MeResponseType, MeParamsType>({
+        query: body => {
+          const formData = addFieldToFormData([
+            { name: 'name', value: body.name },
+            { name: 'avatar', value: body.avatar },
+          ])
+
+          return {
+            url: '/v1/auth/me',
+            method: 'PATCH',
+            body: formData,
+          }
+        },
+        invalidatesTags: ['Me'],
       }),
-      signUp: builder.mutation<meResponseType, Omit<SignUpFormValues, 'confirmPassword'>>({
+      signUp: builder.mutation<MeResponseType, Omit<SignUpFormValues, 'confirmPassword'>>({
         query: body => ({
           url: '/v1/auth/sign-up',
           method: 'POST',
@@ -90,6 +99,6 @@ export const {
   useLogoutMutation,
   useResetPasswordMutation,
   useSignUpMutation,
-  useUpdateUserDataMutation,
+  useUpdateMeMutation,
   useSendVerificationEmailAgainMutation,
 } = authService

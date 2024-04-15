@@ -9,44 +9,49 @@
 }
 
 .picContainer {
+  position: relative;
+
   display: flex;
   justify-content: center;
-  width: 100%;
-  margin-bottom: 6px;
 
-  div {
-    position: relative;
+  width: max-content;
+  margin: 0 auto 6px;
 
-    img {
-      width: 96px;
-      height: 96px;
-      object-fit: cover;
-      border-radius: 50%;
+  .imageField {
+    input {
+      display: none;
     }
+  }
 
-    .editAvaBtn {
-      all: unset;
+  .avatar {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 
-      cursor: pointer;
+  .editAvaBtn {
+    all: unset;
 
-      position: absolute;
-      right: 0;
-      bottom: 6px;
+    cursor: pointer;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    position: absolute;
+    right: 0;
+    bottom: 6px;
 
-      width: 16px;
-      height: 16px;
-      padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-      background-color: var(--color-dark-300);
-      border-radius: 4px;
+    width: 16px;
+    height: 16px;
+    padding: 4px;
 
-      &:focus-visible {
-        outline: var(--outline-focus);
-      }
+    background-color: var(--color-dark-300);
+    border-radius: 4px;
+
+    &:focus-visible {
+      outline: var(--outline-focus);
     }
   }
 }

@@ -16,6 +16,7 @@ import {
   CheckEmailPage,
 } from '@/pages'
 import { LearnPage } from '@/pages/learnPage/learnPage.tsx'
+import { PersonalInformationPage } from '@/pages/personalInformationPage/personalInformationPage.tsx'
 import { useMeQuery } from '@/services'
 
 const publicRoutes: RouteObject[] = [
@@ -50,6 +51,7 @@ const privateRoutes: RouteObject[] = [
     path: '/decks/deck/cards/:id',
     element: <LearnPage />,
   },
+  { path: '/profile', element: <PersonalInformationPage /> },
 ]
 
 export const Router = () => {
@@ -59,9 +61,11 @@ export const Router = () => {
 function PrivateRoutes() {
   const { isError, data } = useMeQuery()
 
+  console.log('from routes me data: ', data)
+
   return !isError ? (
     <>
-      <Header userEmail={data?.email} userName={data?.name} />
+      <Header userEmail={data?.email} userName={data?.name} avatar={data?.avatar} />
       <Outlet />
     </>
   ) : (

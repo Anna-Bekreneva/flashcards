@@ -13,10 +13,11 @@ type Props = {
   userName?: string
   className?: string
   userEmail?: string
+  avatar?: string
 }
 
 export const Header = forwardRef<HTMLHeadElement, Props>(
-  ({ userName, userEmail, className }, ref) => {
+  ({ userName, userEmail, className, avatar }, ref) => {
     return (
       <header ref={ref} className={`${s.header} ${className ? className : ''}`}>
         <div className={`container ${s.wrapper}`}>
@@ -36,13 +37,25 @@ export const Header = forwardRef<HTMLHeadElement, Props>(
                     >
                       {userName}
                     </Typography>
-                    <img className={s.ava} src={userPhoto} alt={userName} width={36} height={36} />
+                    <img
+                      className={s.ava}
+                      src={avatar ?? userPhoto}
+                      alt={userName}
+                      width={36}
+                      height={36}
+                    />
                   </button>
                 }
               >
                 <DropDownItem className={s.dropdownItem}>
                   <Link className={s.dropdownItem} to={'/profile'}>
-                    <img className={s.ava} src={userPhoto} alt={userName} width={36} height={36} />
+                    <img
+                      className={s.ava}
+                      src={avatar || userPhoto}
+                      alt={userName}
+                      width={36}
+                      height={36}
+                    />
                     <div className={s.dropdownInfo}>
                       <Typography
                         className={s.dropdownName}
