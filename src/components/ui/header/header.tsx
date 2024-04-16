@@ -8,6 +8,7 @@ import { Logo, PersonIcon, SignOutIcon } from '@/assets/iconsComponents'
 import userPhoto from '@/assets/images/user.png'
 import { ButtonVariant, TypographyVariant } from '@/common'
 import { Button, DropDownMenu, Typography, DropDownItem } from '@/components'
+import { useLogoutMutation } from '@/services'
 
 type Props = {
   userName?: string
@@ -18,6 +19,8 @@ type Props = {
 
 export const Header = forwardRef<HTMLHeadElement, Props>(
   ({ userName, userEmail, className, avatar }, ref) => {
+    const [logout] = useLogoutMutation()
+
     return (
       <header ref={ref} className={`${s.header} ${className ? className : ''}`}>
         <div className={`container ${s.wrapper}`}>
@@ -90,6 +93,7 @@ export const Header = forwardRef<HTMLHeadElement, Props>(
                     variant={TypographyVariant.caption}
                     as={'button'}
                     type={'button'}
+                    onClick={() => logout()}
                   >
                     <SignOutIcon /> Sign Out
                   </Typography>

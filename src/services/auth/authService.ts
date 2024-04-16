@@ -1,4 +1,5 @@
 import { SignInFormValues, SignUpFormValues } from '@/components'
+import { CreateNewPasswordFormType } from '@/components/auth/createNewPassword'
 import { baseApi } from '@/services'
 import { MeParamsType, MeResponseType } from '@/services/auth/authTypes.ts'
 import { addFieldToFormData } from '@/utils'
@@ -25,7 +26,7 @@ export const authService = baseApi.injectEndpoints({
           url: '/v1/auth/recover-password',
           method: 'POST',
           body: {
-            html: '<h1>Hi, ##name##</h1><p>Click <a href="##token##">here</a> to recover your password</p>',
+            html: '<h1>Hi, ##name##</h1><p>Click <a href="http://localhost:5173/recover-password/##token##">here</a> to recover your password</p>',
             email: body.email,
             subject: 'Password recovery',
           },
@@ -52,7 +53,7 @@ export const authService = baseApi.injectEndpoints({
           url: '/v1/auth/sign-up',
           method: 'POST',
           body: {
-            html: '<b>Hello, ##name##!</b><br/>Please confirm your email by clicking on the link below:<br/><a href="http://localhost:3000/confirm-email/##token##">Confirm email</a>. If it doesn\'t work, copy and paste the following link in your browser:<br/>http://localhost:3000/confirm-email/##token##',
+            html: '<b>Hello, ##name##!</b><br/>Please confirm your email by clicking on the link below:<br/><a href="http://localhost:5173/check-email/##token##">Confirm email</a>. If it doesn\'t work, copy and paste the following link in your browser:<br/>http://localhost:3000/confirm-email/##token##',
             subject: 'creating a new user account',
             sendConfirmationEmail: true,
             ...body,
@@ -65,7 +66,7 @@ export const authService = baseApi.injectEndpoints({
           url: '/v1/auth/resend-verification-email',
           method: 'POST',
           body: {
-            html: '<b>Hello, ##name##!</b><br/>Please confirm your email by clicking on the link below:<br/><a href="http://localhost:3000/confirm-email/##token##">Confirm email</a>. If it doesn\'t work, copy and paste the following link in your browser:<br/>http://localhost:3000/confirm-email/##token##',
+            html: '<b>Hello, ##name##!</b><br/>Please confirm your email by clicking on the link below:<br/><a href="http://localhost:5173/confirm-email/##token##">Confirm email</a>. If it doesn\'t work, copy and paste the following link in your browser:<br/>http://localhost:3000/confirm-email/##token##',
             userId: body.userId,
             subject: 'send verification email again',
           },
@@ -78,7 +79,7 @@ export const authService = baseApi.injectEndpoints({
         }),
         invalidatesTags: ['Me'],
       }),
-      resetPassword: builder.mutation<void, { token: string; password: string }>({
+      resetPassword: builder.mutation<void, CreateNewPasswordFormType & { token: string }>({
         query: body => ({
           url: `/v1/auth/reset-password/${body.token}`,
           method: 'POST',

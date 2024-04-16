@@ -15,9 +15,10 @@ import {
   LoginPage,
   CheckEmailPage,
   SignUpPage,
+  CreateNewPasswordPage,
+  LearnPage,
+  PersonalInformationPage,
 } from '@/pages'
-import { LearnPage } from '@/pages/learnPage/learnPage.tsx'
-import { PersonalInformationPage } from '@/pages/personalInformationPage/personalInformationPage.tsx'
 import { useMeQuery } from '@/services'
 
 const publicRoutes: RouteObject[] = [
@@ -36,6 +37,10 @@ const publicRoutes: RouteObject[] = [
   {
     path: '/check-email',
     element: <CheckEmailPage />,
+  },
+  {
+    path: '/reset-password/:id',
+    element: <CreateNewPasswordPage />,
   },
   {
     path: '*',
