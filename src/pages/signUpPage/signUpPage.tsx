@@ -10,7 +10,7 @@ export const SignUpPage = () => {
   const handleSignUp = ({ confirmPassword, ...restArgs }: SignUpFormValues) => {
     signUp(restArgs)
       .unwrap()
-      .then(() => navigate('./'))
+      .then(() => navigate('/check-email'))
   }
 
   return (
