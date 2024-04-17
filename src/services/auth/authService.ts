@@ -61,7 +61,14 @@ export const authService = baseApi.injectEndpoints({
         }),
         invalidatesTags: ['Me'],
       }),
-      sendVerificationEmailAgain: builder.mutation<void, { userId: string }>({
+      verifyEmail: builder.mutation<void, { code: string }>({
+        query: body => ({
+          url: '/v1/auth/verify-email',
+          method: 'POST',
+          body,
+        }),
+      }),
+      resendVerifyEmail: builder.mutation<void, { userId: string }>({
         query: body => ({
           url: '/v1/auth/resend-verification-email',
           method: 'POST',
@@ -101,5 +108,6 @@ export const {
   useResetPasswordMutation,
   useSignUpMutation,
   useUpdateMeMutation,
-  useSendVerificationEmailAgainMutation,
+  useVerifyEmailMutation,
+  useResendVerifyEmailMutation,
 } = authService

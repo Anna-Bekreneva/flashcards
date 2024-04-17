@@ -18,6 +18,7 @@ import {
   CreateNewPasswordPage,
   LearnPage,
   PersonalInformationPage,
+  VerifyEmailPage,
 } from '@/pages'
 import { useMeQuery } from '@/services'
 
@@ -39,8 +40,12 @@ const publicRoutes: RouteObject[] = [
     element: <CheckEmailPage />,
   },
   {
-    path: '/reset-password/:id',
+    path: '/recover-password/:id',
     element: <CreateNewPasswordPage />,
+  },
+  {
+    path: '/verify-email/:id',
+    element: <VerifyEmailPage />,
   },
   {
     path: '*',
@@ -70,8 +75,6 @@ export const Router = () => {
 
 function PrivateRoutes() {
   const { isError, data } = useMeQuery()
-
-  console.log('from routes me data: ', data)
 
   return !isError ? (
     <>
