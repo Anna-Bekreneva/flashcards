@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -17,6 +17,8 @@ type Props = {
 
 export const Header = forwardRef<HTMLHeadElement, Props>(
   ({ userName, userEmail, className }, ref) => {
+    const [isOpenDropDown, setIsOpenDropDown] = useState(false)
+
     return (
       <header ref={ref} className={`${s.header} ${className ? className : ''}`}>
         <div className={`container ${s.wrapper}`}>
@@ -26,7 +28,9 @@ export const Header = forwardRef<HTMLHeadElement, Props>(
           {userName ? (
             <div className={s.userInfo}>
               <DropDownMenu
+                open={isOpenDropDown}
                 className={s.dropdown}
+                onOpenChange={() => setIsOpenDropDown(!isOpenDropDown)}
                 trigger={
                   <button className={s.trigger} type="button">
                     <Typography
@@ -40,15 +44,11 @@ export const Header = forwardRef<HTMLHeadElement, Props>(
                   </button>
                 }
               >
-                <DropDownItem className={s.dropdownItem}>
+                <DropDownItem>
                   <Link className={s.dropdownItem} to={'/profile'}>
                     <img className={s.ava} src={userPhoto} alt={userName} width={36} height={36} />
                     <div className={s.dropdownInfo}>
-                      <Typography
-                        className={s.dropdownName}
-                        variant={TypographyVariant.subtitle2}
-                        as={'span'}
-                      >
+                      <Typography variant={TypographyVariant.subtitle2} as={'span'}>
                         {userName}
                       </Typography>
                       <Typography
