@@ -70,7 +70,7 @@ export const SignIn: FC<Props> = ({ onSubmit, className }) => {
           <Typography
             className={s.signup}
             as={'a'}
-            href={'#'}
+            href={'/sign-up'}
             variant={TypographyVariant.subtitle1}
           >
             Sign Up

@@ -12,14 +12,14 @@ const schema = z.object({
   password: z.string().min(1, 'Please enter password'),
 })
 
-type FormType = z.infer<typeof schema>
+export type CreateNewPasswordFormType = z.infer<typeof schema>
 
 type Props = {
-  onSubmit: (data: FormType) => void
+  onSubmit: (data: CreateNewPasswordFormType) => void
 }
 
 export const CreateNewPassword = (props: Props) => {
-  const { control, handleSubmit } = useForm<FormType>({
+  const { control, handleSubmit } = useForm<CreateNewPasswordFormType>({
     defaultValues: {
       password: '',
     },

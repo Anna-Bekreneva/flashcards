@@ -55,7 +55,12 @@ export const SignUp: FC<Props> = ({ onSubmit }) => {
         <Typography as={'span'} variant={TypographyVariant.body2}>
           Already have an account?
         </Typography>
-        <Typography className={s.link} as={'a'} href={'#'} variant={TypographyVariant.subtitle1}>
+        <Typography
+          className={s.link}
+          as={'a'}
+          href={'/login'}
+          variant={TypographyVariant.subtitle1}
+        >
           Sign In
         </Typography>
       </div>

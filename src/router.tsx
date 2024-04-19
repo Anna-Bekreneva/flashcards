@@ -14,8 +14,12 @@ import {
   ForgotPasswordPage,
   LoginPage,
   CheckEmailPage,
+  SignUpPage,
+  CreateNewPasswordPage,
+  LearnPage,
+  PersonalInformationPage,
+  VerifyEmailPage,
 } from '@/pages'
-import { LearnPage } from '@/pages/learnPage/learnPage.tsx'
 import { useMeQuery } from '@/services'
 
 const publicRoutes: RouteObject[] = [
@@ -24,12 +28,24 @@ const publicRoutes: RouteObject[] = [
     element: <LoginPage />,
   },
   {
+    path: '/sign-up',
+    element: <SignUpPage />,
+  },
+  {
     path: '/forgot-password',
     element: <ForgotPasswordPage />,
   },
   {
     path: '/check-email',
     element: <CheckEmailPage />,
+  },
+  {
+    path: '/recover-password/:id',
+    element: <CreateNewPasswordPage />,
+  },
+  {
+    path: '/verify-email/:id',
+    element: <VerifyEmailPage />,
   },
   {
     path: '*',
@@ -50,6 +66,7 @@ const privateRoutes: RouteObject[] = [
     path: '/decks/deck/cards/:id',
     element: <LearnPage />,
   },
+  { path: '/profile', element: <PersonalInformationPage /> },
 ]
 
 export const Router = () => {
@@ -61,7 +78,7 @@ function PrivateRoutes() {
 
   return !isError ? (
     <>
-      <Header userEmail={data?.email} userName={data?.name} />
+      <Header userEmail={data?.email} userName={data?.name} avatar={data?.avatar} />
       <Outlet />
     </>
   ) : (
