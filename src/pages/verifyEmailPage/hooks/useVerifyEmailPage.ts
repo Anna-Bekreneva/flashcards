@@ -16,7 +16,7 @@ export const useVerifyEmailPage = () => {
     setTimer(10)
     resendVerify({ userId: id ?? '' })
       .unwrap()
-      .then(() => navigate('./check-email'))
+      .then(() => navigate('/check-email'))
   }
 
   useEffect(() => {
