@@ -20,7 +20,7 @@ import {
 } from '@/components'
 import { TabsVariant, TabsVariantType, useDecksPage } from '@/pages'
 
-export const MY_ID = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
+export const MY_ID = 'f8174b52-147a-4085-b190-20472f2bfa2d'
 const DEFAULT_MAX_CARDS_COUNT = 100
 
 export const DecksPage = () => {
@@ -42,17 +42,19 @@ export const DecksPage = () => {
     setName,
     setTabsValue,
     tabsValue,
-    cardsCount,
-    setCardsCount,
+    setMaxCardsCount,
+    setMinCardsCount,
+    maxCardsCount,
+    minCardsCount,
     clearSettingsHandler,
     changeValueSliderHandler,
     sort,
     setSort,
     currentPage,
     setCurrentPage,
-    perPage,
-    setPerPage,
+    itemsPerPage,
     search,
+    setItemsPerPage,
   } = useDecksPage(DEFAULT_MAX_CARDS_COUNT)
 
   if (isLoading) {
@@ -122,11 +124,12 @@ export const DecksPage = () => {
             <Typography as={'span'}>Number of cards</Typography>
             <SliderCustom
               max={data?.maxCardsCount}
-              value={[cardsCount[0], cardsCount[1]]}
+              value={[minCardsCount ?? 0, maxCardsCount ?? 50]}
               onValueChange={changeValueSliderHandler}
               onValueCommit={values => {
                 changeValueSliderHandler(values)
-                setCardsCount([values[0], values[1]])
+                setMinCardsCount(values[0])
+                setMaxCardsCount(values[1])
               }}
               disabled={isFetching}
             />
@@ -156,8 +159,8 @@ export const DecksPage = () => {
             totalPages={data?.pagination?.totalPages ?? 0}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            perPage={perPage}
-            setItemsPerPage={setPerPage}
+            perPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
           />
         ) : null}
       </section>

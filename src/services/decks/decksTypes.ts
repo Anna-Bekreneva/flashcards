@@ -33,10 +33,10 @@ type PaginationType = {
 }
 
 export type GetParamsType = {
-  minCardsCount: number
-  maxCardsCount: number
+  minCardsCount: number | undefined
+  maxCardsCount: number | undefined
   name: string
-  authorId: string
+  authorId: string | undefined
   currentPage: number
   itemsPerPage: number
   orderBy?: string | null
