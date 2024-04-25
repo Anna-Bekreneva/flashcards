@@ -63,7 +63,7 @@ export const CardsTable = ({ cards, editCard, deleteCard, disabled, sort, setSor
                   <CellRepresentation text={card.answer} img={card.answerImg} />
                 </TableCell>
                 <TableCell>{getDate(card.updated)}</TableCell>
-                <TableCell>{getStars(card)}</TableCell>
+                <TableCell className={s.cellRating}>{getStars(card)}</TableCell>
                 {card.userId === MY_ID && (
                   <TableCell>
                     <div className={s.manage}>
