@@ -1,25 +1,27 @@
+import { errorServerHandler } from '@/common'
 import {
+  baseApi,
   CreateDeckParamsType,
   DeckType,
+  GetDecksParamsType,
   GetDecksResponseType,
-  GetParamsType,
-  baseApi,
-  RootState,
-  decksSlice,
 } from '@/services'
 import { addFieldToFormData } from '@/utils'
 
 export const DecksService = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      getDecks: builder.query<GetDecksResponseType, GetParamsType>({
+      getDecks: builder.query<GetDecksResponseType, GetDecksParamsType>({
         query: params => {
           return {
             url: `v1/decks`,
             params,
           }
         },
-        providesTags: ['Decks'],
+        providesTags: res =>
+          res
+            ? [...res.items.map(deck => ({ type: 'Decks' as const, id: deck.id })), 'Decks']
+            : ['Decks'],
       }),
       getDeck: builder.query<DeckType, { id: string }>({
         query: body => {
@@ -42,49 +44,26 @@ export const DecksService = baseApi.injectEndpoints({
             body: formData,
           }
         },
-        // onQueryStarted: async (_, { dispatch, queryFulfilled, getState }) => {
-        //   const result = await queryFulfilled
-        //
-        //   const state = getState() as RootState
-        //   const { name, currentPage, itemsPerPage, maxCardsCount, minCardsCount, authorId } =
-        //     state.decks
-        //
-        //   console.log(result)
-        //
-        //   dispatch(
-        //     DecksService.util.updateQueryData(
-        //       'getDecks',
-        //       {
-        //         itemsPerPage,
-        //         currentPage,
-        //         name,
-        //         minCardsCount,
-        //         maxCardsCount,
-        //         authorId,
-        //       },
-        //       draft => {
-        //         console.log('sssssssssssssssssssssssssssss')
-        //         draft.items.unshift(result.data)
-        //       }
-        //     )
-        //   )
-        // },
 
         async onQueryStarted(_, { dispatch, getState, queryFulfilled }) {
-          const res = await queryFulfilled
+          try {
+            const res = await queryFulfilled
 
-          for (const { endpointName, originalArgs } of DecksService.util.selectInvalidatedBy(
-            getState(),
-            [{ type: 'Decks' }]
-          )) {
-            if (endpointName !== 'getDecks') {
-              continue
+            for (const { endpointName, originalArgs } of DecksService.util.selectInvalidatedBy(
+              getState(),
+              [{ type: 'Decks' }]
+            )) {
+              if (endpointName !== 'getDecks') {
+                continue
+              }
+              dispatch(
+                DecksService.util.updateQueryData(endpointName, originalArgs, draft => {
+                  draft.items.unshift(res.data)
+                })
+              )
             }
-            dispatch(
-              DecksService.util.updateQueryData(endpointName, originalArgs, draft => {
-                draft.items.unshift(res.data)
-              })
-            )
+          } catch (error) {
+            errorServerHandler(error)
           }
         },
         invalidatesTags: ['Decks'],
@@ -96,33 +75,32 @@ export const DecksService = baseApi.injectEndpoints({
             url: `v1/decks/${id}`,
           }
         },
-        // onQueryStarted: async (id, { dispatch, queryFulfilled, getState }) => {
-        //   const state = getState() as RootState
-        //   const { name, currentPage, itemsPerPage, maxCardsCount, minCardsCount, authorId } =
-        //     state.decks
-        //
-        //   dispatch(
-        //     DecksService.util.updateQueryData(
-        //       'getDecks',
-        //       {
-        //         itemsPerPage,
-        //         currentPage,
-        //         name,
-        //         minCardsCount,
-        //         maxCardsCount,
-        //         authorId,
-        //       },
-        //       draft => {
-        //         const index = draft.items.findIndex(item => item.id === id)
-        //
-        //         draft.items.splice(index, 1)
-        //       }
-        //     )
-        //   )
-        //   try {
-        //     const result = await queryFulfilled
-        //   }
-        // },
+        async onQueryStarted(id, { dispatch, getState, queryFulfilled }) {
+          for (const { endpointName, originalArgs } of DecksService.util.selectInvalidatedBy(
+            getState(),
+            [{ type: 'Decks' }]
+          )) {
+            if (endpointName !== 'getDecks') {
+              continue
+            }
+
+            const patchResult = dispatch(
+              DecksService.util.updateQueryData(endpointName, originalArgs, draft => {
+                const index = draft.items.findIndex(item => item.id === id)
+
+                draft.items.splice(index, 1)
+              })
+            )
+
+            try {
+              await queryFulfilled
+            } catch (error) {
+              errorServerHandler(error)
+              patchResult.undo()
+            }
+          }
+        },
+
         invalidatesTags: ['Decks'],
       }),
       updateDeck: builder.mutation<DeckType, CreateDeckParamsType & { id: string }>({
@@ -139,8 +117,33 @@ export const DecksService = baseApi.injectEndpoints({
             body: formData,
           }
         },
-        invalidatesTags: ['Decks'],
-        // invalidatesTags: (res, error, deck) => [{ type: 'Decks', id: deck.id }],
+        async onQueryStarted(params, { dispatch, getState, queryFulfilled }) {
+          try {
+            const res = await queryFulfilled
+
+            for (const { endpointName, originalArgs } of DecksService.util.selectInvalidatedBy(
+              getState(),
+              [{ type: 'Decks' }]
+            )) {
+              if (endpointName !== 'getDecks') {
+                continue
+              }
+              dispatch(
+                DecksService.util.updateQueryData(endpointName, originalArgs, draft => {
+                  const id = params.id
+                  const index = draft.items.findIndex(item => item.id === id)
+
+                  if (index !== -1) {
+                    draft.items[index] = { ...res.data }
+                  }
+                })
+              )
+            }
+          } catch (error) {
+            errorServerHandler(error)
+          }
+        },
+        invalidatesTags: (res, error, deck) => [{ type: 'Decks', id: deck.id }],
       }),
     }
   },

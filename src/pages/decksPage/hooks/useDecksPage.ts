@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { useDebounce } from 'use-debounce'
 
-import { Sort } from '@/components'
-import { MY_ID } from '@/pages'
+import { Sort, ValuesSliderType } from '@/components'
 import {
   decksSlice,
   useAppDispatch,
@@ -12,6 +11,12 @@ import {
   useDeleteDeckMutation,
   useGetDecksQuery,
   useUpdateDeckMutation,
+  selectDecksCurrentPage,
+  selectItemsPerPage,
+  selectMaxCardCount,
+  selectMinCardCount,
+  selectName,
+  useMeQuery,
 } from '@/services'
 
 export const TabsVariant = {
@@ -20,11 +25,21 @@ export const TabsVariant = {
 } as const
 
 export type TabsVariantType = (typeof TabsVariant)[keyof typeof TabsVariant]
-export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
+export const useDecksPage = () => {
   const dispatch = useAppDispatch()
-  const [deleteDeck] = useDeleteDeckMutation()
 
-  const currentPage = useAppSelector(state => state.decks.currentPage)
+  const [deleteDeck] = useDeleteDeckMutation()
+  const [updateDeck] = useUpdateDeckMutation()
+  const [addDeck] = useCreateDeckMutation()
+  const { data: meData } = useMeQuery()
+
+  const currentPage = useAppSelector(selectDecksCurrentPage)
+  const itemsPerPage = useAppSelector(selectItemsPerPage)
+  const minCardsCount = useAppSelector(selectMinCardCount)
+  const maxCardsCount = useAppSelector(selectMaxCardCount)
+  const myId = meData?.id
+
+  const search = useAppSelector(selectName)
   const setCurrentPage = (currentPage: number) => {
     dispatch(decksSlice.actions.setCurrentPage(currentPage))
   }
@@ -32,32 +47,31 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
   const setItemsPerPage = (itemsPerPage: number) => {
     dispatch(decksSlice.actions.setItemsPerPage(itemsPerPage))
   }
-  const itemsPerPage = useAppSelector(state => state.decks.itemsPerPage)
 
-  const minCardsCount = useAppSelector(state => state.decks.minCardsCount)
   const setMinCardsCount = (minCardsCount: number) => {
     dispatch(decksSlice.actions.setMinCardsCount(minCardsCount))
   }
 
-  const maxCardsCount = useAppSelector(state => state.decks.maxCardsCount)
   const setMaxCardsCount = (maxCardsCount: number) => {
     dispatch(decksSlice.actions.setMaxCardsCount(maxCardsCount))
   }
 
-  const [addDeck] = useCreateDeckMutation()
-  //const [cardsCount, setCardsCount] = useState([0, DEFAULT_MAX_CARDS_COUNT])
-  //const [cardsCountWithDebounce] = useDebounce(cardsCount, 1000)
-  const [search, setName] = useState('')
-  const [searchWithDebounce] = useDebounce(search, 1000)
+  const setSearch = (name: string) => {
+    dispatch(decksSlice.actions.setName(name))
+  }
 
-  const [updateDeck] = useUpdateDeckMutation()
+  const [searchWithDebounce] = useDebounce(search, 1000)
+  const [maxCardsWithDebounce] = useDebounce(maxCardsCount, 1000)
+  const [minCardsWithDebounce] = useDebounce(minCardsCount, 1000)
+
   // tabs
   const [tabsValue, setTabsValue] = useState<TabsVariantType>(TabsVariant.allCards)
-  const authorId = tabsValue === 'my' ? MY_ID : ''
+  const authorId = tabsValue === 'my' ? myId : ''
   const [sort, setSort] = useState<Sort>(null)
+
   const { currentData, isLoading, isFetching } = useGetDecksQuery({
-    minCardsCount,
-    maxCardsCount,
+    minCardsCount: minCardsWithDebounce,
+    maxCardsCount: maxCardsWithDebounce,
     name: searchWithDebounce,
     currentPage,
     itemsPerPage,
@@ -65,15 +79,15 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
     orderBy: sort ? `${sort?.key}-${sort?.direction}` : null,
   })
 
-  useEffect(() => {
-    if (!currentData || !currentData.maxCardsCount) return
-    setMaxCardsCount(currentData?.maxCardsCount ?? DEFAULT_MAX_CARDS_COUNT)
-    // setCardsCount([cardsCount[0], currentData?.maxCardsCount ?? DEFAULT_MAX_CARDS_COUNT])
-  }, [currentData?.maxCardsCount])
-
   // update modal
-  const [idUpdateDeck, setIdUpdateDeck] = useState<string>('')
+  const [idUpdateDeck, setIdUpdateDeck] = useState('')
   const deckForUpdate = currentData?.items.find(item => item.id === idUpdateDeck)
+
+  const currentDeck = {
+    name: deckForUpdate?.name,
+    isPrivate: deckForUpdate?.isPrivate,
+    cover: deckForUpdate?.cover ?? '',
+  }
 
   // delete modal
   const [idDeleteDeck, setIdDeleteDeck] = useState('')
@@ -82,22 +96,29 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
   // add modal
   const [isOpenAddModal, setIsOpenAddModal] = useState(false)
   const clearSettingsHandler = () => {
-    setName('')
+    setSearch('')
     setTabsValue(TabsVariant.allCards)
-    setMaxCardsCount(currentData?.maxCardsCount ?? 100)
-    // setCardsCount([0, currentData?.maxCardsCount ?? 100])
+    setMinCardsCount(0)
+    currentData?.maxCardsCount && setMaxCardsCount(currentData?.maxCardsCount)
   }
+
+  // slider
+
   const changeValueSliderHandler = (values: number[]) => {
-    //setCardsCount([values[0], values[1]])
     setMaxCardsCount(values[1])
     setMinCardsCount(values[0])
   }
 
-  const currentDeck = {
-    name: deckForUpdate?.name,
-    isPrivate: deckForUpdate?.isPrivate,
-    cover: deckForUpdate?.cover ?? '',
+  const commitValueSliderHandler = (values: number[]) => {
+    changeValueSliderHandler(values)
+    setMinCardsCount(values[0])
+    setMaxCardsCount(values[1])
   }
+
+  const valuesSlider: ValuesSliderType = [
+    minCardsCount,
+    maxCardsCount || currentData?.maxCardsCount || 0,
+  ]
 
   return {
     isLoading,
@@ -106,6 +127,7 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
     nameDeleteDeck,
     setIdDeleteDeck,
     deleteDeck,
+    setSearch,
     addDeck,
     isOpenAddModal,
     setIsOpenAddModal,
@@ -114,11 +136,11 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
     currentDeck,
     setIdUpdateDeck,
     data: currentData,
-    setName,
     setTabsValue,
     tabsValue,
     clearSettingsHandler,
     changeValueSliderHandler,
+    commitValueSliderHandler,
     sort,
     setSort,
     currentPage,
@@ -126,9 +148,7 @@ export const useDecksPage = (DEFAULT_MAX_CARDS_COUNT: number) => {
     itemsPerPage,
     search,
     setItemsPerPage,
-    setMaxCardsCount,
-    setMinCardsCount,
-    maxCardsCount,
-    minCardsCount,
+    valuesSlider,
+    myId,
   }
 }

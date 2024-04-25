@@ -21,7 +21,6 @@ import {
 import { TabsVariant, TabsVariantType, useDecksPage } from '@/pages'
 
 export const MY_ID = 'f8174b52-147a-4085-b190-20472f2bfa2d'
-const DEFAULT_MAX_CARDS_COUNT = 100
 
 export const DecksPage = () => {
   const {
@@ -39,15 +38,11 @@ export const DecksPage = () => {
     currentDeck,
     setIdUpdateDeck,
     data,
-    setName,
     setTabsValue,
     tabsValue,
-    setMaxCardsCount,
-    setMinCardsCount,
-    maxCardsCount,
-    minCardsCount,
     clearSettingsHandler,
     changeValueSliderHandler,
+    commitValueSliderHandler,
     sort,
     setSort,
     currentPage,
@@ -55,7 +50,10 @@ export const DecksPage = () => {
     itemsPerPage,
     search,
     setItemsPerPage,
-  } = useDecksPage(DEFAULT_MAX_CARDS_COUNT)
+    setSearch,
+    valuesSlider,
+    myId,
+  } = useDecksPage()
 
   if (isLoading) {
     return <Preloader />
@@ -72,12 +70,12 @@ export const DecksPage = () => {
           title={'Delete Pack'}
           isOpen={!!idDeleteDeck}
           onOpenChange={() => setIdDeleteDeck('')}
-          deleteCallback={id => deleteDeck(id)}
+          deleteCallback={id => deleteDeck(id).unwrap()}
         />
 
         {/* add */}
         <DeckModal
-          callBack={data => addDeck(data)}
+          callBack={data => addDeck(data).unwrap()}
           agreeText={'Add New Pack'}
           title={'Add New Pack'}
           isOpen={isOpenAddModal}
@@ -87,7 +85,7 @@ export const DecksPage = () => {
         {/* update */}
         <DeckModal
           key={idUpdateDeck ? idUpdateDeck : 'update-deck-modal'}
-          callBack={data => updateDeck({ ...data, id: idUpdateDeck })}
+          callBack={data => updateDeck({ ...data, id: idUpdateDeck }).unwrap()}
           agreeText={'Save Changes'}
           currentDeck={currentDeck}
           isOpen={!!idUpdateDeck}
@@ -105,7 +103,7 @@ export const DecksPage = () => {
             type={'search'}
             placeholder={'Input search'}
             value={search}
-            onValueChange={setName}
+            onValueChange={setSearch}
           />
           <div className={s.setting}>
             <Typography as={'span'}>Show packs cards</Typography>
@@ -124,13 +122,9 @@ export const DecksPage = () => {
             <Typography as={'span'}>Number of cards</Typography>
             <SliderCustom
               max={data?.maxCardsCount}
-              value={[minCardsCount ?? 0, maxCardsCount ?? 50]}
+              value={valuesSlider}
               onValueChange={changeValueSliderHandler}
-              onValueCommit={values => {
-                changeValueSliderHandler(values)
-                setMinCardsCount(values[0])
-                setMaxCardsCount(values[1])
-              }}
+              onValueCommit={commitValueSliderHandler}
               disabled={isFetching}
             />
           </div>
@@ -146,7 +140,7 @@ export const DecksPage = () => {
         </div>
 
         <DecksTable
-          id={MY_ID}
+          id={myId ?? ''}
           items={data?.items}
           setIdDeleteDeck={setIdDeleteDeck}
           setIdUpdateDeck={setIdUpdateDeck}

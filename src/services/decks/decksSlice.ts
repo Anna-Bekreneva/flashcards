@@ -1,16 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { SortDirectionType } from '@/components'
-
 export const decksSlice = createSlice({
   initialState: {
-    authorId: '' as string | undefined,
     currentPage: 1,
     itemsPerPage: 10,
     maxCardsCount: undefined as number | undefined,
-    minCardsCount: undefined as number | undefined,
+    minCardsCount: 0,
     name: '',
-    orderBy: null as SortDirectionType | null,
   },
   name: 'decks',
   reducers: {

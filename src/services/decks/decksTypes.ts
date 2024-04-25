@@ -32,13 +32,13 @@ type PaginationType = {
   totalItems: number
 }
 
-export type GetParamsType = {
-  minCardsCount: number | undefined
-  maxCardsCount: number | undefined
-  name: string
-  authorId: string | undefined
-  currentPage: number
-  itemsPerPage: number
+export type GetDecksParamsType = {
+  minCardsCount?: number
+  maxCardsCount?: number
+  name?: string
+  authorId?: string | undefined
+  currentPage?: number
+  itemsPerPage?: number
   orderBy?: string | null
 }
 
