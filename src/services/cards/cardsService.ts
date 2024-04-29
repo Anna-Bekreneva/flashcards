@@ -49,6 +49,20 @@ export const CardsService = baseApi.injectEndpoints({
             body: formData,
           }
         },
+        // onQueryStarted: async ({ id, ...rest }, { dispatch, queryFulfilled }) => {
+        //   const result = await queryFulfilled
+        //
+        //   console.log('res from cards: ', result)
+        //   dispatch(
+        //     CardsService.util.updateQueryData(
+        //       'getCards',
+        //       {
+        //         id,
+        //       },
+        //       {}
+        //     )
+        //   )
+        // },
         invalidatesTags: ['Cards'],
       }),
       updateCard: builder.mutation<CardsResponseType, UpdateCardRequestType>({

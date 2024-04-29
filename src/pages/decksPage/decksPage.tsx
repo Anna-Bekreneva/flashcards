@@ -20,7 +20,7 @@ import {
 } from '@/components'
 import { TabsVariant, TabsVariantType, useDecksPage } from '@/pages'
 
-export const MY_ID = 'f2be95b9-4d07-4751-a775-bd612fc9553a'
+export const MY_ID = 'd033e7f1-8433-47c9-96ef-d7580757363c'
 const DEFAULT_MAX_CARDS_COUNT = 100
 
 export const DecksPage = () => {
