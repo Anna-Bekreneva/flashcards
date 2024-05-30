@@ -68,7 +68,7 @@ export const CardsService = baseApi.injectEndpoints({
             body: formData,
           }
         },
-        invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.id }],
+        invalidatesTags: (_res, _error, card) => [{ type: 'Cards', id: card.id }],
       }),
       deleteCard: builder.mutation<void, { id: string }>({
         query: body => {
@@ -98,7 +98,7 @@ export const CardsService = baseApi.injectEndpoints({
             },
           }
         },
-        invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.cardId }],
+        invalidatesTags: (_res, _error, card) => [{ type: 'Cards', id: card.cardId }],
       }),
     }
   },
