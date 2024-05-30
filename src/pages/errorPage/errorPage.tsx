@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 
 import s from './errorPage.module.scss'
 
-import errorImg from '@/assets/images/icons/404.svg'
+import errorImg from '@/assets/images/not-found.png'
 import { TypographyVariant } from '@/common'
 import { Button, NotFound, Typography } from '@/components'
 

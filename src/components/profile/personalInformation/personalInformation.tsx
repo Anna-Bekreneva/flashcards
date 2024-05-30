@@ -18,7 +18,6 @@ type Props = {
   userName?: string
   onUserDataChange: (data: MeParamsType) => void
 }
-
 export const PersonalInformation = ({ avatar, email, userName, onUserDataChange }: Props) => {
   const {
     avatarErrorMessage,

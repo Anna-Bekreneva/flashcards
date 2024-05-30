@@ -1,13 +1,22 @@
 import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
+import { Provider } from 'react-redux'
 
 import userPhoto from '@/assets/images/user.png'
-import { PersonalInformation } from '@/components/profile/personalInformation/personalInformation.tsx'
+import { PersonalInformation } from '@/components'
+import { store } from '@/services'
 
 const meta = {
   component: PersonalInformation,
   tags: ['autodocs'],
   title: 'Profile/Personal information',
+  decorators: [
+    Story => (
+      <Provider store={store}>
+        <Story />
+      </Provider>
+    ),
+  ],
 } satisfies Meta<typeof PersonalInformation>
 
 export default meta
@@ -17,15 +26,9 @@ export const PersonalInformationDefault: Story = {
   args: {
     avatar: userPhoto,
     email: 'j&johnson@gmail.com',
-    name: 'Ivan',
-    onAvatarChange: () => {
+    userName: 'Ivan',
+    onUserDataChange: () => {
       action('on avatar change')()
-    },
-    onLogout: () => {
-      action('on logout')()
-    },
-    onNameChange: () => {
-      action('on name change')()
     },
   },
 }
