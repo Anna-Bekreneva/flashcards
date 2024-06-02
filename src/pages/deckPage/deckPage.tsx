@@ -30,7 +30,6 @@ export const DeckPage = () => {
     deleteDeckHandler,
     setCurrentPage,
     currentPage,
-    deleteCard,
     setIdDeleteCard,
     setIdUpdateCard,
     nameDeleteCard,
@@ -49,6 +48,7 @@ export const DeckPage = () => {
     setSort,
     search,
     setSearch,
+    deleteCardHandler,
     goBack,
   } = useDeckPage()
 
@@ -91,7 +91,7 @@ export const DeckPage = () => {
           title={'Delete Card'}
           isOpen={!!idDeleteCard}
           onOpenChange={() => setIdDeleteCard('')}
-          deleteCallback={id => deleteCard({ id })}
+          deleteCallback={deleteCardHandler}
         />
         {/*/!*delete deck modal*!/*/}
         <DeleteModal

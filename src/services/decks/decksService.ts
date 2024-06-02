@@ -143,7 +143,7 @@ export const DecksService = baseApi.injectEndpoints({
             errorServerHandler(error)
           }
         },
-        invalidatesTags: (res, error, deck) => [{ type: 'Decks', id: deck.id }],
+        invalidatesTags: (_res, _error, deck) => [{ type: 'Decks', id: deck.id }],
       }),
     }
   },
