@@ -4,11 +4,12 @@ import s from '../modals.module.scss'
 
 import { TypographyVariant } from '@/common'
 import { DialogButtons, Modal, Typography } from '@/components'
+import { DeckType } from '@/services'
 
 type Props = {
   isOpen: boolean
   onOpenChange: () => void
-  deleteCallback: (id: string) => void
+  deleteCallback: (id: string) => Promise<Omit<DeckType, 'author'>>
   title: string
   nameDelete: string
   idDelete: string
@@ -43,8 +44,9 @@ export const DeleteModal: FC<Props> = ({
           cancelHandler={onOpenChange}
           agreeText={title}
           agreeHandler={() => {
-            deleteCallback(idDelete)
-            onOpenChange()
+            deleteCallback(idDelete).then(() => {
+              onOpenChange()
+            })
           }}
         />
       </div>

@@ -73,8 +73,8 @@ export const TableHead = forwardRef<ElementRef<'thead'>, ComponentPropsWithoutRe
 )
 
 export const TableBody = forwardRef<ElementRef<'tbody'>, ComponentPropsWithoutRef<'tbody'>>(
-  ({ ...rest }, ref?) => {
-    return <tbody {...rest} ref={ref} />
+  ({ className, ...rest }, ref?) => {
+    return <tbody className={`${s.tbody} ${className}`} {...rest} ref={ref} />
   }
 )
 export const TableRow = forwardRef<ElementRef<'tr'>, ComponentPropsWithoutRef<'tr'>>(
