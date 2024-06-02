@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { CoverType } from '@/components'
+import { DeckType } from '@/services'
 
 export type UpdateDeckType = {
   name: string
@@ -17,7 +18,7 @@ export type CurrentDeckType = Partial<Omit<UpdateDeckType, 'cover'> & { cover: s
 type Props = {
   onOpenChange: () => void
   currentDeck?: CurrentDeckType
-  callBack: (data: UpdateDeckType) => void
+  callBack: (data: UpdateDeckType) => Promise<DeckType>
 }
 
 const DeckSchema = z.object({
@@ -31,9 +32,10 @@ const DeckSchema = z.object({
 type DeckSchemaType = z.infer<typeof DeckSchema>
 export const useDeckModal = ({ onOpenChange, currentDeck, callBack }: Props) => {
   const submitHandler = (data: DeckSchemaType) => {
-    callBack({ ...data, cover })
-    onOpenChange()
-    reset()
+    callBack({ ...data, cover }).then(() => {
+      onOpenChange()
+      reset()
+    })
   }
 
   const [cover, setCover] = useState<CoverType>(undefined)

@@ -1,7 +1,8 @@
+import { ToastContainer } from 'react-toastify'
+
 import { Preloader } from '@/components'
 import { Router } from '@/router.tsx'
 import { useMeQuery } from '@/services'
-
 export function App() {
   const { isLoading } = useMeQuery()
 
@@ -9,5 +10,10 @@ export function App() {
     return <Preloader />
   }
 
-  return <Router />
+  return (
+    <>
+      <Router />
+      <ToastContainer theme="dark" />
+    </>
+  )
 }

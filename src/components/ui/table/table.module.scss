@@ -1,9 +1,18 @@
 @import '../../../styles/mixins';
 
 .table {
+  overflow: auto;
+  display: inline-block;
   border-collapse: collapse;
+
   width: 100%;
+
   border: 1px solid var(--color-dark-300);
+}
+
+.thead,
+.tbody {
+  width: 100%;
 }
 
 .thead {
@@ -11,6 +20,7 @@
 }
 
 .cell {
+  width: 25%;
   height: 100%;
   padding: 6px 24px;
 
