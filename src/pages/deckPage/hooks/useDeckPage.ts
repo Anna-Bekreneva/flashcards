@@ -45,7 +45,8 @@ export const useDeckPage = () => {
   const [deleteDeck] = useDeleteDeckMutation()
   const [updateGetDeck] = useLazyGetDeckQuery()
 
-  const deleteDeckHandler = (id: string): void => {
+  const deleteCardHandler = (id: string) => deleteCard({ id }).unwrap()
+  const deleteDeckHandler = async (id: string) => {
     deleteDeck(id)
     goBack()
   }
@@ -64,7 +65,7 @@ export const useDeckPage = () => {
   const [idDeleteDeck, setIdDeleteDeck] = useState('')
   const [idUpdateDeck, setIdUpdateDeck] = useState('')
 
-  const updateDeckHandler = (data: UpdateDeckType) => {
+  const updateDeckHandler = async (data: UpdateDeckType) => {
     updateDeck({ ...data, id: idUpdateDeck || '' }).then(() =>
       updateGetDeck({ id: idUpdateDeck || '' })
     )
@@ -105,6 +106,7 @@ export const useDeckPage = () => {
     idUpdateDeck,
     setIdUpdateDeck,
     updateDeckHandler,
+    deleteCardHandler,
     goBack,
   }
 }

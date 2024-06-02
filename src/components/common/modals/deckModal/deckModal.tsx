@@ -12,7 +12,6 @@ import {
   UploadFile,
   useDeckModal,
 } from '@/components'
-import { DeckType } from '@/services'
 
 type Props = {
   title: string
@@ -20,7 +19,7 @@ type Props = {
   agreeText: string
   onOpenChange: () => void
   currentDeck?: CurrentDeckType
-  callBack: (data: UpdateDeckType) => Promise<DeckType>
+  callBack: (data: UpdateDeckType) => void
 }
 export const DeckModal: FC<Props> = ({
   title,
