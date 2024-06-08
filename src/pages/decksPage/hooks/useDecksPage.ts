@@ -56,7 +56,6 @@ export const useDecksPage = () => {
   const [searchWithDebounce] = useDebounce(search, 1000)
   const [maxCardsWithDebounce] = useDebounce(maxCardsCount, 1000)
   const [minCardsWithDebounce] = useDebounce(minCardsCount, 1000)
-
   // tabs
   const authorId = tabsValue === 'my' ? myId : ''
 
