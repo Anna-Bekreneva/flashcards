@@ -1,7 +1,7 @@
 import s from './decksPage.module.scss'
 
 import { DeleteIcon } from '@/assets/iconsComponents'
-import { ButtonVariant } from '@/common'
+import { ButtonVariant, DecksTabsVariant, DecksTabsVariantType } from '@/common'
 import {
   Button,
   DeckModal,
@@ -18,7 +18,7 @@ import {
   TextField,
   Typography,
 } from '@/components'
-import { TabsVariant, TabsVariantType, useDecksPage } from '@/pages'
+import { useDecksPage } from '@/pages'
 
 export const MY_ID = 'f8174b52-147a-4085-b190-20472f2bfa2d'
 
@@ -110,13 +110,21 @@ export const DecksPage = () => {
               <Typography as={'span'}>Show packs cards</Typography>
               <Tabs
                 value={tabsValue}
-                onValueChange={value => setTabsValue(value as TabsVariantType)}
+                onValueChange={value => setTabsValue(value as DecksTabsVariantType)}
               >
                 <TabsList>
-                  <TabsTrigger value={TabsVariant.allCards} type={'button'} disabled={isFetching}>
+                  <TabsTrigger
+                    value={DecksTabsVariant.allCards}
+                    type={'button'}
+                    disabled={isFetching}
+                  >
                     All Cards
                   </TabsTrigger>
-                  <TabsTrigger value={TabsVariant.myCards} type={'button'} disabled={isFetching}>
+                  <TabsTrigger
+                    value={DecksTabsVariant.myCards}
+                    type={'button'}
+                    disabled={isFetching}
+                  >
                     My Cards
                   </TabsTrigger>
                 </TabsList>

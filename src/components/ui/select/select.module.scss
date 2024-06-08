@@ -21,7 +21,9 @@
   border-radius: 2px;
   outline: 0;
 
-  transition:  box-shadow 0.3s, background-color 0.3s;
+  transition:
+    box-shadow 0.3s,
+    background-color 0.3s;
 
   &::before {
     @include bg;

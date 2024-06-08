@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { useDebounce } from 'use-debounce'
 
+import { DecksTabsVariant, DecksTabsVariantType } from '@/common'
 import { Sort, ValuesSliderType } from '@/components'
 import {
   decksSlice,
@@ -17,14 +18,10 @@ import {
   selectMinCardCount,
   selectName,
   useMeQuery,
+  selectSort,
+  selectTabsDecksValue,
 } from '@/services'
 
-export const TabsVariant = {
-  myCards: 'my',
-  allCards: 'all',
-} as const
-
-export type TabsVariantType = (typeof TabsVariant)[keyof typeof TabsVariant]
 export const useDecksPage = () => {
   const dispatch = useAppDispatch()
 
@@ -37,37 +34,30 @@ export const useDecksPage = () => {
   const itemsPerPage = useAppSelector(selectItemsPerPage)
   const minCardsCount = useAppSelector(selectMinCardCount)
   const maxCardsCount = useAppSelector(selectMaxCardCount)
+  const sort = useAppSelector(selectSort)
+  const search = useAppSelector(selectName)
+  const tabsValue = useAppSelector(selectTabsDecksValue)
+
   const myId = meData?.id
 
-  const search = useAppSelector(selectName)
-  const setCurrentPage = (currentPage: number) => {
+  const setCurrentPage = (currentPage: number) =>
     dispatch(decksSlice.actions.setCurrentPage(currentPage))
-  }
-
-  const setItemsPerPage = (itemsPerPage: number) => {
+  const setItemsPerPage = (itemsPerPage: number) =>
     dispatch(decksSlice.actions.setItemsPerPage(itemsPerPage))
-  }
-
-  const setMinCardsCount = (minCardsCount: number) => {
+  const setMinCardsCount = (minCardsCount: number) =>
     dispatch(decksSlice.actions.setMinCardsCount(minCardsCount))
-  }
-
-  const setMaxCardsCount = (maxCardsCount: number) => {
+  const setMaxCardsCount = (maxCardsCount: number) =>
     dispatch(decksSlice.actions.setMaxCardsCount(maxCardsCount))
-  }
-
-  const setSearch = (name: string) => {
-    dispatch(decksSlice.actions.setName(name))
-  }
+  const setSearch = (name: string) => dispatch(decksSlice.actions.setName(name))
+  const setSort = (value: Sort) => dispatch(decksSlice.actions.setSort(value))
+  const setTabsValue = (value: DecksTabsVariantType) =>
+    dispatch(decksSlice.actions.setTabDecksValue(value))
 
   const [searchWithDebounce] = useDebounce(search, 1000)
   const [maxCardsWithDebounce] = useDebounce(maxCardsCount, 1000)
   const [minCardsWithDebounce] = useDebounce(minCardsCount, 1000)
-
   // tabs
-  const [tabsValue, setTabsValue] = useState<TabsVariantType>(TabsVariant.allCards)
   const authorId = tabsValue === 'my' ? myId : ''
-  const [sort, setSort] = useState<Sort>(null)
 
   const { currentData, isLoading, isFetching } = useGetDecksQuery({
     minCardsCount: minCardsWithDebounce,
@@ -97,13 +87,12 @@ export const useDecksPage = () => {
   const [isOpenAddModal, setIsOpenAddModal] = useState(false)
   const clearSettingsHandler = () => {
     setSearch('')
-    setTabsValue(TabsVariant.allCards)
+    setTabsValue(DecksTabsVariant.allCards)
     setMinCardsCount(0)
     currentData?.maxCardsCount && setMaxCardsCount(currentData?.maxCardsCount)
   }
 
   // slider
-
   const changeValueSliderHandler = (values: number[]) => {
     setMaxCardsCount(values[1])
     setMinCardsCount(values[0])

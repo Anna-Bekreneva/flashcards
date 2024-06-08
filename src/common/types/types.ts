@@ -19,3 +19,10 @@ export const ButtonVariant = {
   tertiary: 'tertiary',
   link: 'link',
 } as const
+
+export const DecksTabsVariant = {
+  myCards: 'my',
+  allCards: 'all',
+} as const
+
+export type DecksTabsVariantType = (typeof DecksTabsVariant)[keyof typeof DecksTabsVariant]
