@@ -27,7 +27,7 @@ export const useDeckPage = () => {
 
   const { data: deck } = useGetDeckQuery({ id: id ?? '' })
   const {
-    data: cards,
+    currentData: cards,
     isLoading,
     isFetching,
   } = useGetCardsQuery({
