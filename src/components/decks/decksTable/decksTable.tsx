@@ -33,7 +33,6 @@ type Props = {
   disabled?: boolean
 }
 
-// todo: i'm not sure, that we need to save this data here
 const columns: Array<Column> = [
   {
     key: 'name',
@@ -75,7 +74,7 @@ export const DecksTable: FC<Props> = ({
           <TableBody>
             {items.map(item => (
               <TableRow key={item.id}>
-                <TableCell width={'35%'}>
+                <TableCell>
                   <NavLink className={s.deck} to={`decks/deck/${item.id}`}>
                     <CellRepresentation text={item.name} img={item.cover} />
                   </NavLink>
@@ -83,7 +82,7 @@ export const DecksTable: FC<Props> = ({
                 <TableCell>{item.cardsCount}</TableCell>
                 <TableCell>{getDate(item.updated)}</TableCell>
                 <TableCell>{item.author.name}</TableCell>
-                <TableCell>
+                <TableCell className={s.cellManage}>
                   <NavLink
                     className={s.button}
                     to={`decks/deck/cards/${item.id}`}

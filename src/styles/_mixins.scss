@@ -17,9 +17,9 @@
 
 @mixin flex($align-items: center, $justify-content: center, $flex-direction: row) {
   display: flex;
+  flex-direction: $flex-direction;
   align-items: $align-items;
   justify-content: $justify-content;
-  flex-direction: $flex-direction;
 }
 
 @mixin bg($size: contain) {
@@ -34,7 +34,7 @@
   align-items: center;
   justify-content: center;
 
-  padding: 6.5px 29px;
+  padding: 7px 29px;
 
   font-size: var(--font-size-s);
   font-weight: var(--font-weight-bold);
@@ -45,13 +45,13 @@
   border-radius: 4px;
   outline: 0;
 
-  transition: box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out;
 
   &:focus-visible {
     box-shadow: 0 0 0 2px var(--color-info-700);
   }
 
   &:disabled {
-    cursor: not-allowed;
+    cursor: default;
   }
 }

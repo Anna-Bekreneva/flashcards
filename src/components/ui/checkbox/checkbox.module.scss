@@ -2,6 +2,7 @@
 
 .wrapper {
   @include flex(center, start, row-reverse);
+
   display: inline-flex;
 }
 
@@ -21,7 +22,15 @@
   border: 3px solid var(--color-light-900);
   border-radius: 4px;
 
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, background-color 0.3s;
+
+  &:focus-visible {
+    border-color: var(--color-accent-700);
+  }
+
+  &:hover {
+    background-color: var(--color-dark-500);
+  }
 }
 
 .indicator {

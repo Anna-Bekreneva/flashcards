@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { EditProfile } from './'
@@ -19,7 +20,7 @@ export const EditProfileDefault: Story = {
     prevName: 'Ivan',
 
     onSubmit: data => {
-      // console.info(data)
+      action(data.name)()
     },
   },
 }

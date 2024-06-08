@@ -22,8 +22,18 @@
   }
 }
 
+.cellRating {
+  display: flex;
+
+  * {
+    flex-basis: 14px;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+  }
+}
+
 .representation {
-  width: 28%;
   vertical-align: top;
 
   div {

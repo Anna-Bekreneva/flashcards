@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import s from './header.module.scss'
 
-import { Logo, PersonIcon, SignOutIcon } from '@/assets/iconsComponents'
+import { PersonIcon, SignOutIcon } from '@/assets/iconsComponents'
 import userPhoto from '@/assets/images/user.png'
 import { ButtonVariant, TypographyVariant } from '@/common'
 import { Button, DropDownMenu, Typography, DropDownItem } from '@/components'
@@ -25,7 +25,7 @@ export const Header = forwardRef<HTMLHeadElement, Props>(
       <header ref={ref} className={`${s.header} ${className ? className : ''}`}>
         <div className={`container ${s.wrapper}`}>
           <Link className={s.logo} to={'/'}>
-            <Logo />
+            <img src="/logo.svg" alt="logo" width={132} height={36} />
           </Link>
           {userName ? (
             <div className={s.userInfo}>

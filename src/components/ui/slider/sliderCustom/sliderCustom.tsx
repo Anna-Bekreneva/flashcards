@@ -10,7 +10,7 @@ import { TextField, useSlider, ValuesSliderType } from '@/components'
 type Props = {
   value: ValuesSliderType
   className?: string
-} & SliderProps
+} & Omit<SliderProps, 'value'>
 
 export const SliderCustom = forwardRef<HTMLDivElement, Props>(
   ({ min = 0, max = 100, step = 1, value, className, ...props }, ref?) => {
