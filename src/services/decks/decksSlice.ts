@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { DecksTabsVariant, DecksTabsVariantType } from '@/common'
+import { Sort } from '@/components'
+
 export const decksSlice = createSlice({
   initialState: {
     currentPage: 1,
@@ -7,6 +10,8 @@ export const decksSlice = createSlice({
     maxCardsCount: undefined as number | undefined,
     minCardsCount: 0,
     name: '',
+    sort: null as Sort,
+    tabDecksValue: DecksTabsVariant.allCards as DecksTabsVariantType,
   },
   name: 'decks',
   reducers: {
@@ -24,6 +29,12 @@ export const decksSlice = createSlice({
     },
     setName: (state, action: PayloadAction<string>) => {
       state.name = action.payload
+    },
+    setSort: (state, action: PayloadAction<Sort>) => {
+      state.sort = action.payload
+    },
+    setTabDecksValue: (state, action: PayloadAction<DecksTabsVariantType>) => {
+      state.tabDecksValue = action.payload
     },
   },
 })
