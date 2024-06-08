@@ -22,5 +22,11 @@ export const cardsSlice = createSlice({
     setQuestion: (state, action: PayloadAction<string>) => {
       state.question = action.payload
     },
+    setAnswer: (state, action: PayloadAction<string>) => {
+      state.answer = action.payload
+    },
+    setOrderBy: (state, action: PayloadAction<string>) => {
+      state.orderBy = action.payload
+    },
   },
 })

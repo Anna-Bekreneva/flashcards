@@ -1,4 +1,6 @@
+import { errorServerHandler } from '@/common'
 import {
+  baseApi,
   CardsResponseType,
   CreateCardRequestType,
   GetCardsRequestType,
@@ -6,7 +8,6 @@ import {
   GetRandomCardRequestType,
   SaveGradeOfCardType,
   UpdateCardRequestType,
-  baseApi,
 } from '@/services'
 import { addFieldToFormData } from '@/utils'
 
@@ -49,20 +50,38 @@ export const CardsService = baseApi.injectEndpoints({
             body: formData,
           }
         },
-        // onQueryStarted: async ({ id, ...rest }, { dispatch, queryFulfilled }) => {
-        //   const result = await queryFulfilled
-        //
-        //   console.log('res from cards: ', result)
-        //   dispatch(
-        //     CardsService.util.updateQueryData(
-        //       'getCards',
-        //       {
-        //         id,
-        //       },
-        //       {}
-        //     )
-        //   )
-        // },
+        onQueryStarted: async ({ id, ...rest }, { dispatch, getState, queryFulfilled }) => {
+          try {
+            const result = await queryFulfilled
+
+            // dispatch(
+            //   CardsService.util.updateQueryData(
+            //     'getCards',
+            //     {
+            //       id,
+            //     },
+            //     draft => {
+            //       draft.items.unshift(result.data)
+            //     }
+            //   )
+            // )
+            for (const { endpointName, originalArgs } of CardsService.util.selectInvalidatedBy(
+              getState(),
+              [{ type: 'Cards' }]
+            )) {
+              if (endpointName !== 'getCards') {
+                continue
+              }
+              dispatch(
+                CardsService.util.updateQueryData(endpointName, originalArgs, draft => {
+                  draft.items.unshift(result.data)
+                })
+              )
+            }
+          } catch (error) {
+            errorServerHandler(error)
+          }
+        },
         invalidatesTags: ['Cards'],
       }),
       updateCard: builder.mutation<CardsResponseType, UpdateCardRequestType>({
@@ -82,6 +101,32 @@ export const CardsService = baseApi.injectEndpoints({
             body: formData,
           }
         },
+        async onQueryStarted(params, { dispatch, getState, queryFulfilled }) {
+          for (const { endpointName, originalArgs } of CardsService.util.selectInvalidatedBy(
+            getState(),
+            [{ type: 'Cards' }]
+          )) {
+            if (endpointName !== 'getCards') {
+              continue
+            }
+            const patchResult = dispatch(
+              CardsService.util.updateQueryData(endpointName, originalArgs, draft => {
+                const index = draft.items.findIndex(item => item.id === params.id)
+
+                if (index !== -1) {
+                  draft.items[index] = { ...draft.items[index], ...params } as CardsResponseType
+                }
+              })
+            )
+
+            try {
+              await queryFulfilled
+            } catch (error) {
+              errorServerHandler(error)
+              patchResult.undo()
+            }
+          }
+        },
         invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.id }],
       }),
       deleteCard: builder.mutation<void, { id: string }>({
@@ -89,6 +134,30 @@ export const CardsService = baseApi.injectEndpoints({
           return {
             method: 'DELETE',
             url: `/v1/cards/${body.id}`,
+          }
+        },
+        async onQueryStarted(args, { dispatch, getState, queryFulfilled }) {
+          for (const { endpointName, originalArgs } of CardsService.util.selectInvalidatedBy(
+            getState(),
+            [{ type: 'Cards' }]
+          )) {
+            if (endpointName !== 'getCards') {
+              continue
+            }
+            const patchResult = dispatch(
+              CardsService.util.updateQueryData(endpointName, originalArgs, draft => {
+                const index = draft.items.findIndex(card => card.id === args.id)
+
+                draft.items.splice(index, 1)
+              })
+            )
+
+            try {
+              await queryFulfilled
+            } catch (error) {
+              errorServerHandler(error)
+              patchResult.undo()
+            }
           }
         },
         invalidatesTags: ['Cards'],
