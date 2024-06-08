@@ -40,8 +40,6 @@ export const CardsService = baseApi.injectEndpoints({
             { name: 'answer', value: card.answer },
             { name: 'questionImg', value: card.questionImg },
             { name: 'answerImg', value: card.answerImg },
-            // { name: 'questionVideo', value: card.questionVideo },
-            // { name: 'answerVideo', value: card.answerVideo },
           ])
 
           return {
@@ -50,21 +48,10 @@ export const CardsService = baseApi.injectEndpoints({
             body: formData,
           }
         },
-        onQueryStarted: async ({ id, ...rest }, { dispatch, getState, queryFulfilled }) => {
+        onQueryStarted: async (_, { dispatch, getState, queryFulfilled }) => {
           try {
             const result = await queryFulfilled
 
-            // dispatch(
-            //   CardsService.util.updateQueryData(
-            //     'getCards',
-            //     {
-            //       id,
-            //     },
-            //     draft => {
-            //       draft.items.unshift(result.data)
-            //     }
-            //   )
-            // )
             for (const { endpointName, originalArgs } of CardsService.util.selectInvalidatedBy(
               getState(),
               [{ type: 'Cards' }]
@@ -91,8 +78,6 @@ export const CardsService = baseApi.injectEndpoints({
             { name: 'answer', value: card.answer },
             { name: 'questionImg', value: card.questionImg },
             { name: 'answerImg', value: card.answerImg },
-            // { name: 'questionVideo', value: card.questionVideo },
-            // { name: 'answerVideo', value: card.answerVideo },
           ])
 
           return {
@@ -127,7 +112,7 @@ export const CardsService = baseApi.injectEndpoints({
             }
           }
         },
-        invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.id }],
+        invalidatesTags: (_res, _error, card) => [{ type: 'Cards', id: card.id }],
       }),
       deleteCard: builder.mutation<void, { id: string }>({
         query: body => {
@@ -181,7 +166,7 @@ export const CardsService = baseApi.injectEndpoints({
             },
           }
         },
-        invalidatesTags: (res, error, card) => [{ type: 'Cards', id: card.cardId }],
+        invalidatesTags: (_res, _error, card) => [{ type: 'Cards', id: card.cardId }],
       }),
     }
   },
