@@ -57,7 +57,7 @@ export const useDecksPage = () => {
   const [maxCardsWithDebounce] = useDebounce(maxCardsCount, 1000)
   const [minCardsWithDebounce] = useDebounce(minCardsCount, 1000)
   // tabs
-  const authorId = tabsValue === 'my' ? myId : ''
+  const authorId = tabsValue === DecksTabsVariant.myCards ? myId : ''
 
   const { currentData, isLoading, isFetching } = useGetDecksQuery({
     minCardsCount: minCardsWithDebounce,
