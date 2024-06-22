@@ -5,6 +5,9 @@ import { useDebounce } from 'use-debounce'
 
 import { CurrentDeckType, Sort, UpdateDeckType } from '@/components'
 import {
+  cardsSlice,
+  useAppDispatch,
+  useAppSelector,
   useCreateCardMutation,
   useDeleteCardMutation,
   useDeleteDeckMutation,
@@ -14,16 +17,29 @@ import {
   useUpdateCardMutation,
   useUpdateDeckMutation,
 } from '@/services'
+import {
+  selectCardCurrentPage,
+  selectCardItemsPerPage,
+  selectCardSearch,
+  selectCardSort,
+} from '@/services/cards/cardsSelectors.ts'
 
 export const useDeckPage = () => {
+  const dispatch = useAppDispatch()
   const { id } = useParams()
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(10)
-
-  const [search, setSearch] = useState('')
+  const currentPage = useAppSelector(selectCardCurrentPage)
+  const itemsPerPage = useAppSelector(selectCardItemsPerPage)
+  const search = useAppSelector(selectCardSearch)
   const [searchWithDebounce] = useDebounce(search, 1000)
-  const [sort, setSort] = useState<Sort>(null)
+  const sort = useAppSelector(selectCardSort)
+
+  const setCurrentPage = (currentPage: number) =>
+    dispatch(cardsSlice.actions.setCurrentPage(currentPage))
+  const setItemsPerPage = (itemsPerPage: number) =>
+    dispatch(cardsSlice.actions.setItemsPerPage(itemsPerPage))
+  const setSearch = (search: string) => dispatch(cardsSlice.actions.setSearch(search))
+  const setSort = (sort: Sort) => dispatch(cardsSlice.actions.setSort(sort))
 
   const { data: deck } = useGetDeckQuery({ id: id ?? '' })
   const {
