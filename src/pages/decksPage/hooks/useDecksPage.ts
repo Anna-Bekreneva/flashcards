@@ -5,7 +5,6 @@ import { useDebounce } from 'use-debounce'
 import { DecksTabsVariant, DecksTabsVariantType } from '@/common'
 import { Sort, ValuesSliderType } from '@/components'
 import {
-  decksSlice,
   useAppDispatch,
   useAppSelector,
   useCreateDeckMutation,
@@ -20,6 +19,7 @@ import {
   useMeQuery,
   selectSort,
   selectTabsDecksValue,
+  decksActions,
 } from '@/services'
 
 export const useDecksPage = () => {
@@ -40,18 +40,17 @@ export const useDecksPage = () => {
 
   const myId = meData?.id
 
-  const setCurrentPage = (currentPage: number) =>
-    dispatch(decksSlice.actions.setCurrentPage(currentPage))
+  const setCurrentPage = (currentPage: number) => dispatch(decksActions.setCurrentPage(currentPage))
   const setItemsPerPage = (itemsPerPage: number) =>
-    dispatch(decksSlice.actions.setItemsPerPage(itemsPerPage))
+    dispatch(decksActions.setItemsPerPage(itemsPerPage))
   const setMinCardsCount = (minCardsCount: number) =>
-    dispatch(decksSlice.actions.setMinCardsCount(minCardsCount))
+    dispatch(decksActions.setMinCardsCount(minCardsCount))
   const setMaxCardsCount = (maxCardsCount: number) =>
-    dispatch(decksSlice.actions.setMaxCardsCount(maxCardsCount))
-  const setSearch = (name: string) => dispatch(decksSlice.actions.setName(name))
-  const setSort = (value: Sort) => dispatch(decksSlice.actions.setSort(value))
+    dispatch(decksActions.setMaxCardsCount(maxCardsCount))
+  const setSearch = (name: string) => dispatch(decksActions.setName(name))
+  const setSort = (value: Sort) => dispatch(decksActions.setSort(value))
   const setTabsValue = (value: DecksTabsVariantType) =>
-    dispatch(decksSlice.actions.setTabDecksValue(value))
+    dispatch(decksActions.setTabDecksValue(value))
 
   const [searchWithDebounce] = useDebounce(search, 1000)
   const [maxCardsWithDebounce] = useDebounce(maxCardsCount, 1000)
@@ -86,10 +85,7 @@ export const useDecksPage = () => {
   // add modal
   const [isOpenAddModal, setIsOpenAddModal] = useState(false)
   const clearSettingsHandler = () => {
-    setSearch('')
-    setTabsValue(DecksTabsVariant.allCards)
-    setMinCardsCount(0)
-    currentData?.maxCardsCount && setMaxCardsCount(currentData?.maxCardsCount)
+    dispatch(decksActions.resetSettings())
   }
 
   // slider

@@ -5,7 +5,7 @@ import { useDebounce } from 'use-debounce'
 
 import { CurrentDeckType, Sort, UpdateDeckType } from '@/components'
 import {
-  cardsSlice,
+  cardsActions,
   useAppDispatch,
   useAppSelector,
   useCreateCardMutation,
@@ -16,13 +16,12 @@ import {
   useLazyGetDeckQuery,
   useUpdateCardMutation,
   useUpdateDeckMutation,
-} from '@/services'
-import {
   selectCardCurrentPage,
   selectCardItemsPerPage,
   selectCardSearch,
   selectCardSort,
-} from '@/services/cards/cardsSelectors.ts'
+  useMeQuery,
+} from '@/services'
 
 export const useDeckPage = () => {
   const dispatch = useAppDispatch()
@@ -34,12 +33,11 @@ export const useDeckPage = () => {
   const [searchWithDebounce] = useDebounce(search, 1000)
   const sort = useAppSelector(selectCardSort)
 
-  const setCurrentPage = (currentPage: number) =>
-    dispatch(cardsSlice.actions.setCurrentPage(currentPage))
+  const setCurrentPage = (currentPage: number) => dispatch(cardsActions.setCurrentPage(currentPage))
   const setItemsPerPage = (itemsPerPage: number) =>
-    dispatch(cardsSlice.actions.setItemsPerPage(itemsPerPage))
-  const setSearch = (search: string) => dispatch(cardsSlice.actions.setSearch(search))
-  const setSort = (sort: Sort) => dispatch(cardsSlice.actions.setSort(sort))
+    dispatch(cardsActions.setItemsPerPage(itemsPerPage))
+  const setSearch = (search: string) => dispatch(cardsActions.setSearch(search))
+  const setSort = (sort: Sort) => dispatch(cardsActions.setSort(sort))
 
   const { data: deck } = useGetDeckQuery({ id: id ?? '' })
   const {
@@ -60,6 +58,7 @@ export const useDeckPage = () => {
   const [updateDeck] = useUpdateDeckMutation()
   const [deleteDeck] = useDeleteDeckMutation()
   const [updateGetDeck] = useLazyGetDeckQuery()
+  const { data: meData } = useMeQuery()
 
   const deleteCardHandler = (id: string) => deleteCard({ id }).unwrap()
   const deleteDeckHandler = async (id: string) => {
@@ -124,5 +123,6 @@ export const useDeckPage = () => {
     updateDeckHandler,
     deleteCardHandler,
     goBack,
+    userId: meData?.id,
   }
 }

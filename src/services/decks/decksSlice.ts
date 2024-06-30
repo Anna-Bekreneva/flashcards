@@ -36,5 +36,12 @@ export const decksSlice = createSlice({
     setTabDecksValue: (state, action: PayloadAction<DecksTabsVariantType>) => {
       state.tabDecksValue = action.payload
     },
+    resetSettings: state => {
+      state.name = ''
+      state.tabDecksValue = DecksTabsVariant.allCards
+      state.minCardsCount = 0
+    },
   },
 })
+
+export const decksActions = decksSlice.actions

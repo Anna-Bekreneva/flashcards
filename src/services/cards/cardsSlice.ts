@@ -32,3 +32,5 @@ export const cardsSlice = createSlice({
     },
   },
 })
+
+export const cardsActions = cardsSlice.actions
