@@ -5,19 +5,25 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import {
   CardRatingType,
+  useAppDispatch,
+  useAppSelector,
   useGetDeckQuery,
   useGetRandomCardQuery,
   useLazyGetRandomCardQuery,
   useSaveGradeOfCardMutation,
+  selectPreviousCardId,
+  cardsActions,
 } from '@/services'
 
 export const useLearnPage = () => {
+  const dispatch = useAppDispatch()
   const { id: deckId } = useParams()
   const [isOpenQuestionPicture, setIsOpenQuestionPicture] = useState(false)
   const changeIsOpenQuestionPicture = () => setIsOpenQuestionPicture(!isOpenQuestionPicture)
   const [isOpenAnswerPicture, setIsOpenAnswerPicture] = useState(false)
   const changeIsOpenAnswerPicture = () => setIsOpenAnswerPicture(!isOpenAnswerPicture)
-  const [previousCardId, setPreviousCardId] = useState('')
+  const previousCardId = useAppSelector(selectPreviousCardId)
+  const setPreviousCardId = (id: string) => dispatch(cardsActions.setPreviousCardId(id))
   const [isShowAnswer, setIsShowAnswer] = useState(false)
   const { data: deckData } = useGetDeckQuery({ id: deckId || '' })
   const [getNewCard, { isFetching: isCardFetchingLazy }] = useLazyGetRandomCardQuery()

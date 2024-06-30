@@ -5,6 +5,9 @@ import { useDebounce } from 'use-debounce'
 
 import { CurrentDeckType, Sort, UpdateDeckType } from '@/components'
 import {
+  cardsActions,
+  useAppDispatch,
+  useAppSelector,
   useCreateCardMutation,
   useDeleteCardMutation,
   useDeleteDeckMutation,
@@ -13,17 +16,28 @@ import {
   useLazyGetDeckQuery,
   useUpdateCardMutation,
   useUpdateDeckMutation,
+  selectCardCurrentPage,
+  selectCardItemsPerPage,
+  selectCardSearch,
+  selectCardSort,
+  useMeQuery,
 } from '@/services'
 
 export const useDeckPage = () => {
+  const dispatch = useAppDispatch()
   const { id } = useParams()
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(10)
-
-  const [search, setSearch] = useState('')
+  const currentPage = useAppSelector(selectCardCurrentPage)
+  const itemsPerPage = useAppSelector(selectCardItemsPerPage)
+  const search = useAppSelector(selectCardSearch)
   const [searchWithDebounce] = useDebounce(search, 1000)
-  const [sort, setSort] = useState<Sort>(null)
+  const sort = useAppSelector(selectCardSort)
+
+  const setCurrentPage = (currentPage: number) => dispatch(cardsActions.setCurrentPage(currentPage))
+  const setItemsPerPage = (itemsPerPage: number) =>
+    dispatch(cardsActions.setItemsPerPage(itemsPerPage))
+  const setSearch = (search: string) => dispatch(cardsActions.setSearch(search))
+  const setSort = (sort: Sort) => dispatch(cardsActions.setSort(sort))
 
   const { data: deck } = useGetDeckQuery({ id: id ?? '' })
   const {
@@ -44,6 +58,7 @@ export const useDeckPage = () => {
   const [updateDeck] = useUpdateDeckMutation()
   const [deleteDeck] = useDeleteDeckMutation()
   const [updateGetDeck] = useLazyGetDeckQuery()
+  const { data: meData } = useMeQuery()
 
   const deleteCardHandler = (id: string) => deleteCard({ id }).unwrap()
   const deleteDeckHandler = async (id: string) => {
@@ -108,5 +123,6 @@ export const useDeckPage = () => {
     updateDeckHandler,
     deleteCardHandler,
     goBack,
+    userId: meData?.id,
   }
 }

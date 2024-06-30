@@ -15,7 +15,7 @@ import {
   TextField,
   Typography,
 } from '@/components'
-import { DeckPageHeaderDropDown, MY_ID, useDeckPage } from '@/pages'
+import { DeckPageHeaderDropDown, useDeckPage } from '@/pages'
 
 export const DeckPage = () => {
   const {
@@ -50,6 +50,7 @@ export const DeckPage = () => {
     setSearch,
     deleteCardHandler,
     goBack,
+    userId,
   } = useDeckPage()
 
   if (isLoading) {
@@ -120,18 +121,18 @@ export const DeckPage = () => {
           setIsOpenAddModal={setIsOpenAddModal}
           count={deck?.cardsCount}
           title={deck?.name}
-          as={deck?.userId === MY_ID ? 'button' : 'link'}
-          buttonText={deck?.userId === MY_ID ? 'Add new card' : 'Learn to Deck'}
+          as={deck?.userId === userId ? 'button' : 'link'}
+          buttonText={deck?.userId === userId ? 'Add new card' : 'Learn to Deck'}
           cover={deck?.cover}
           to={`/decks/deck/cards/${deck?.id}`}
         >
-          {deck?.userId === MY_ID ? (
+          {deck?.userId === userId ? (
             <DeckPageHeaderDropDown
-              deckId={deck.id}
+              deckId={deck?.id || ''}
               learn={!!cards?.items.length}
               disabled={isFetching}
-              deleteCallBack={() => setIdDeleteDeck(deck.id)}
-              editCallBack={() => setIdUpdateDeck(deck.id)}
+              deleteCallBack={() => setIdDeleteDeck(deck?.id || '')}
+              editCallBack={() => setIdUpdateDeck(deck?.id || '')}
             />
           ) : null}
         </DecksHeader>

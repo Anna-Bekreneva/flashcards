@@ -12,8 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components'
-import { MY_ID } from '@/pages'
-import { CardsResponseType } from '@/services/cards'
+import { useMeQuery, CardsResponseType } from '@/services'
 import { getDate } from '@/utils'
 
 const columns: Column[] = [
@@ -34,6 +33,8 @@ type Props = {
 }
 
 export const CardsTable = ({ cards, editCard, deleteCard, disabled, sort, setSort }: Props) => {
+  const { data: meData } = useMeQuery()
+
   const getStars = (card: CardsResponseType) => {
     const stars = []
 
@@ -64,7 +65,7 @@ export const CardsTable = ({ cards, editCard, deleteCard, disabled, sort, setSor
                 </TableCell>
                 <TableCell>{getDate(card.updated)}</TableCell>
                 <TableCell className={s.cellRating}>{getStars(card)}</TableCell>
-                {card.userId === MY_ID && (
+                {card.userId === meData?.id && (
                   <TableCell>
                     <div className={s.manage}>
                       <button

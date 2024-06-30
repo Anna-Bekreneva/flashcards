@@ -20,7 +20,7 @@ import {
 } from '@/components'
 import { useDecksPage } from '@/pages'
 
-export const MY_ID = 'f8174b52-147a-4085-b190-20472f2bfa2d'
+// export const MY_ID = 'f8174b52-147a-4085-b190-20472f2bfa2d'
 
 export const DecksPage = () => {
   const {

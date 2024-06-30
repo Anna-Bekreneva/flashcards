@@ -3,7 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 import { baseApi } from '@/services/baseApi.ts'
-import { cardsSlice } from '@/services/cards'
+import { cardsSlice } from '@/services/cards/cardsSlice.ts'
 import { decksSlice } from '@/services/decks'
 
 export const store = configureStore({
