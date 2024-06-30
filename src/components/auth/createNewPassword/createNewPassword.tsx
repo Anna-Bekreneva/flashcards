@@ -2,11 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Button, Card, Typography } from '../../ui'
-
 import s from './createNewPassword.module.scss'
 
-import { ControlledTextField } from '@/components'
+import { ControlledTextField, Button, Card, Typography } from '@/components'
 
 const schema = z.object({
   password: z.string().min(1, 'Please enter password'),
