@@ -1,35 +1,25 @@
 import { FC, ReactNode } from 'react'
 
-import { NavLink } from 'react-router-dom'
-
 import s from './decksHeader.module.scss'
 
 import { TypographyVariant } from '@/common'
-import { Button, Typography } from '@/components'
+import { Typography } from '@/components'
 
 type Props = {
-  isOpenAddModal: boolean
-  setIsOpenAddModal: (isOpen: boolean) => void
   count: number | undefined
   title?: string
-  buttonText?: string
   className?: string
-  children?: ReactNode
   cover?: string | null
-  as?: 'button' | 'link'
-  to?: string
+  actionElement?: ReactNode
+  children?: ReactNode
 }
 export const DecksHeader: FC<Props> = ({
-  setIsOpenAddModal,
-  isOpenAddModal,
   count,
   title,
-  buttonText,
   className,
-  children,
   cover,
-  as = 'button',
-  to,
+  actionElement,
+  children,
 }) => {
   return (
     <div className={`${s.header} ${className}`}>
@@ -45,15 +35,7 @@ export const DecksHeader: FC<Props> = ({
           )}
           {children}
         </div>
-        {as === 'button' ? (
-          <Button onClick={() => setIsOpenAddModal(!isOpenAddModal)} type={'button'}>
-            {buttonText || 'Add New Pack'}
-          </Button>
-        ) : (
-          <Button as={NavLink} to={to ?? ''}>
-            {buttonText || 'Learn to Deck'}
-          </Button>
-        )}
+        {actionElement}
       </div>
       {cover && <img className={s.preview} src={cover} alt="preview" />}
     </div>
