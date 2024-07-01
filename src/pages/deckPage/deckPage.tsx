@@ -1,7 +1,10 @@
+import { NavLink } from 'react-router-dom'
+
 import s from './deckPage.module.scss'
 
 import { TypographyVariant } from '@/common'
 import {
+  Button,
   CardModal,
   CardsTable,
   DeckModal,
@@ -50,7 +53,7 @@ export const DeckPage = () => {
     setSearch,
     deleteCardHandler,
     goBack,
-    userId,
+    isMyDeck,
   } = useDeckPage()
 
   if (isLoading) {
@@ -117,16 +120,23 @@ export const DeckPage = () => {
         <GoBack text={'Back to Packs List'} clickHandler={goBack} />
         <DecksHeader
           className={s.header}
-          isOpenAddModal={isOpenAddModal}
-          setIsOpenAddModal={setIsOpenAddModal}
           count={deck?.cardsCount}
           title={deck?.name}
-          as={deck?.userId === userId ? 'button' : 'link'}
-          buttonText={deck?.userId === userId ? 'Add new card' : 'Learn to Deck'}
           cover={deck?.cover}
-          to={`/decks/deck/cards/${deck?.id}`}
+          actionElement={
+            cards?.items.length &&
+            (isMyDeck ? (
+              <Button onClick={() => setIsOpenAddModal(!isOpenAddModal)} type={'button'}>
+                Add new card
+              </Button>
+            ) : (
+              <Button as={NavLink} to={`/decks/deck/cards/${deck?.id}`}>
+                Learn to Deck
+              </Button>
+            ))
+          }
         >
-          {deck?.userId === userId ? (
+          {isMyDeck ? (
             <DeckPageHeaderDropDown
               deckId={deck?.id || ''}
               learn={!!cards?.items.length}
@@ -136,27 +146,30 @@ export const DeckPage = () => {
             />
           ) : null}
         </DecksHeader>
-        <TextField
-          className={s.search}
-          type={'search'}
-          placeholder={'Input search'}
-          value={search}
-          onValueChange={value => setSearch(value)}
-          name={'search'}
-        />
         {cards?.items.length ? (
-          <CardsTable
-            cards={cards?.items}
-            sort={sort}
-            setSort={setSort}
-            deleteCard={setIdDeleteCard}
-            editCard={setIdUpdateCard}
-            disabled={isFetching}
-          />
+          <>
+            <TextField
+              className={s.search}
+              type={'search'}
+              placeholder={'Input search'}
+              value={search}
+              onValueChange={value => setSearch(value)}
+              name={'search'}
+            />
+            <CardsTable
+              cards={cards?.items}
+              sort={sort}
+              setSort={setSort}
+              deleteCard={setIdDeleteCard}
+              editCard={setIdUpdateCard}
+              disabled={isFetching}
+            />
+          </>
         ) : (
           <NotFound>
             <Typography variant={TypographyVariant.body1}>
-              This pack is empty. Click add new card to fill this pack
+              This pack is empty.
+              {isMyDeck && ' Click add new card to fill this pack'}
             </Typography>
           </NotFound>
         )}

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useDebounce } from 'use-debounce'
 
 import { DecksTabsVariant, DecksTabsVariantType } from '@/common'
-import { Sort, ValuesSliderType } from '@/components'
+import { Sort, UpdateDeckType, ValuesSliderType } from '@/components'
 import {
   useAppDispatch,
   useAppSelector,
@@ -88,6 +88,11 @@ export const useDecksPage = () => {
     dispatch(decksActions.resetSettings())
   }
 
+  const addDeckHandle = (data: UpdateDeckType) => {
+    addDeck(data)
+    dispatch(decksActions.resetCurrentPage())
+  }
+
   // slider
   const changeValueSliderHandler = (values: number[]) => {
     setMaxCardsCount(values[1])
@@ -113,7 +118,7 @@ export const useDecksPage = () => {
     setIdDeleteDeck,
     deleteDeck,
     setSearch,
-    addDeck,
+    addDeckHandle,
     isOpenAddModal,
     setIsOpenAddModal,
     idUpdateDeck,
