@@ -1,7 +1,8 @@
 import s from './decksPage.module.scss'
 
 import { DeleteIcon } from '@/assets/iconsComponents'
-import { ButtonVariant, DecksTabsVariant, DecksTabsVariantType } from '@/common'
+import notFoundImg from '@/assets/images/not-found.png'
+import { ButtonVariant, DecksTabsVariant, DecksTabsVariantType, TypographyVariant } from '@/common'
 import {
   Button,
   DeckModal,
@@ -9,6 +10,7 @@ import {
   DecksPagination,
   DecksTable,
   DeleteModal,
+  NotFound,
   Preloader,
   ProgressBar,
   SliderCustom,
@@ -20,8 +22,6 @@ import {
 } from '@/components'
 import { useDecksPage } from '@/pages'
 
-// export const MY_ID = 'f8174b52-147a-4085-b190-20472f2bfa2d'
-
 export const DecksPage = () => {
   const {
     isLoading,
@@ -30,7 +30,7 @@ export const DecksPage = () => {
     nameDeleteDeck,
     setIdDeleteDeck,
     deleteDeck,
-    addDeck,
+    addDeckHandle,
     isOpenAddModal,
     setIsOpenAddModal,
     idUpdateDeck,
@@ -59,6 +59,8 @@ export const DecksPage = () => {
     return <Preloader />
   }
 
+  console.log(isFetching)
+
   return (
     <>
       {isFetching && <ProgressBar />}
@@ -76,7 +78,7 @@ export const DecksPage = () => {
 
           {/* add */}
           <DeckModal
-            callBack={data => addDeck(data)}
+            callBack={addDeckHandle}
             agreeText={'Add New Pack'}
             title={'Add New Pack'}
             isOpen={isOpenAddModal}
@@ -94,17 +96,20 @@ export const DecksPage = () => {
             onOpenChange={() => setIdUpdateDeck('')}
           />
           <DecksHeader
-            isOpenAddModal={isOpenAddModal}
-            setIsOpenAddModal={setIsOpenAddModal}
             count={data?.pagination.totalItems}
+            actionElement={
+              <Button onClick={() => setIsOpenAddModal(!isOpenAddModal)} type={'button'}>
+                Add New Pack
+              </Button>
+            }
           />
-
           <div className={s.settings}>
             <TextField
               type={'search'}
               placeholder={'Input search'}
               value={search}
               onValueChange={setSearch}
+              disabled={isFetching}
             />
             <div className={s.setting}>
               <Typography as={'span'}>Show packs cards</Typography>
@@ -151,15 +156,24 @@ export const DecksPage = () => {
             </Button>
           </div>
 
-          <DecksTable
-            id={myId ?? ''}
-            items={data?.items}
-            setIdDeleteDeck={setIdDeleteDeck}
-            setIdUpdateDeck={setIdUpdateDeck}
-            sort={sort}
-            setSort={setSort}
-            disabled={isFetching}
-          />
+          {data?.items.length && (
+            <DecksTable
+              id={myId ?? ''}
+              items={data?.items}
+              setIdDeleteDeck={setIdDeleteDeck}
+              setIdUpdateDeck={setIdUpdateDeck}
+              sort={sort}
+              setSort={setSort}
+              disabled={isFetching}
+            />
+          )}
+
+          {!data?.items.length && !isFetching && (
+            <NotFound className={s.notFound}>
+              <img src={notFoundImg} alt="Not found" width={400} height={200} />
+              <Typography variant={TypographyVariant.h3}> Decks not found </Typography>
+            </NotFound>
+          )}
           {data?.pagination.totalPages && data?.pagination.totalPages > 1 ? (
             <DecksPagination
               totalPages={data?.pagination?.totalPages ?? 0}

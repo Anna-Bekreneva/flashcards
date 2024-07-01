@@ -89,6 +89,7 @@ export const useDeckPage = () => {
   //navigation:
   const navigate = useNavigate()
   const goBack = () => navigate('/')
+  const isMyDeck = deck?.userId === meData?.id
 
   return {
     currentPage,
@@ -123,6 +124,6 @@ export const useDeckPage = () => {
     updateDeckHandler,
     deleteCardHandler,
     goBack,
-    userId: meData?.id,
+    isMyDeck,
   }
 }
