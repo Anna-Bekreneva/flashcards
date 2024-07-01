@@ -15,6 +15,9 @@ export const decksSlice = createSlice({
   },
   name: 'decks',
   reducers: {
+    resetCurrentPage: state => {
+      state.currentPage = 1
+    },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload
     },
